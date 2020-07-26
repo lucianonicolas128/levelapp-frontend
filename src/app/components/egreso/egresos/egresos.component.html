@@ -1,0 +1,60 @@
+<div class="container-fuild mx-3">
+    <div class="row col-12 my-2">
+  
+      <h6 class="mr-4 sumaSaldo mt-2">Egresos totales: ${{sumaEgresos}}</h6>
+      <h6 class="mr-4 sumaSaldo mt-2">Último mes: ${{ultimoMes}}</h6>
+      <h6 class="mr-4 sumaSaldo mt-2">Egresos última semana: ${{ultimaSemana}}</h6>
+    
+    </div>
+    
+    <table class="table">
+      <thead class="thead-dark bg-violet">
+        <tr class="bg-violet">
+          <th>Fecha</th>
+          <th>Proveedor</th>
+          <th>Pedido</th>
+          <th>Descripcion</th>
+          <th>Monto</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <div *ngIf="!egresos " class="text-center mt-4">
+        <div class="spinner-grow text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <tbody>
+        <tr [routerLink]="['/egreso', egreso._id]" *ngFor="let egreso of egresos">
+          <td scope="row">{{egreso.fecha}}</td>
+          <td>{{egreso.proveedor}}</td>
+          <td>{{egreso.pedido}}</td>
+          <td>{{egreso.descripcion}}</td>
+          <td><strong>${{egreso.monto}}</strong></td>
+          <td>
+              <fa-icon [icon] = " faEdit" [routerLink]="['/editar-egreso', egreso._id]"  class="text-warning"></fa-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+      <!-- MODAL PARA AGREGAR EGRESO -->
+
+      <div class="modal fade " id="modalAgregarEgreso" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModal3Label">Agregar nuevo egreso</h5>
+              <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <app-addegreso></app-addegreso>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  

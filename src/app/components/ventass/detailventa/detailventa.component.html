@@ -1,0 +1,104 @@
+<div class="container" *ngIf="venta">
+   <!--  <div class="image" *ngIf="project.image">
+        <img src="{{url+'get-image/'+project.image}}" *ngIf="project.image" alt="">
+    </div> -->
+
+    <div class="data">
+        <div class="row">
+            <div class="col-md-4"><h5> {{venta.cliente}}</h5></div>
+            <div class="col-md-4"><h5> {{telefono}}</h5></div>
+            <div class="col-md-4"><h5> {{direccion}}</h5></div>
+        </div>
+
+        <table class="table table-hover table-md-responsive table-sm-responsive my-3">
+            <thead class="thead-dark bg-violet">
+              <tr class="bg-violet">
+                <th>Fecha</th>
+                <th>Pedido</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Saldo</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+
+            <div *ngIf="!venta " class="text-center mt-4">
+              <div class="spinner-grow text-info" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <tbody>
+              <tr>
+                <td scope="row">{{venta.fecha}}</td>
+                <td >{{venta.pedido}}</td>
+                <td>{{venta.descripcion}}</td>
+                <td><strong>${{venta.monto}}</strong></td>
+                <td><strong>${{venta.saldo}}</strong></td>
+                <td>
+                    <p *ngIf="confirm == false">    
+                        <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a>
+                    </p>
+                </td>
+                <td>
+                    <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+                    <p *ngIf="confirm == true">
+                        <span class="confirm">
+                             ¿Estas seguro de eliminar esta venta? <br>
+                        </span>
+                        <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+                        <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+                    </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <div>
+      <h4 class="mt-5">Todas las compras del cliente</h4>
+      <table class="table table-hover table-md-responsive table-sm-responsive my-3">
+        <thead class="thead-dark bg-violet">
+          <tr class="bg-violet">
+            <th>Fecha</th>
+            <th>Pedido</th>
+            <th>Descripción</th>
+            <th>Monto</th>
+            <th>Saldo</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let venta of comprasCliente">
+            <td scope="row">{{venta.fecha}}</td>
+            <td >{{venta.pedido}}</td>
+            <td>{{venta.descripcion}}</td>
+            <td><strong>${{venta.monto}}</strong></td>
+            <td><strong>${{venta.saldo}}</strong></td>
+            <td>
+                <p *ngIf="confirm == false">    
+                    <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a>
+                </p>
+            </td>
+            <td>
+                <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+                <p *ngIf="confirm == true">
+                    <span class="confirm">
+                         ¿Estas seguro de eliminar esta venta? <br>
+                    </span>
+                    <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+                    <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+                </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    
+
+</div>
+

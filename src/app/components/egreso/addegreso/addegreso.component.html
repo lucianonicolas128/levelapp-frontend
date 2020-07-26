@@ -1,0 +1,54 @@
+<div class="container" *ngIf="egreso">
+    <!-- <h2>{{title}}</h2> -->
+
+    <div class="alert alert-success" *ngIf="status == 'succes'">
+        El egreso se ha agregado correctamente, puedes verlo <a [routerLink] = "['/egreso', save_egreso._id]">aqui</a>
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'failed'">
+        El egreso no se ha podido agregar
+    </div>
+
+    <form action="" #egresoForm="ngForm" (ngSubmit)="onSubmit(egresoForm)">
+        <div class="row">
+            <div class="form-group col-md-3 col-sm-12" >
+                <label for="fecha">Fecha</label><br>
+                <input class="form-control" type="date" name="fecha" id="" #fecha="ngModel" [(ngModel)]="egreso.fecha" required>
+                <span *ngIf="fecha.touched && !fecha.valid" class="form_error">
+                    La fecha es obligatoria.
+                </span>
+            </div>
+            <div class="form-group col-md-9 col-sm-12" >
+                <label for="proveedor">Proveedor</label><br>
+                <input class="form-control" type="text" name="proveedor" id="" #proveedor="ngModel" [(ngModel)]="egreso.proveedor" required>
+                <span *ngIf="proveedor.touched && !proveedor.valid" class="form_error">
+                    El proveedor es obligatorio.
+                </span>
+            </div>
+        </div>
+        
+        <div class="form-group" >
+            <label for="pedido">Pedido</label><br>
+            <input class="form-control"  name="pedido" id="" #pedido="ngModel" [(ngModel)]="egreso.pedido" required>
+            <span *ngIf="pedido.touched && !pedido.valid" class="form_error">
+                El pedido es obligatorio.
+            </span>
+        </div>
+        <div class="form-group" >
+            <label for="descripcion">Descripcion</label><br>
+            <textarea class="form-control" type="text" name="descripcion" #descripcion="ngModel" [(ngModel)]="egreso.descripcion"></textarea>
+        </div>
+        <div class="form-group" >
+            <label for="monto">Monto</label><br>
+            <input class="form-control" type="number" name="monto" id="" #monto="ngModel" [(ngModel)]="egreso.monto" required>
+            <span *ngIf="monto.touched && !monto.valid" class="form_error">
+               El monto es obligatorio.
+            </span>
+        </div>
+
+        <input type="submit" value="Agregar egreso" class="btn btn-danger mt-4 col-md-12 col-sm-12" name="" id="" [disabled]="!egresoForm.form.valid"/>
+
+    </form>
+
+</div>
+
+

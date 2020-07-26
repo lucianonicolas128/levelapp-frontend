@@ -1,0 +1,53 @@
+<div class="container-fuild">   
+    
+      <table class="table">
+          <thead class="thead-dark bg-violet">
+            <tr class="bg-violet">
+              <th>Producto</th>
+              <!-- <th>Descripcion</th> -->
+              <th>Categoria</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+          </thead>
+            
+          <div *ngIf="!productos " class="text-center mt-4">
+            <div class="spinner-grow text-info" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+          <tbody>
+            <tr [routerLink]="['/producto', producto._id]" *ngFor="let producto of productos">
+              <td class="font-weight-bold" scope="row">{{producto.nombre}}</td>
+              <!-- <td>{{producto.descripcion}}</td> -->
+              <td>{{producto.categoria}}</td>
+              <td class="font-weight-bold"><strong>${{producto.precio}}</strong></td>    
+              <td>
+                  <fa-icon [icon] = " faEdit" [routerLink]="['/editar-producto', producto._id]" class="text-warning"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        
+      <!-- MODAL PARA AGREGAR PRODUCTOS -->
+
+      <div class="modal fade " id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModal3Label">Agregar nuevo producto</h5>
+              <button  type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <app-addproducto></app-addproducto>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  </div>
+  

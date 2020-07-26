@@ -1,0 +1,74 @@
+<div class="container" *ngIf="producto">
+    <!-- <h2>{{title}}</h2> -->
+
+    <div class="alert alert-success" *ngIf="status == 'succes'">
+        El producto se ha agregado correctamente, puedes verlo <a [routerLink] = "['/producto', save_producto._id]">aqui</a>
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'failed'">
+        El producto no se ha podido agregar
+    </div>
+
+    <form action="" #productoForm="ngForm" (ngSubmit)="onSubmit(productoForm)">
+
+        <div class="row">
+
+            <div class="form-group col-md-7 col-sm-12" >
+                <label for="nombre">Nombre</label><br>
+                <input class="form-control" type="text" name="nombre" id="" #nombre="ngModel" [(ngModel)]="producto.nombre" required>
+                <span *ngIf="nombre.touched && !nombre.valid" class="form_error">
+                    El nombre es obligatorio.
+                </span>
+            </div>
+            
+            <div class="form-group col-md-5 col-sm-12" >
+                <label for="categoria">Categoria</label><br>
+                <input type="text" class="form-control"  name="categoria" id="" #categoria="ngModel" [(ngModel)]="producto.categoria" required>
+                <span *ngIf="categoria.touched && !categoria.valid" class="form_error">
+                    La categoria es obligatoria.
+                </span>
+            </div>
+
+        </div>
+
+        <div class="form-group" >
+            <label for="descripcion">Descripcion</label><br>
+            <textarea class="form-control" type="text" name="descripcion" id="" #descripcion="ngModel" [(ngModel)]="producto.descripcion" required></textarea>
+            <span *ngIf="descripcion.touched && !descripcion.valid" class="form_error">
+                La descripcion es obligatoria.
+            </span>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-md-6 col-sm-12" >
+                <label for="costo">Costo</label><br>
+                <input class="form-control" type="number" name="costo" #costo="ngModel" [(ngModel)]="producto.costo">
+            </div>
+    
+            <div class="form-group col-md-6 col-sm-12" >
+                <label for="precio">Precio</label><br>
+                <input class="form-control" type="number" name="precio" id="" #precio="ngModel" [(ngModel)]="producto.precio" required>
+                <span *ngIf="precio.touched && !precio.valid" class="form_error">
+                   El precio es obligatorio.
+                </span>
+            </div>
+
+        </div>
+        
+        <p>
+            <label for="image">Imagen del proyecto</label>
+            <span class="image" *ngIf="producto.image" style="float: none;">
+                <img src="{{url+'get-image/'+producto.image}}" *ngIf="producto.image" alt="" style="width: 100px;">
+            </span> <br>
+            <input type="file" name="image" placeholder="Subir Imagen" (change)="fileChangeEvent($event)" id=""/>
+        </p>
+
+
+
+        <input type="submit" value="Enviar" class="btn btn-warning col-md-12 mt-4" name="" id="" [disabled]="!productoForm.form.valid"/>
+
+    </form>
+
+</div>
+
+

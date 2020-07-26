@@ -1,0 +1,36 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <!-- <a class="navbar-brand col-md-4 col-sm-2" href="#">LevelApp</a> -->
+  <img src="../assets/img/LOGO_LEVEL_APP.png" class="logo col-md-1 col-sm-2 mr-5 ml-3" alt="" [routerLink]="['']">
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- <div class="collapse navbar-collapse col-md-7" id="navbarSupportedContent">
+
+    <ul class="nav  nav-pills nav-justified justify-content-center">
+      <li class="nav-item">
+        <a class="flex-sm-fill text-sm-center nav-link" href="" [routerLink]="['/ventas']"  [routerLinkActive]="['active']">Ventas</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-sm-fill text-sm-center nav-link" href="" [routerLink]="['/clientes']" [routerLinkActive]="['active']">Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-sm-fill text-sm-center nav-link" href="" [routerLink]="['/productos']" [routerLinkActive]="['active']">Productos</a>
+      </li>      
+      <li class="nav-item">
+        <a class="flex-sm-fill text-sm-center nav-link" href="" [routerLink]="['/egresos']" [routerLinkActive]="['active']">Egresos</a>
+      </li>
+    </ul>
+  </div> -->
+</nav>
+
+<div class="container-fuild routerOutlet mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div>
+
+<nav class="navbar fixed-bottom navbar-dark bg-dark">
+  <a class="navbar-brand" href="http://lucianonicolasweb.web.app" style="font-size: 14px;">Desarrollado por LucianoNicolasWeb.online &copy;</a>
+</nav>
+

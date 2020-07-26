@@ -1,0 +1,185 @@
+<div class="container-fuild">
+    
+    
+<!-- Section: Block Content -->
+<section>
+    <div>
+        <div class="row mr-1 ml-1">
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="media white z-depth-1 rounded">
+                    <i class="far fa-money-bill-alt fa-lg green z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Ingresos totales</small></p>
+                        <h5 class="font-weight-bold mb-0">
+                            $
+                            <div *ngIf="!ventas" class="spinner-border text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            {{sumaVentas}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="media white z-depth-1 rounded">
+                    <i class="far fa-money-bill-alt fa-lg red z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Saldo</small></p>
+                        <h5 class="font-weight-bold mb-0">
+                            $                         
+                            <div *ngIf="!ventas" class="spinner-border text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            {{saldoVentas}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="media white z-depth-1 rounded">
+                    <i class="far fa-money-bill-alt fa-lg default-color z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Ingresos último mes</small></p>
+                        <h5 class="font-weight-bold mb-0">
+                            $                             
+                            <div *ngIf="!ventas" class="spinner-border text-success" role="status">
+                            <span class="sr-only">Loading...</span>
+                            </div>
+                            {{ultimoMes}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="media white z-depth-1 rounded">
+                    <i class="far fa-money-bill-alt fa-lg default-color-dark z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Ingresos última semana</small></p>
+                        <h5 class="font-weight-bold mb-0">
+                            $ 
+                            <div *ngIf="!ventas" class="spinner-border text-success" role="status">
+                            <span class="sr-only">Loading...</span>
+                            </div>
+                            {{ultimaSemana}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!--Grid column-->
+        </div>
+    </div>
+</section>
+<!-- Section: Block Content -->
+
+
+<!-- SECCION BODY -->
+    <section class="col-md-12">
+        <div class="row">
+
+            <!-- BLOQUE IZQUIERDO -->
+            <div class=" col-lg-3 col-md-12 col-sm-12 ml-0 mt-2">
+                <div class="bloqueVentas card card-list p-1 scrollbar-info">
+                    <div class="card-header white d-flex justify-content-between align-items-center py-3">
+    
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" (click)="seleccionarBloque('productos')">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" (click)="seleccionarBloque('clientes')">Clientes</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <!-- TABLA DE PRODUCTOS -->
+                    <span *ngIf="bloque == 'productos'"  class="fade show">
+                        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example2 scrollbar-secondary fade show"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+                            <app-productos></app-productos>
+                        </div>
+                        
+                        <div class="card-footer white py-3 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarProducto">
+                                Agregar producto
+                            </button>
+                        </div>
+                    </span>
+
+                    <!-- TABLA DE CLIENTES -->
+                    <span *ngIf="bloque == 'clientes'"  class="fade show">
+                        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example2 scrollbar-default fade show"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+                            <app-clientes></app-clientes>
+                        </div>
+                        
+                        <div class="card-footer white py-3 d-flex justify-content-between">
+                            <button type="button" class="btn btn-default btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarCliente">
+                                Agregar cliente
+                            </button>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            
+
+            <!-- BLOQUE DERECHO -->
+            <div class="col-lg-9 col-md-12 col-sm-12 mt-2">
+                <div class="card card-list p-1 scrollbar-info">
+                    <div class="card-header white d-flex justify-content-between align-items-center py-3">                    
+                            
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" (click)="seleccionarIncidencia('ventas')">Últimas ventas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" (click)="seleccionarIncidencia('egresos')">Últimos egresos</a>
+                            </li>
+                        </ul>
+                    </div>
+                        
+                    <!-- TABLA DE VENTAS -->
+                    <span *ngIf="incidencia == 'ventas'"  class="fade show">
+                        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example scrollbar-success fade show"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+                            <app-ventas></app-ventas>
+                        </div>
+                        
+                        <div class="card-footer white py-3 d-flex justify-content-between">
+                            <button type="button" class="btn btn-success btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarVenta">
+                                Agregar venta
+                            </button>
+                        </div>
+                    </span>
+                    
+                    <!-- TABLA DE EGRESOS -->
+                    <span *ngIf="incidencia == 'egresos'">
+                        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example scrollbar-danger"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+                            <app-egresos></app-egresos>
+                        </div>
+                        
+                        <div class="card-footer white py-3 d-flex justify-content-between">
+                            <button type="button" class="btn btn-danger btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarEgreso">
+                                Agregar egreso
+                            </button>
+                        </div>
+                    </span>
+
+
+                </div>    
+            </div>
+            
+        </div>
+    </section>
+
+
+</div>
+
