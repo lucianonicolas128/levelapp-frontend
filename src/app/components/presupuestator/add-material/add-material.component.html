@@ -4,24 +4,24 @@
     <form action="" #materialForm="ngForm" (ngSubmit)="onSubmit(materialForm)">
         <div class="row">
             <div class="alert alert-succes" *ngIf="status == 'succes'">
-                El material se ha agregado correctamente, puedes verlo <a [routerLink] = "['/material', save_material._id]">aqui</a>
+                El material se ha agregado correctamente.
             </div>
             <div class="alert alert-danger" *ngIf="status == 'failed'">
                 El material no se ha podido agregar.
             </div>
 
             <div class="form-group col-md-8 col-sm-12">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="" #nombre="ngModel" [(ngModel)]="material.nombre" required>
-                <span *ngIf="nombre.touched && !nombre.valid" class="form_error">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" name="name" id="" #name="ngModel" [(ngModel)]="material.name" required>
+                <span *ngIf="name.touched && !name.valid" class="form_error">
                     El nombre es obligatorio.
                 </span>
             </div>
             <div class="form-group col-md-4 col-sm-12">
-                <label for="costo">Costo</label>
-                <input type="number" class="form-control" name="costo" id="" #costo="ngModel" [(ngModel)]="material.costo" required> 
-                <span *ngIf="costo.touched && !costo.valid" class="form_error">
-                    El costo es obligatorio.
+                <label for="price">Costo</label>
+                <input type="number" class="form-control" name="price" id="" #price="ngModel" [(ngModel)]="material.price" required> 
+                <span *ngIf="price.touched && !price.valid" class="form_error">
+                    El price es obligatorio.
                 </span>
             </div>
         </div>

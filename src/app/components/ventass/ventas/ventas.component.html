@@ -6,10 +6,10 @@
     <div class="row ml-2 my-2">
       <h6 class="mr-2 mt-2">Filtrar ventas: </h6>
       <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-sm btn-outline-success active">
+        <label class="btn btn-sm btn-success active">
           <input (click)="actualizarFiltrado('todo')" type="radio" name="todo" id="option1" autocomplete="off" checked> Todas
         </label>
-        <label class="btn btn-sm btn-outline-danger">
+        <label class="btn btn-sm btn-danger">
           <input (click)="actualizarFiltrado('sinEntregar')" type="radio" name="sinEntregar" id="option2" autocomplete="off"> Sin entregar
         </label>
       </div>
@@ -17,14 +17,14 @@
     <!-- FIN: FILTRADO DE VENTAS -->
 
     <table class="table">
-      <thead class="thead-dark bg-violet">
+      <thead class="thead-dark">
         <tr>
-          <th scope="col">Fecha</th>
+          <th scope="col-1">Fecha</th>
           <th scope="col">Cliente</th>
           <th scope="col">Pedido</th>
           <th scope="col">Monto</th>
-          <th scope="col">Saldo</th>
           <th scope="col">Entregado?</th>
+          <th scope="col">Estado</th>
           <th></th>
         </tr>
       </thead>
@@ -37,20 +37,26 @@
 
       <!-- FILTRO TODAS LAS VENTAS -->
       <tbody *ngIf="filtrado == 'todo'">
-        <tr [routerLink]="['/venta', venta._id]" *ngFor="let venta of ventas">
-          <td scope="row" class="text font-weight-bold">{{venta.fecha}}</td>
-          <td id="nombreCliente" class="text" ><h6>{{venta.cliente}}</h6></td>
-          <td><h6> {{venta.pedido}}</h6></td>
-          <td class="font-weight-bold"><strong>${{venta.monto}}</strong></td>
-          <td class="font-weight-bold"><strong>${{venta.saldo}}</strong></td>
-          <td *ngIf="!venta.entregado">
-            <a class="noEntregado font-weight-bold" >Sin entregar</a>
-          </td>
-          <td *ngIf="venta.entregado == true">
-            <a class="entregado font-weight-bold">Entregado</a>
+        <tr *ngFor="let venta of ventas">
+
+          <td scope="row" class="font-weight-normal text-primary">{{venta.fecha}}</td>
+          <td id="nombreCliente" class="font-weight-normal" >{{venta.cliente}}</td>
+          <td class="font-weight-normal" >{{venta.pedido}}</td>
+          <td class="font-weight-bold">${{venta.monto}}</td>
+          <td (click)="setEntrega(venta)">
+            <span *ngIf="!venta.entregado" class="badge badge-danger">
+              Sin entregar
+            </span>
+            <span *ngIf="venta.entregado" class="badge badge-success">
+              Entregado
+            </span>
           </td>
           <td>
-            <fa-icon [icon] = " faEdit" [routerLink]="['/editar-venta', venta._id]"  class="text-warning" data-toggle="modal" data-target="#modalEditarVenta"></fa-icon>
+            <i class="fas fa-eye ml-2 icon-action" [routerLink]="['/venta', venta._id]"></i>
+            <i class="fas fa-edit ml-1"  [routerLink]="['/editar-venta', venta._id]" data-toggle="modal" data-target="#modalEditarVenta"></i>
+            <!-- <i class="fas fa-edit ml-1" (click)="editVenta(venta._id)" data-toggle="modal" data-target="#modalEditarVenta"></i> -->
+            <i class="fas fa-trash-alt ml-1" (click)="deleteSale(venta._id)"></i>
+
           </td>
         </tr>
       </tbody>
@@ -58,20 +64,25 @@
 
       <!-- FILTRO VENTAS SIN ENTREGAR -->
       <tbody *ngIf="filtrado == 'sinEntregar'">
-        <tr [routerLink]="['/venta', venta._id]" *ngFor="let venta of ventaSinEntregar" >
-          <td scope="row" class="text font-weight-bold">{{venta.fecha}}</td>
-          <td id="nombreCliente" class="text" ><h6>{{venta.cliente}}</h6></td>
-          <td><h6> {{venta.pedido}}</h6></td>
-          <td class="font-weight-bold"><strong>${{venta.monto}}</strong></td>
-          <td class="font-weight-bold"><strong>${{venta.saldo}}</strong></td>
-          <td *ngIf="!venta.entregado">
-            <a class="noEntregado font-weight-bold" >Sin entregar</a>
-          </td>
-          <td *ngIf="venta.entregado == true">
-            <a class="entregado font-weight-bold">Entregado</a>
+        <tr *ngFor="let venta of ventaSinEntregar" >
+
+          <td scope="row" class="font-weight-normal text-primary">{{venta.fecha}}</td>
+          <td id="nombreCliente" class="font-weight-normal" >{{venta.cliente}}</td>
+          <td class="font-weight-normal" >{{venta.pedido}}</td>
+          <td class="font-weight-bold">${{venta.monto}}</td>
+          <td  (click)="setEntrega(venta)">
+            <span *ngIf="!venta.entregado" class="badge badge-danger">
+              Sin entregar
+            </span>
+            <span *ngIf="venta.entregado" class="badge badge-success">
+              Entregado
+            </span>
           </td>
           <td>
-            <fa-icon [icon] = " faEdit" [routerLink]="['/editar-venta', venta._id]"  class="text-warning" data-toggle="modal" data-target="#modalEditarVenta"></fa-icon>
+            <i class="fas fa-eye ml-2 icon-action" [routerLink]="['/venta', venta._id]"></i>
+            <i class="fas fa-edit ml-1"  [routerLink]="['/editar-venta', venta._id]" data-toggle="modal" data-target="#modalEditarVenta"></i>
+            <i class="fas fa-trash-alt ml-1" (click)="deleteSale(venta._id)"></i>
+
           </td>
       </tbody>
       <!-- FIN DE: FILTRO VENTAS SIN ENTREGAR -->
@@ -85,7 +96,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
-          <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -97,13 +108,15 @@
   </div>
   <!-- FIN: MODAL PARA AGREGAR VENTA -->
 
+
+
   <!-- MODAL PARA EDITAR VENTA -->
-  <div (click)="reloadComponent()"  class="modal fade " id="modalEditarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+  <div (click)="ngOnInit()"  class="modal fade " id="modalEditarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
-          <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -117,12 +130,12 @@
 
   
   <!-- MODAL PARA DETALLE VENTA -->
-  <div (click)="reloadComponent()"  class="modal fade " id="modalEditarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+  <div (click)="ngOnInit()"  class="modal fade " id="modalEditarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModal3Label">Detalle venta</h5>
-          <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

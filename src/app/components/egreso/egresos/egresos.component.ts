@@ -63,8 +63,8 @@ export class EgresosComponent implements OnInit {
           /* Con este metodo sumamos los saldos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
           
 
-          this.ultimaSemana = this.sumaEgresos - 23700 -12000 - 36100;
-          this.ultimoMes = this.sumaEgresos - 12200 - 23500;
+          this.ultimaSemana = this.sumaEgresos - 23700 -12000 - 36100 - 43050;
+          this.ultimoMes = this.sumaEgresos - 12200 - 23500 - 79150;
 
         }
       },
@@ -72,6 +72,23 @@ export class EgresosComponent implements OnInit {
         console.log(<any>error);
       }
     )
+  }
+
+  
+  deleteEgreso(id){
+    let message = confirm("Desea eliminar esta venta?");
+        if(message){
+          this._egresoService.deleteEgreso(id).subscribe(
+            response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(<any>error);
+            }
+          )
+        } else{
+          console.log('Venta no eliminada');
+        }    
   }
 
   

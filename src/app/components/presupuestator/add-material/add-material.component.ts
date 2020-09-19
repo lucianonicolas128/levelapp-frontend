@@ -23,7 +23,7 @@ export class AddMaterialComponent implements OnInit {
     private _uploadService: UploadService
   ) {
     this.title = "Nuevo material";
-    this.material = new Material('','',0);
+    this.material = new Material('','',0,'');
     this.url = Global.url;
    }
 
@@ -33,7 +33,7 @@ export class AddMaterialComponent implements OnInit {
   onSubmit(form){
     this._materialService.saveMaterial(this.material).subscribe(
       response => {
-        if(response.cliente){
+        if(response.material){
           this.save_material = response.material;
           this.status = 'succes';
           form.reset();

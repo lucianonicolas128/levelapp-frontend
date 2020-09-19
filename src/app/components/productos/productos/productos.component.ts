@@ -45,6 +45,22 @@ export class ProductosComponent implements OnInit {
   }
 
   
+  deleteProduct(id){
+    let message = confirm("Desea eliminar este producto?");
+        if(message){
+          this._productoService.deleteProducto(id).subscribe(
+            response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(<any>error);
+            }
+          )
+        } else{
+          console.log('Producto no eliminado');
+        }    
+  }
+  
   reloadComponent(){
     this._router.navigateByUrl('/add-producto', { skipLocationChange: true }).then(() => {
             this._router.navigate(['/productos']);

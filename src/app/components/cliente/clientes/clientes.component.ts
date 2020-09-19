@@ -34,10 +34,10 @@ export class ClientesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCliente();
+    this.getClientes();
   }
 
-  getCliente(){
+  getClientes(){
     this._clienteService.getClientes().subscribe(
       response => {
         if(response.clientes){
@@ -50,6 +50,22 @@ export class ClientesComponent implements OnInit {
     )
   }
 
+  
+  deleteClient(id){
+    let message = confirm("Desea eliminar este Cliente?");
+        if(message){
+          this._clienteService.deleteCliente(id).subscribe(
+            response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(<any>error);
+            }
+          )
+        } else{
+          console.log('Cliente no eliminada');
+        }    
+  }
   
   reloadComponent(){
     this._router.navigateByUrl('/add-cliente', { skipLocationChange: true }).then(() => {

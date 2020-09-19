@@ -78,7 +78,7 @@
 
             <div class="form-group col-md-6" >
                 <label for="monto">Saldo</label><br>
-                <input class="form-control" type="number" name="saldo" id="" #saldo="ngModel" [(ngModel)]="venta.saldo" required>
+                <input class="form-control" type="number" name="saldo" id="" #saldo="ngModel" [(ngModel)]="venta.saldo">
                 <span *ngIf="saldo.touched && !saldo.valid" class="form_error">
                 Si no entrega seña, por favor coloque 0.
                 </span>

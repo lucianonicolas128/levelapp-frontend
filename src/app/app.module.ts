@@ -35,6 +35,11 @@ import { EditMaterialComponent } from './components/presupuestator/edit-material
 import { PresupuestarComponent } from './components/presupuestator/presupuestar/presupuestar.component';
 import { IndexComponent } from './components/index/index/index.component';
 import { LoginComponent } from './components/auth/login/login.component';
+import { IncidenciasComponent } from './components/incidencias/incidencias.component';
+import { PreferencesComponent } from './components/preferences/preferences.component';
+import { AddPreferencesComponent } from './components/preferences/add-preferences/add-preferences.component';
+import { EditPreferencesComponent } from './components/preferences/edit-preferences/edit-preferences.component';
+import { CalculadoraComponent } from './components/presupuestator/calculadora/calculadora.component';
 
 const config = {
   apiKey: '<your-key>',
@@ -69,7 +74,12 @@ const config = {
     EditMaterialComponent,
     PresupuestarComponent,
     IndexComponent,
-    LoginComponent
+    LoginComponent,
+    IncidenciasComponent,
+    PreferencesComponent,
+    AddPreferencesComponent,
+    EditPreferencesComponent,
+    CalculadoraComponent
   ],
   imports: [
     BrowserModule,

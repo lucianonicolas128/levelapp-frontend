@@ -39,7 +39,7 @@ export class AddproductoComponent implements OnInit {
         if(response.producto){
           // Subir la imagen
           if(this.filesToUpload){
-            this._uploadService.makeFileRequest(Global.url+"upload-image-album/"+response.producto.image, [], this.filesToUpload, 'image')
+            this._uploadService.makeFileRequest(Global.url+"upload-image-album/"+response.producto._id, [], this.filesToUpload, 'image')
             .then((result:any)=>{
               this.status = 'succes';
               console.log(result);

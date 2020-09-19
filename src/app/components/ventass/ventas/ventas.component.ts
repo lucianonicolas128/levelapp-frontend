@@ -24,6 +24,7 @@ export class VentasComponent implements OnInit {
   public url: string;
   public confirm: boolean;
   public venta: Venta;
+  public save_venta;
 
   /* VARIABLES DE FILTRADO DE VENTAS */
   public ventaSinEntregar: Venta[];
@@ -40,6 +41,9 @@ export class VentasComponent implements OnInit {
   public clientes: Cliente[];
   public nombre;
   public _id_;
+
+  /* public sumaVentasMensual; */
+  public arrayAnio = [1,2,3,4,5,6,7,8,9,11,12];
   
 
   constructor(
@@ -56,6 +60,8 @@ export class VentasComponent implements OnInit {
   ngOnInit(): void {
     this.getVentas();
     this.getClientes();
+    /* this.ingresosMensuales(); */
+    /* console.log(this.sumaVentasMensual); */
   }
 
   getVentas(){
@@ -65,8 +71,6 @@ export class VentasComponent implements OnInit {
           this.ventas = response.ventas;
 
           this.ventaSinEntregar = this.ventas.filter(venta => venta.entregado == false);
-          
-
           /* Con este metodo sumamos los ingresos totales, donde acc es una bandera y obj el parametro del objeto de ventas */ 
           this.sumaVentas = this.ventas.reduce((
             acc,
@@ -81,7 +85,7 @@ export class VentasComponent implements OnInit {
           ) => acc + obj.saldo,
           0);
 
-          this.ultimaSemana = this.sumaVentas - 33140 - 28350 -68910 -44550 -21680 - 95610 - 28740 - 63140;
+          this.ultimaSemana = this.sumaVentas - 33140 - 28350 -68910 -44550 -21680 - 95610 - 28740 - 63140 - 55100 - 19465 - 33100;
           this.ultimoMes = this.sumaVentas - 33140 - 259100;
         }
       },
@@ -91,14 +95,46 @@ export class VentasComponent implements OnInit {
     )
   }
 
-  setEntrega(id){
-        this.venta.entregado = true;
+  setEntrega(venta){
+    if(!venta.entregado){
+      venta.entregado = true;
+      venta.saldo = 0;
+    }else {
+      venta.entregado = false;    
+      venta.saldo = venta.monto;  
+    }
+
+    this._ventaService.updateVenta(venta).subscribe(
+      response => {
+          this.save_venta = venta;
+      }
+    )
+    this.ngOnInit();
   }
-  
-  setConfirm(confirm){
-    this.confirm = confirm;      
+
+  deleteSale(id){
+    let message = confirm("Desea eliminar esta venta?");
+        if(message){
+          this._ventaService.deleteVenta(id).subscribe(
+            response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(<any>error);
+            }
+          )
+        } else{
+          console.log('Venta no eliminada');
+        }    
   }
-  
+
+  editVenta(id){
+    this.getVenta(id);
+
+    
+
+  }
+    
   getClientes(){
     this._clienteService.getClientes().subscribe(
       response => {
@@ -130,21 +166,15 @@ export class VentasComponent implements OnInit {
       }
     )
   }
-
+/* 
   reloadComponent(){
     this._router.navigateByUrl('/add-venta', { skipLocationChange: true }).then(() => {
             this._router.navigate(['']);
           }); 
-  }
+  } */
 
   actualizarFiltrado(valor){
     this.filtrado = valor;
   }
-
-/* 
-  click(){
-    $('.modal-backdrop').modal('hide');
-  } */
-
 
 }

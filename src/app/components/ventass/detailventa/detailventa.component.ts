@@ -26,7 +26,7 @@ export class DetailventaComponent implements OnInit {
   public direccion: string;
 
   
-  public clientess = (JSON.stringify(this.clientes));
+  /* public clientess = (JSON.stringify(this.clientes)); */
 
   constructor(
     private _clienteService: ClienteService,
@@ -41,9 +41,9 @@ export class DetailventaComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       let id = params.id;
-      this.getVenta(id);
-      
+      this.getVenta(id);      
     });
+    /* console.log(this.venta.fecha.getDate()); */
     
   }
 
@@ -53,6 +53,10 @@ export class DetailventaComponent implements OnInit {
         this.venta = response.venta;
         this.getClientes();
         this.getVentas();
+
+        
+        let prueba = new Date(this.venta.fecha);
+        console.log(prueba.getMonth());
       }
     )
   }

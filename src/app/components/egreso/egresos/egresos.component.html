@@ -26,14 +26,17 @@
       </div>
 
       <tbody>
-        <tr [routerLink]="['/egreso', egreso._id]" *ngFor="let egreso of egresos">
+        <tr *ngFor="let egreso of egresos">
           <td scope="row">{{egreso.fecha}}</td>
           <td>{{egreso.proveedor}}</td>
           <td>{{egreso.pedido}}</td>
           <td>{{egreso.descripcion}}</td>
           <td><strong>${{egreso.monto}}</strong></td>
           <td>
-              <fa-icon [icon] = " faEdit" [routerLink]="['/editar-egreso', egreso._id]"  class="text-warning"></fa-icon>
+            <i class="fas fa-eye ml-2 icon-action" [routerLink]="['/egreso', egreso._id]"></i>
+            <i class="fas fa-edit ml-1"  [routerLink]="['/editar-egreso', egreso._id]" data-toggle="modal" data-target="#modalEditarVenta"></i>
+            <!-- <i class="fas fa-edit ml-1" (click)="editVenta(venta._id)" data-toggle="modal" data-target="#modalEditarVenta"></i> -->
+            <i class="fas fa-trash-alt ml-1" (click)="deleteEgreso(egreso._id)"></i>
           </td>
         </tr>
       </tbody>

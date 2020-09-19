@@ -18,6 +18,7 @@ export class AddclienteComponent implements OnInit {
   public filesToUpload: Array<File>;
   public save_cliente;
   public url: string;
+  public clientes : Cliente[];
 
   constructor(
     
@@ -33,16 +34,36 @@ export class AddclienteComponent implements OnInit {
   }
 
   
+  getClientes(){
+    this._clienteService.getClientes().subscribe(
+      response => {
+        if(response.clientes){
+          this.clientes = response.clientes;
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+  
   onSubmit(form){
+
+    this.getClientes();
     
     //Guardar los datos
     this._clienteService.saveCliente(this.cliente).subscribe(
       response =>{
+
         if(response.cliente){
-          this.save_cliente = response.cliente;
-          this.status = 'succes';
-          /* window.location.reload(); */
-          form.reset();
+
+          if(this.clientes.filter(cliente => cliente.nombre != response.cliente.nombre)){
+            this.save_cliente = response.cliente;
+            this.status = 'succes';
+            /* window.location.reload(); */
+            form.reset();
+          }
+
         }else{
           this.status = 'failed';
         }

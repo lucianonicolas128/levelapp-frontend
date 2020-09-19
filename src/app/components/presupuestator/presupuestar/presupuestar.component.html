@@ -16,3 +16,98 @@
     <h5></h5>
 
 </div> -->
+
+<div class="container card p-3 mt-3">
+    <div class="text-center" role="group" aria-label="Vertical button group" *ngFor="let material of materiales">
+
+        <button type="button" class="btn btn-primary col-md-11 col-9" 
+            (click)="getMaterial(material._id)"
+            data-toggle="modal" data-target="#modalCalculadora">
+            {{material.name}}
+        </button>
+
+        <i class="fas fa-trash-alt ml-1" (click)="deleteMaterial(material._id)"></i>
+        <i class="fas fa-edit ml-1" data-toggle="modal" data-target="#modalEditarVenta"></i>
+    </div>
+</div>
+
+<div class="container p-0 mt-3">
+    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalAgregarMaterial">Agregar material</button>
+</div>
+
+
+<!-- MODAL PARA AGREGAR VENTA -->
+<div class="modal fade " id="modalAgregarMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
+                <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-add-material></app-add-material>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN: MODAL PARA AGREGAR VENTA -->
+
+
+<!-- MODAL CALCULADORA -->
+
+<div class="modal fade " id="modalCalculadora" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true" *ngIf="material">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal3Label">{{material.name}}</h5>
+                <button (click)="cleanAndUpdate()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="text-center mx-5">
+                        
+                    <div class="form-row mb-4">
+                        <div class="custom-control custom-checkbox col">
+                            <input type="checkbox" class="custom-control-input" id="laca">
+                            <label class="custom-control-label" for="laca">Laca</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox col">
+                            <input type="checkbox" class="custom-control-input" id="corte">
+                            <label class="custom-control-label" for="corte">Corte</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row mb-4">
+                        <div class="col col-sm-12">
+                            <!-- First name -->
+                            <input type="number" class="form-control" placeholder="ancho en cm" id="ancho" value="" required>
+                        </div>
+                        <p class="mx-1 my-auto col-sm-12">x</p>
+                        <div class="col col-sm-12">
+                            <!-- Last name -->
+                            <input type="number" class="form-control" placeholder="alto en cm" id="alto" value="" required>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-info my-4 mx-0 btn-block" (click)="calcular()">Calcular</button>
+
+
+                    <span *ngIf="cost != null">
+                        <h3 id="cost">$ {{cost}}</h3>
+                    </span>
+                    
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CALCULADORA -->

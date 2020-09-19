@@ -30,23 +30,23 @@ import { LoginComponent } from './components/auth/login/login.component';
 
 const appRoutes: Routes = [
     {path: '', component: IndexComponent},
-    {path: 'add-venta', component: AddventaComponent},
-    {path: 'ventas', component: VentasComponent},
+    /* {path: 'add-venta', component: AddventaComponent}, */
+    /* {path: 'ventas', component: VentasComponent}, */
     {path: 'editar-venta/:id', component: EditventaComponent},
     {path: 'venta/:id', component: DetailventaComponent},
 
-    {path: 'productos', component: ProductosComponent},
-    {path: 'agregar-producto', component: AddproductoComponent},
+    /* {path: 'productos', component: ProductosComponent}, */
+    /* {path: 'agregar-producto', component: AddproductoComponent}, */
     {path: 'editar-producto/:id', component: EditproductoComponent},
     {path: 'producto/:id', component: DetailproductoComponent},
     
-    {path: 'add-egreso', component: AddegresoComponent},
-    {path: 'egresos', component: EgresosComponent},
+    /* {path: 'add-egreso', component: AddegresoComponent}, */
+    /* {path: 'egresos', component: EgresosComponent}, */
     {path: 'editar-egreso/:id', component: EditegresoComponent},
     {path: 'egreso/:id', component: DetailegresoComponent},
     
-    {path: 'add-cliente', component: AddclienteComponent},
-    {path: 'clientes', component: ClientesComponent},
+    /* {path: 'add-cliente', component: AddclienteComponent}, */
+    /* {path: 'clientes', component: ClientesComponent}, */
     {path: 'editar-cliente/:id', component: EditclienteComponent},
     {path: 'cliente/:id', component: DetailclienteComponent},
 
@@ -56,7 +56,9 @@ const appRoutes: Routes = [
 
     {path: 'index', component: IndexComponent},
     {path: 'login', component: LoginComponent},
-    {path: '**', component: ErrorComponent}
+    {path: '**', component: IndexComponent},
+
+    {path: 'asd', component: PresupuestarComponent}
 ];
 
 export const appRoutingProviders: any[] = [];
