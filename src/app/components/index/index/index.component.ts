@@ -12,7 +12,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class IndexComponent implements OnInit {
 
-  public ventas : Venta[];
+  public ventas: Venta[];
   public filtrado: string = "todo";
   public incidencia: string = "ventas";
   public bloque: string = "productos";
@@ -21,11 +21,11 @@ export class IndexComponent implements OnInit {
   public julio: number = 213358;
   public agosto: number = 201005;
 
-  
-  public sumaVentasMensual;
-  
 
-  
+  public sumaVentasMensual;
+
+
+
   /* VARIABLES PARA CONTROLAR EL BALANCE DE VENTAS */
   public sumaVentas: number;
   public saldoVentas: number;
@@ -36,37 +36,34 @@ export class IndexComponent implements OnInit {
     private _ventaService: VentaService,
     private _router: Router,
     private _route: ActivatedRoute
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getVentas();
 
     this.ingresosMensuales();
-    
+
   }
 
-  actualizarFiltrado(valor){
+  actualizarFiltrado(valor) {
     this.filtrado = valor;
   }
 
-  getVentas(){
+  getVentas() {
     this._ventaService.getVentas().subscribe(
       response => {
-        if(response.ventas){
+        if (response.ventas) {
           this.ventas = response.ventas;
-          /* Con este metodo sumamos los ingresos totales, donde acc es una bandera y obj el parametro del objeto de ventas */ 
+          /* Con este metodo sumamos los ingresos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
           this.sumaVentas = this.ventas.reduce((
-            acc,
-            obj,
-          ) => acc + obj.monto,
-          0);
+            acc, obj,) =>
+            acc + obj.monto, 0);
           /* Con este metodo sumamos los saldos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
           this.saldoVentas = this.ventas.reduce((
-            acc,
-            obj,
-          ) => acc + obj.saldo,
-          0);
-          this.ultimaSemana = this.sumaVentas - 33140 - 28350 -68910 -44550 -21680 - 95610 - 28740 - 63140 - 121478 - 55100 - 60050 - 39365 - 30375 - 19465 - 33100;
+            acc, obj,) =>
+            acc + obj.saldo, 0);
+
+          this.ultimaSemana = this.sumaVentas - 33140 - 28350 - 68910 - 44550 - 21680 - 95610 - 28740 - 63140 - 121478 - 55100 - 60050 - 39365 - 30375 - 19465 - 33100 - 50110 - 39830 - 25068 - 69490 - 51400 - 46675;
           this.ultimoMes = this.sumaVentas - this.mayo - this.junio - this.julio - this.agosto;
         }
       },
@@ -76,43 +73,30 @@ export class IndexComponent implements OnInit {
     )
   }
 
-  
-  ingresosMensuales(){
 
-    let thisMonth = new Date().getMonth();
-
+  ingresosMensuales() {
     this._ventaService.getVentas().subscribe(
       response => {
-        
         let sumador;
-        if(response.ventas){
-          let ventasAux = response.ventas;
-          
-          let ventasFiltradas = this.ventas.filter(venta => new Date(venta.fecha).getMonth()  == thisMonth);
 
+        if (response.ventas) {
+          let ventasFiltradas = this.ventas.filter(venta => new Date(venta.fecha).getMonth() == new Date().getMonth());
           sumador = ventasFiltradas.reduce((
-            acc,
-            obj,
-          ) => 
-            acc + obj.monto,
-            
-          0);
-
-          
+            acc, obj, ) =>
+            acc + obj.monto, 0);
         }
+
         this.sumaVentasMensual = sumador;
-        
       }
     )
-    
   }
 
 
-  seleccionarIncidencia(incidencia){
+  seleccionarIncidencia(incidencia) {
     this.incidencia = incidencia;
   }
 
-  seleccionarBloque(bloque){
+  seleccionarBloque(bloque) {
     this.bloque = bloque;
   }
 

@@ -1,45 +1,43 @@
 <div class="container" *ngIf="egreso">
-    <!--  <div class="image" *ngIf="project.image">
-         <img src="{{url+'get-image/'+project.image}}" *ngIf="project.image" alt="">
-     </div> -->
-
-     <div class="row">
-        <div class="col-md-4"><h5> {{egreso.proveedor}}</h5></div>
+  <div class="row">
+    <div class="col-md-4">
+      <h5> {{egreso.proveedor}}</h5>
     </div>
+  </div>
 
-    <table class="table table-hover table-md-responsive table-sm-responsive my-3">
-        <thead class="thead-dark bg-violet">
-          <tr class="bg-violet">
-            <th>Fecha</th>
-            <th>Pedido</th>
-            <th>Descripción</th>
-            <th>Monto</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td scope="row">{{egreso.fecha}}</td>
-            <td >{{egreso.pedido}}</td>
-            <td>{{egreso.descripcion}}</td>
-            <td><strong>${{egreso.monto}}</strong></td>
-            <td>
-                <p *ngIf="confirm == false">    
-                    <a [routerLink]="['/editar-egreso', egreso._id]" class="btn btn-outline-warning mr-3">Editar</a>
-                </p>
-            </td>
-            <td>
-                <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
-                <p *ngIf="confirm == true">
-                    <span class="confirm">
-                         ¿Estas seguro de eliminar esta venta? <br>
-                    </span>
-                    <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
-                    <a (click)="deleteEgreso(egreso._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
-                </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
- </div>
+  <table class="table table-hover table-md-responsive table-sm-responsive my-3">
+    <thead class="thead-dark bg-violet">
+      <tr class="bg-violet">
+        <th>Fecha</th>
+        <th>Pedido</th>
+        <th>Descripción</th>
+        <th>Monto</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td scope="row">{{egreso.fecha}}</td>
+        <td>{{egreso.pedido}}</td>
+        <td>{{egreso.descripcion}}</td>
+        <td><strong>${{egreso.monto}}</strong></td>
+        <td>
+          <p *ngIf="confirm == false">
+            <a [routerLink]="['/editar-egreso', egreso._id]" class="btn btn-outline-warning mr-3">Editar</a>
+          </p>
+        </td>
+        <td>
+          <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+          <p *ngIf="confirm == true">
+            <span class="confirm">
+              ¿Estas seguro de eliminar esta venta? <br>
+            </span>
+            <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+            <a (click)="deleteEgreso(egreso._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

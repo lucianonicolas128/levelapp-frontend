@@ -28,6 +28,7 @@ export class ClienteService{
 
     getClientes(): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.get(this.url+'clientes', {headers: headers});
     }
 

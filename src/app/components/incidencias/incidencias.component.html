@@ -1,43 +1,56 @@
 <div class="col-sm-12">
-    <div class="card card-list p-1 scrollbar-info">
+    <div class="scrollbar-info">
 
-        <div class="card-header white d-flex justify-content-between align-items-center py-3">
+        <div class="card-header white d-flex justify-content-between align-items-center ">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active font-weight-bold" id="ventas-tab" data-toggle="tab" href="#ventas" role="tab" aria-controls="ventas" 
-                    aria-selected="false" (click)="seleccionarIncidencia('ventas')">Últimas ventas</a>
+                    <a class="nav-link active" id="ventas-tab" data-toggle="tab" href="#ventas" role="tab"
+                        aria-controls="ventas" aria-selected="false"
+                        (click)="seleccionarIncidencia('ventas')">Ventas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" id="egresos-tab" data-toggle="tab" href="#egresos" role="tab" aria-controls="egresos" 
-                    aria-selected="false" (click)="seleccionarIncidencia('egresos')">Últimos egresos</a>
+                    <a class="nav-link" id="egresos-tab" data-toggle="tab" href="#egresos" role="tab"
+                        aria-controls="egresos" aria-selected="false"
+                        (click)="seleccionarIncidencia('egresos')">Egresos</a>
                 </li>
             </ul>
         </div>
-            
+
         <!-- TABLA DE VENTAS -->
-        <span *ngIf="incidencia == 'ventas'"  class="fade show">
-            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example scrollbar-success fade show"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+        <span *ngIf="incidencia == 'ventas'" class="fade show">
+            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
+                class="scrollspy-example scrollbar-success fade show">
+                <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
                 <app-ventas></app-ventas>
             </div>
-            
+
             <div class="card-footer white py-3 d-flex justify-content-between">
-                <button type="button" class="btn btn-success btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarVenta">
-                    Agregar venta
+                <button type="button" class="btn btn-success btn-rounded text-white" data-toggle="modal"
+                    data-target="#modalAgregarVenta">
+                    <i class="fas fa-plus"></i> venta
+                </button>
+
+                <button type="button" class="btn btn-danger btn-rounded text-white" data-toggle="modal"
+                    data-target="#modalAgregarEgreso">
+                    <i class="fas fa-plus"></i> egreso
                 </button>
             </div>
         </span>
-        
+
         <!-- TABLA DE EGRESOS -->
         <span *ngIf="incidencia == 'egresos'">
-            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example scrollbar-danger"> <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
+            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
+                class="scrollspy-example scrollbar-danger">
+                <!-- DIV CON LA CLASE PARA SCROLL DE VENTAS -->
                 <app-egresos></app-egresos>
             </div>
-            
+
             <div class="card-footer white py-3 d-flex justify-content-between">
-                <button type="button" class="btn btn-danger btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarEgreso">
-                    Agregar egreso
+                <button type="button" class="btn btn-danger btn-rounded text-white" data-toggle="modal"
+                    data-target="#modalAgregarEgreso">
+                    <i class="fas fa-plus"></i> egreso
                 </button>
             </div>
         </span>
-    </div>    
+    </div>
 </div>

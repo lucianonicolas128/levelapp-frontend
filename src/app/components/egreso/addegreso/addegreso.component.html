@@ -19,7 +19,7 @@
             </div>
             <div class="form-group col-md-9 col-sm-12" >
                 <label for="proveedor">Proveedor</label><br>
-                <input class="form-control" type="text" name="proveedor" id="" #proveedor="ngModel" [(ngModel)]="egreso.proveedor" required>
+                <input class="form-control" type="text" name="proveedor" idF="" #proveedor="ngModel" [(ngModel)]="egreso.proveedor" required>
                 <span *ngIf="proveedor.touched && !proveedor.valid" class="form_error">
                     El proveedor es obligatorio.
                 </span>

@@ -9,9 +9,12 @@ import { Cliente } from '../../../models/cliente';
 import { ClienteService } from '../../../services/cliente.service';
 import { faSync } from 'node_modules/@fortawesome/free-solid-svg-icons/faSync'
 
+import { ClientesComponent } from '../../cliente/clientes/clientes.component';
+import { VentasComponent } from '../ventas/ventas.component';
+
 @Component({
   selector: 'app-editventa',
-  templateUrl: '../addventa/addventa.component.html',
+  templateUrl: './editventa.component.html',
   styleUrls: ['./editventa.component.css'],
   providers: [VentaService, ClienteService, UploadService]
 })
@@ -25,7 +28,7 @@ export class EditventaComponent implements OnInit {
   public filesToUpload: Array<File>;
   public save_venta;
   public url: string;
-  
+
   public _ID_: string;
   public nombreCliente: string;
 
@@ -46,13 +49,12 @@ export class EditventaComponent implements OnInit {
     this._route.params.subscribe(params => {
       let id = params.id;
       this.getVenta(id);
+      // this.ventasComponent.getVenta(id);
     });
-    
     this.getClientes();
-    
   }
 
-  getClientes(){
+  getClientes() {
     this._clienteService.getClientes().subscribe(
       response => {
         if(response.clientes){
@@ -66,7 +68,8 @@ export class EditventaComponent implements OnInit {
   }
 
 
-  getVenta(id){
+  getVenta(id) {
+    // this.ventasComponent.getVenta(id);
     this._ventaService.getVenta(id).subscribe(
       response => {
         this.venta = response.venta;
@@ -77,44 +80,43 @@ export class EditventaComponent implements OnInit {
     )
   }
 
-  
-  
-  getCliente(id){
-    this._clienteService.getCliente(id).subscribe(
-      response => {
-        this.cliente = response.cliente;
-      }
-    )
-  }
 
-  onSubmit(form){
-    if(this.venta.entregado){
+  // getCliente(id) {
+  //   this._clienteService.getCliente(id).subscribe(
+  //     response => {
+  //       this.cliente = response.cliente;
+  //     }
+  //   )
+  // }
+
+  onSubmit(form) {
+    if (this.venta.entregado) {
       this.venta.saldo = 0;
     }
-    
+
     //Guardar los datos
     this._ventaService.updateVenta(this.venta).subscribe(
-      response =>{
-        if(response.venta){
+      response => {
+        if (response.venta) {
           this.save_venta = response.venta;
           this.status = 'succes';
-        }else{
+        } else {
           this.status = 'failed';
         }
       },
-      error =>{
-        console.log(<any> error);
+      error => {
+        console.log(<any>error);
       }
     );
   }
 
-  
-  actualizarCliente(){
+
+  actualizarCliente() {
     this.getClientes();
     console.log("Lista de clientes actualizada");
   }
 
-  fileChangeEvent(fileInput: any){
+  fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
   }
 

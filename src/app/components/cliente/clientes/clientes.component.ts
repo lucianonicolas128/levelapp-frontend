@@ -35,8 +35,19 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClientes();
+    
   }
 
+  // Buscamos 1 cliente
+  getCliente(id){
+    this._clienteService.getCliente(id).subscribe(
+      response => {
+        this.cliente = response.cliente;
+      }
+    )
+  }
+
+  // Buscamos todos los clientes
   getClientes(){
     this._clienteService.getClientes().subscribe(
       response => {
@@ -49,6 +60,7 @@ export class ClientesComponent implements OnInit {
       }
     )
   }
+  
 
   
   deleteClient(id){

@@ -12,21 +12,24 @@
 
             <div class="form-group col-md-8 col-sm-12">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" name="name" id="" #name="ngModel" [(ngModel)]="material.name" required>
+                <input type="text" class="form-control" name="name" id="" #name="ngModel" [(ngModel)]="material.name"
+                    required>
                 <span *ngIf="name.touched && !name.valid" class="form_error">
                     El nombre es obligatorio.
                 </span>
             </div>
             <div class="form-group col-md-4 col-sm-12">
                 <label for="price">Costo</label>
-                <input type="number" class="form-control" name="price" id="" #price="ngModel" [(ngModel)]="material.price" required> 
+                <input type="number" class="form-control" name="price" id="" #price="ngModel"
+                    [(ngModel)]="material.price" required>
                 <span *ngIf="price.touched && !price.valid" class="form_error">
                     El price es obligatorio.
                 </span>
             </div>
         </div>
 
-        <input type="submit" class="btn btn-warning col-md-12 mt-4" value="Agregar material" name="" id="" [disabled]="!materialForm.form.valid"/>
-    
+        <input type="submit" class="btn btn-warning col-md-12 mt-4" value="Agregar material" name="" id=""
+            [disabled]="!materialForm.form.valid" />
+
     </form>
 </div>

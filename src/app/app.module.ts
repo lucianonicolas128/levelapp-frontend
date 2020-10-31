@@ -40,6 +40,7 @@ import { PreferencesComponent } from './components/preferences/preferences.compo
 import { AddPreferencesComponent } from './components/preferences/add-preferences/add-preferences.component';
 import { EditPreferencesComponent } from './components/preferences/edit-preferences/edit-preferences.component';
 import { CalculadoraComponent } from './components/presupuestator/calculadora/calculadora.component';
+import { BalanceComponent } from './components/incidencias/balance/balance.component';
 
 const config = {
   apiKey: '<your-key>',
@@ -79,7 +80,8 @@ const config = {
     PreferencesComponent,
     AddPreferencesComponent,
     EditPreferencesComponent,
-    CalculadoraComponent
+    CalculadoraComponent,
+    BalanceComponent
   ],
   imports: [
     BrowserModule,

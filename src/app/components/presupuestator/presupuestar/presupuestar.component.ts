@@ -23,6 +23,10 @@ export class PresupuestarComponent implements OnInit {
   public ancho: number;
   public alto: number;
 
+  
+  public save_material;
+  public status: string;
+
   constructor(
     private _materialService: MaterialService,
     private _router: Router,
@@ -113,6 +117,25 @@ export class PresupuestarComponent implements OnInit {
     this.cost = null;
     this.ngOnInit();
 
+  }
+
+  
+  onSubmit(form){
+    this._materialService.updateMaterial(this.material).subscribe(
+      response => {
+        if(response.material){
+          this.save_material = response.material;
+          this.status = 'succes';
+          form.reset();
+          this.ngOnInit();
+        } else{
+          this.status = 'failed';
+        }
+      },
+      error =>{
+        console.log(<any> error);
+      }
+    );
   }
 
 }

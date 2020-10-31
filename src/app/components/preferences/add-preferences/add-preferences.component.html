@@ -1,7 +1,8 @@
 <div class="col-sm-12 ml-0">
     <div class="card card-list p-1 scrollbar-info">
-        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example3 scrollbar-default fade show" *ngIf="preferences">
-            
+        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
+            class="scrollspy-example3 scrollbar-default fade show" *ngIf="preferences">
+
             <div class="alert alert-success" *ngIf="status == 'succes'">
                 Preferencias actualizadas correctamente.
             </div>
@@ -10,125 +11,128 @@
             </div>
 
             <!-- Default form subscription -->
-            <form class="text-center p-5" action="#!" #preferencesForm="ngForm" (ngSubmit)="onSubmit(preferencesForm)">  
+            <form class="text-center p-5" action="#!" #preferencesForm="ngForm" (ngSubmit)="onSubmit(preferencesForm)">
 
                 <!-- Name -->
                 <div class="row">
                     <label for="">Nombre del negocio</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="nameCommerce" #nameCommerce="ngModel" [(ngModel)]="preferences.nameCommerce" required>
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="nameCommerce" #nameCommerce="ngModel" [(ngModel)]="preferences.nameCommerce" required>
                 </div>
-                
+
                 <!-- Description -->
                 <div class="row">
                     <label for="">Descripción del negocio</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="descriptionCommerce" #descriptionCommerce="ngModel" [(ngModel)]="preferences.descriptionCommerce" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="descriptionCommerce" #descriptionCommerce="ngModel"
+                        [(ngModel)]="preferences.descriptionCommerce">
                 </div>
-                
+
                 <!-- Logo -->
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Cargar logo</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01">Cargar logo</span>
                     </div>
                     <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01"  name="imageLogo" #imageLogo="ngModel"
-                        [(ngModel)]="preferences.imageLogo" (change)="fileChangeEvent($event)" />
-                    <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01" name="imageLogo" #imageLogo="ngModel"
+                            [(ngModel)]="preferences.imageLogo" (change)="fileChangeEvent($event)" />
+                        <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
                     </div>
                 </div>
-                
+
                 <!-- Phone -->
                 <div class="row">
                     <label for="">Telefono</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="phoneContact" #phoneContact="ngModel" [(ngModel)]="preferences.phoneContact" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="phoneContact" #phoneContact="ngModel" [(ngModel)]="preferences.phoneContact">
                 </div>
-                
+
                 <!-- Email -->
                 <div class="row">
                     <label for="">Email</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="emailContact" #emailContact="ngModel" [(ngModel)]="preferences.emailContact" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="emailContact" #emailContact="ngModel" [(ngModel)]="preferences.emailContact">
                 </div>
-                
+
                 <!-- Ubication -->
                 <div class="row">
                     <label for="">Dirección</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="ubicationContact" #ubicationContact="ngModel" [(ngModel)]="preferences.ubicationContact" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="ubicationContact" #ubicationContact="ngModel" [(ngModel)]="preferences.ubicationContact">
                 </div>
-                
+
                 <!-- Facebook -->
                 <div class="row">
                     <label for="">Facebook</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="facebook" #facebook="ngModel" [(ngModel)]="preferences.facebook" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="facebook" #facebook="ngModel" [(ngModel)]="preferences.facebook">
                 </div>
-                
+
                 <!-- instagram -->
                 <div class="row">
                     <label for="">Instagram</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="instagram" #instagram="ngModel" [(ngModel)]="preferences.instagram" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="instagram" #instagram="ngModel" [(ngModel)]="preferences.instagram">
                 </div>
-                
+
                 <!-- twitter -->
                 <div class="row">
                     <label for="">Twitter</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="twitter" #twitter="ngModel" [(ngModel)]="preferences.twitter" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="twitter" #twitter="ngModel" [(ngModel)]="preferences.twitter">
                 </div>
-                
+
                 <!-- linkedin -->
                 <div class="row">
                     <label for="">linkedin</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="linkedin" #linkedin="ngModel" [(ngModel)]="preferences.linkedin" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="linkedin" #linkedin="ngModel" [(ngModel)]="preferences.linkedin">
                 </div>
-                
+
                 <!-- firstColor -->
                 <div class="row">
                     <label for="">Color principal</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="firstColor" #firstColor="ngModel" [(ngModel)]="preferences.firstColor" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="firstColor" #firstColor="ngModel" [(ngModel)]="preferences.firstColor">
                 </div>
-                
+
                 <!-- secondColor -->
                 <div class="row ">
                     <label for="">Color secundario</label>
-                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4"
-                    placeholder="" name="secondColor" #secondColor="ngModel" [(ngModel)]="preferences.secondColor" >
+                    <input type="text" id="defaultSubscriptionFormPassword" class="form-control mb-4" placeholder=""
+                        name="secondColor" #secondColor="ngModel" [(ngModel)]="preferences.secondColor">
                 </div>
-                
+
                 <!-- Logo -->
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Cargar banner</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01">Cargar banner</span>
                     </div>
                     <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01"  name="imageBanner" #imageBanner="ngModel"
-                        [(ngModel)]="preferences.imageBanner" (change)="fileChangeEvent($event)" />
-                    <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01" name="imageBanner" #imageBanner="ngModel"
+                            [(ngModel)]="preferences.imageBanner" (change)="fileChangeEvent($event)" />
+                        <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
                     </div>
                 </div>
-                
+
                 <!-- Sign in button -->
-                <button class="btn btn-info btn-block" type="submit" [disabled]="!preferencesForm.form.valid">Actualizar preferencias</button>
+                <button class="btn btn-info btn-block" type="submit" [disabled]="!preferencesForm.form.valid">Actualizar
+                    preferencias</button>
 
 
             </form>
             <!-- Default form subscription -->
 
         </div>
-        
+
         <div class="card-footer white py-3 d-flex justify-content-between">
-            <button type="button" class="btn btn-success btn-rounded text-white" data-toggle="modal" data-target="#modalAgregarVenta">
-                
+            <button type="button" class="btn btn-success btn-rounded text-white" data-toggle="modal"
+                data-target="#modalAgregarVenta">
+
             </button>
         </div>
-        
+
     </div>
 </div>

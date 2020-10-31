@@ -1,63 +1,55 @@
 <div class="container-fuild mx-3">
-    <div class="row col-12 my-2">
-  
-      <h6 class="mr-4 sumaSaldo mt-2">Egresos totales: ${{sumaEgresos}}</h6>
-      <h6 class="mr-4 sumaSaldo mt-2">Último mes: ${{ultimoMes}}</h6>
-      <h6 class="mr-4 sumaSaldo mt-2">Egresos última semana: ${{ultimaSemana}}</h6>
-    
-    </div>
-    
-    <table class="table">
-      <thead class="thead-dark bg-violet">
-        <tr class="bg-violet">
-          <th>Fecha</th>
-          <th>Proveedor</th>
-          <th>Pedido</th>
-          <th>Descripcion</th>
-          <th>Monto</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <div *ngIf="!egresos " class="text-center mt-4">
-        <div class="spinner-grow text-info" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-
-      <tbody>
-        <tr *ngFor="let egreso of egresos">
-          <td scope="row">{{egreso.fecha}}</td>
-          <td>{{egreso.proveedor}}</td>
-          <td>{{egreso.pedido}}</td>
-          <td>{{egreso.descripcion}}</td>
-          <td><strong>${{egreso.monto}}</strong></td>
-          <td>
-            <i class="fas fa-eye ml-2 icon-action" [routerLink]="['/egreso', egreso._id]"></i>
-            <i class="fas fa-edit ml-1"  [routerLink]="['/editar-egreso', egreso._id]" data-toggle="modal" data-target="#modalEditarVenta"></i>
-            <!-- <i class="fas fa-edit ml-1" (click)="editVenta(venta._id)" data-toggle="modal" data-target="#modalEditarVenta"></i> -->
-            <i class="fas fa-trash-alt ml-1" (click)="deleteEgreso(egreso._id)"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-      <!-- MODAL PARA AGREGAR EGRESO -->
-
-      <div class="modal fade " id="modalAgregarEgreso" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModal3Label">Agregar nuevo egreso</h5>
-              <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <app-addegreso></app-addegreso>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="row col-12 my-2">
+    <h6 class="mr-4 sumaSaldo mt-2">Egresos totales: ${{sumaEgresos}}</h6>
+    <h6 class="mr-4 sumaSaldo mt-2">Último mes: ${{ultimoMes}}</h6>
+    <h6 class="mr-4 sumaSaldo mt-2">Egresos última semana: ${{ultimaSemana}}</h6>
   </div>
-  
+
+  <hr>
+
+  <div *ngFor="let egreso of egresos">
+    <div class="row">
+      <div class="col-6 text-left">
+        <!-- Nombre cliente -->
+        <h6>{{egreso.proveedor}}</h6>
+        <div class="row">
+          <!-- pedido -->
+          <p class="ml-3 badge badge-danger">{{egreso.pedido}}</p>
+        </div>
+      </div>
+      <div class="col-4 text-right">
+        <!-- monto -->
+        <h6>$ {{egreso.monto}}</h6>
+        <!-- fecha -->
+        <p class="text-info">{{egreso.fecha}}</p>
+      </div>
+
+      <div class="col-1 text-center py-1">
+        <i class="fas fa-eye mx-1 icon-action" [routerLink]="['/egreso', egreso._id]"></i>
+        <i class="fas fa-edit mx-1" [routerLink]="['/editar-egreso', egreso._id]" data-toggle="modal"
+          data-target="#modalEditarVenta"></i>
+        <i class="fas fa-trash-alt mx-1" (click)="deleteEgreso(egreso._id)"></i>
+      </div>
+
+    </div>
+    <hr>
+  </div>
+
+  <!-- MODAL PARA AGREGAR EGRESO -->
+  <div class="modal fade " id="modalAgregarEgreso" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModal3Label">Agregar nuevo egreso</h5>
+          <button (click)="reloadComponent()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-addegreso></app-addegreso>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

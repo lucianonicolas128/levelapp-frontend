@@ -28,11 +28,23 @@
   }
 } */
 
-
-
 /* *************************************************************** */
+
+*{
+  
+  margin: 0px;
+  padding: 0px;
+}
+
+:root{
+  --principal-color: rgb(255, 43, 124);
+}
+
 body {
   background-color: rgb(253, 253, 253);
+  background-color: #efefef;
+  margin: 0px;
+  padding: 0px;
 }
 
 .my-custom-scrollbar {
@@ -128,9 +140,9 @@ ul .nav-link{
   scrollbar-color: #aa66cc #F5F5F5;
   }
 
-  .logo-empresa{
-    width: 80%;
-  }
+  /* .logo-empresa{
+    width: 50%;
+  } */
 
   .table .thead-dark th {
     color: #383838;
@@ -154,17 +166,6 @@ ul .nav-link{
   border-color: #5700ed;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .scrollbar {
   margin-left: 30px;
   float: left;
@@ -174,12 +175,166 @@ ul .nav-link{
   overflow-y: scroll;
   margin-bottom: 25px;
   }
-  .force-overflow {
-  min-height: 450px;
+
+.force-overflow {
+min-height: 450px;
+}
+
+.prueba i{
+  font-size: 2rem;
+  margin: 2rem;
+}
+
+.incidencia{
+  font-size: 2rem;
+  margin: 2rem;
+}
+  
+.circulo-botonera {
+  border-radius: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  /* width: 250px; */
+  height: auto;
+}
+  
+.logo-empresa{
+  width: 80%;
+  height: auto;
+  background: #DDD;
+}
+
+.logo-empresa img{
+  width: 100%;
+  height: auto;
+}
+  
+@media screen and (max-width: 575px) {
+
+  /* .image-logo{
+    visibility: hidden;
+    height: 0px;
+  }
+  
+  .empresa-card{
+    visibility: hidden;
+    height: 0px;
+  } */
+  
+  .botonera-list-md{
+    visibility: hidden;
+    height: 0px;
   }
 
+
+  /* .botonera-list{
+    visibility: hidden;
+    height: 0px;
+  } */
+
+  .tabla-contenidos{
+    margin-top: 20px ;
+  }
+
+  .datos-negocio{
+    visibility: hidden;
+    height: 0px;
+  }
+} 
+
+@media screen and (max-width: 767px) {
   
-  .scrollbar-primary::-webkit-scrollbar {
+  .incidencia{
+    font-size: 1.5rem;
+    margin: 1.5rem;
+  }
+
+  .botonera-list-md{
+    visibility: hidden;
+    height: 0px;
+  }
+    
+  .logo-empresa{
+    width: 13rem;
+    height: auto;
+  }
+
+  .logo-empresa img{
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    margin-top: 0.4rem;
+  }
+
+  .botonera-list-sm{
+    text-decoration: none;
+    margin-top: 1rem;
+  }
+
+  .botonera-list-sm li{
+    text-decoration: none;
+  }
+
+}
+
+@media only screen and (min-width: 767px) {
+  .botonera-list-md{
+    visibility: inherit;
+  }
+
+  .botonera-list-sm{
+    visibility: hidden;
+    height: 0px;
+  }
+  
+  /* .logo-empresa{
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .logo-empresa img{
+    width: 50%;
+    height: auto;
+
+  } */
+    
+  .logo-empresa{
+    width: 80%;
+    height: auto;
+    background: #DDD;
+  }
+
+  .logo-empresa img{
+    width: 100%;
+    height: auto;
+  }
+
+
+}
+
+
+@media only screen and (min-width: 992px) {
+  .navbar-nav{
+    visibility: hidden;
+    height: 0px;
+  }
+    
+  .logo-empresa{
+    width: 80%;
+    height: auto;
+    background: #DDD;
+  }
+
+  .logo-empresa img{
+    width: 100%;
+    height: auto;
+    padding-top: 1rem;
+  }
+
+}
+
+
+.scrollbar-primary::-webkit-scrollbar {
   width: 12px;
   background-color: #F5F5F5; }
   
@@ -296,20 +451,3 @@ ul .nav-link{
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #aa66cc; }
   
-
-  
-@media screen and (max-width: 575px) {
-  .image-logo{
-    visibility: hidden;
-    height: 0px;
-  }
-
-  .tabla-contenidos{
-    margin-top: 20px ;
-  }
-
-  .datos-negocio{
-    visibility: hidden;
-    height: 0px;
-  }
-} 

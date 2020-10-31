@@ -1,49 +1,29 @@
-<!-- <div class="container">
-    <div class="row">
-        <label for="material">Seleccione un material</label>
-        <select class="form-control" type="spinner" name="material" #material="ngModel" [(ngModel)]="" id="material">
-            <option value=""></option>
-        </select>
-    </div>
-
-    <div class="row">
-        <input type="number" value="Ancho en centimetros" class="col-md-5">
-        <p class="col-md-2">X</p>
-        <input type="number" value="Alto en centimetros" class="col-md-5">
-    </div>
-    <button class="btn btn-warning col-md-12">CALCULAR</button>
-    <h3>$</h3>
-    <h5></h5>
-
-</div> -->
-
-<div class="container card p-3 mt-3">
+<div class="p-3 mt-3">
     <div class="text-center" role="group" aria-label="Vertical button group" *ngFor="let material of materiales">
-
-        <button type="button" class="btn btn-primary col-md-11 col-9" 
-            (click)="getMaterial(material._id)"
-            data-toggle="modal" data-target="#modalCalculadora">
+        <button type="button" class="btn btn-primary col-md-7 col-9" data-toggle="modal" data-target="#modalCalculadora"
+            (click)="getMaterial(material._id)">
             {{material.name}}
         </button>
-
         <i class="fas fa-trash-alt ml-1" (click)="deleteMaterial(material._id)"></i>
-        <i class="fas fa-edit ml-1" data-toggle="modal" data-target="#modalEditarVenta"></i>
+        <i class="fas fa-edit ml-1" (click)="getMaterial(material._id)" data-toggle="modal"
+            data-target="#modalEditarMaterial"></i>
     </div>
 </div>
 
-<div class="container p-0 mt-3">
-    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalAgregarMaterial">Agregar material</button>
+<div class="p-0 mt-3">
+    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal"
+        data-target="#modalAgregarMaterial">Agregar material</button>
 </div>
 
-
 <!-- MODAL PARA AGREGAR VENTA -->
-<div class="modal fade " id="modalAgregarMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+<div class="modal fade " id="modalAgregarMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
                 <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -54,57 +34,102 @@
 </div>
 <!-- FIN: MODAL PARA AGREGAR VENTA -->
 
+<!-- MODAL PARA EDITAR MATERIAL -->
+<div class="modal fade " id="modalEditarMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
+                <button (click)="cleanAndUpdate()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div *ngIf="material">
+
+                    <form action="" #materialForm="ngForm" (ngSubmit)="onSubmit(materialForm)">
+                        <div class="row">
+                            <div class="alert alert-succes" *ngIf="status == 'succes'">
+                                El material se ha agregado correctamente.
+                            </div>
+                            <div class="alert alert-danger" *ngIf="status == 'failed'">
+                                El material no se ha podido agregar.
+                            </div>
+
+                            <div class="form-group col-md-8 col-sm-12">
+                                <label for="name">Nombre</label>
+                                <input type="text" class="form-control" name="name" id="" #name="ngModel"
+                                    [(ngModel)]="material.name" required>
+                                <span *ngIf="name.touched && !name.valid" class="form_error">
+                                    El nombre es obligatorio.
+                                </span>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label for="price">Costo</label>
+                                <input type="number" class="form-control" name="price" id="" #price="ngModel"
+                                    [(ngModel)]="material.price" required>
+                                <span *ngIf="price.touched && !price.valid" class="form_error">
+                                    El price es obligatorio.
+                                </span>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn btn-warning col-md-12 mt-4" value="Agregar material" name=""
+                            id="" [disabled]="!materialForm.form.valid" />
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN: MODAL PARA EDITAR MATERIAL -->
 
 <!-- MODAL CALCULADORA -->
-
-<div class="modal fade " id="modalCalculadora" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true" *ngIf="material">
+<div class="modal fade " id="modalCalculadora" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+    aria-hidden="true" *ngIf="material">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModal3Label">{{material.name}}</h5>
                 <button (click)="cleanAndUpdate()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
                 <div class="text-center mx-5">
-                        
                     <div class="form-row mb-4">
                         <div class="custom-control custom-checkbox col">
                             <input type="checkbox" class="custom-control-input" id="laca">
                             <label class="custom-control-label" for="laca">Laca</label>
                         </div>
-
                         <div class="custom-control custom-checkbox col">
                             <input type="checkbox" class="custom-control-input" id="corte">
                             <label class="custom-control-label" for="corte">Corte</label>
                         </div>
                     </div>
-
-
                     <div class="form-row mb-4">
                         <div class="col col-sm-12">
                             <!-- First name -->
-                            <input type="number" class="form-control" placeholder="ancho en cm" id="ancho" value="" required>
+                            <input type="number" class="form-control" placeholder="ancho en cm" id="ancho" value=""
+                                required>
                         </div>
                         <p class="mx-1 my-auto col-sm-12">x</p>
                         <div class="col col-sm-12">
                             <!-- Last name -->
-                            <input type="number" class="form-control" placeholder="alto en cm" id="alto" value="" required>
+                            <input type="number" class="form-control" placeholder="alto en cm" id="alto" value=""
+                                required>
                         </div>
                     </div>
-
                     <button class="btn btn-info my-4 mx-0 btn-block" (click)="calcular()">Calcular</button>
-
-
                     <span *ngIf="cost != null">
                         <h3 id="cost">$ {{cost}}</h3>
                     </span>
-                    
-                    
                 </div>
-                
             </div>
         </div>
     </div>

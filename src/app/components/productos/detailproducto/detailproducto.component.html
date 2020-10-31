@@ -1,16 +1,9 @@
 <div class="container" *ngIf="producto">
-    <!--  <div class="image" *ngIf="project.image">
-         <img src="{{url+'get-image/'+project.image}}" *ngIf="project.image" alt="">
-     </div> -->
- 
-     <div class="data">
-
+    <div class="data">
         <h3>{{producto.nombre}}</h3>
-        
         <h6 class="text-secondary">Categoria: {{producto.categoria}}</h6>
         <hr>
         <h6>Descripcion: {{producto.descripcion}}</h6>
-        
         <h6 class="text-danger">Costo: ${{producto.costo}}</h6>
         <h6 class="text-success">Precio: ${{producto.precio}}</h6>
 
@@ -19,24 +12,18 @@
         </div>
 
         <hr>
- 
-         <p *ngIf="confirm == false">
-             <a [routerLink]="['/editar-producto', producto._id]" class="btn btn-outline-warning mr-3">Editar</a>
-             <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
-         </p>
-         
-         <p *ngIf="confirm == true">
-             <span class="confirm">
-                  ¿Estas seguro de eliminar este producto? <br>
-             </span>
-             <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
-             <a (click)="deleteProducto(producto._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
-         </p>
- 
- 
-     </div>
-     
- 
- </div>
- 
- 
+
+        <p *ngIf="confirm == false">
+            <a [routerLink]="['/editar-producto', producto._id]" class="btn btn-outline-warning mr-3">Editar</a>
+            <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+        </p>
+
+        <p *ngIf="confirm == true">
+            <span class="confirm">
+                ¿Estas seguro de eliminar este producto? <br>
+            </span>
+            <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+            <a (click)="deleteProducto(producto._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+        </p>
+    </div>
+</div>
