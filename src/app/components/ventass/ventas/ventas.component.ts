@@ -49,7 +49,6 @@ export class VentasComponent implements OnInit {
   public direccion: string;
 
   public comprasCliente: Venta[];
-  /* public sumaVentasMensual; */
   public arrayAnio = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12];
 
   constructor(
@@ -68,26 +67,12 @@ export class VentasComponent implements OnInit {
     this.getClientes();
   }
 
-
-  getVentas() {  
+  getVentas() {
     this._ventaService.getVentas().subscribe(
       response => {
         if (response.ventas) {
           this.ventas = response.ventas;
           this.ventaSinEntregar = this.ventas.filter(venta => venta.entregado == false);
-
-          /* Con este metodo sumamos los ingresos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
-          this.sumaVentas = this.ventas.reduce((
-            acc, obj,) =>
-            acc + obj.monto, 0);
-
-          /* Con este metodo sumamos los saldos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
-          this.saldoVentas = this.ventas.reduce((
-            acc, obj,) =>
-            acc + obj.saldo, 0);
-
-          this.ultimaSemana = this.sumaVentas - 33140 - 28350 - 68910 - 44550 - 21680 - 95610 - 28740 - 63140 - 121478 - 55100 - 60050 - 39365 - 30375 - 19465 - 33100 - 50110 - 39830 - 25068 - 69490;
-          // this.ultimoMes = this.sumaVentas - this.mayo - this.junio - this.julio - this.agosto;
         }
       },
       error => {
@@ -158,39 +143,19 @@ export class VentasComponent implements OnInit {
     this._ventaService.getVenta(id).subscribe(
       response => {
         this.venta = response.venta;
-
-        // this.getCliente(this.venta.cliente);
         this.getVentas();
         let prueba = new Date(this.venta.fecha);
       }
     )
   }
 
-  // getCliente(id) {
-  //   this._clienteService.getCliente(id).subscribe(
-  //     response => {
-  //       this.nombre = response.cliente.nombre;
-  //       this.telefono = response.cliente.telefono;
-  //       this.direccion = response.cliente.direccion;
-  //     }
-  //   )
-  // }
-
-
   setConfirm(confirm) {
     this.confirm = confirm;
   }
-  /* 
-    reloadComponent(){
-      this._router.navigateByUrl('/add-venta', { skipLocationChange: true }).then(() => {
-              this._router.navigate(['']);
-            }); 
-    } */
 
   actualizarFiltrado(valor) {
     this.filtrado = valor;
   }
-
 
   deleteVenta(id) {
     this._ventaService.deleteVenta(id).subscribe(
@@ -203,11 +168,8 @@ export class VentasComponent implements OnInit {
     )
   }
 
-
   onSubmit(form) {
-
     this.venta.saldo = this.venta.monto;
-
     //Guardar los datos
     this._ventaService.updateVenta(this.venta).subscribe(
       response => {

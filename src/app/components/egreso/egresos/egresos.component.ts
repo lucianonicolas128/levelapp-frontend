@@ -3,7 +3,6 @@ import { Egreso } from '../../../models/egreso';
 import { EgresoService } from '../../../services/egreso.service';
 import { Global } from '../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-egresos',
@@ -13,21 +12,19 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 })
 export class EgresosComponent implements OnInit {
 
-  faEdit = faEdit;
-
-  public egresos : Egreso[];
+  public egresos: Egreso[];
   public url: string;
   public confirm: boolean;
   public egreso: Egreso;
 
-  
-  public montoEgresos : Array<Egreso[]>;
+  public montoEgresos: Array<Egreso[]>;
   public sumaEgresos: number;
-  
+
   public saldoEgresos: number;
 
   public ultimaSemana: number;
   public ultimoMes: number;
+  public sumaEgresosMensual: number;
 
   constructor(
     private _egresoService: EgresoService,
@@ -36,36 +33,25 @@ export class EgresosComponent implements OnInit {
   ) {
     this.url = Global.url;
     this.confirm = false;
-    
-   }
+
+  }
 
 
   ngOnInit(): void {
     this.getEgreso();
+    this.egresosMensuales();
   }
 
-  getEgreso(){
+  getEgreso() {
     this._egresoService.getEgresos().subscribe(
       response => {
-        if(response.egresos){
+        if (response.egresos) {
           this.egresos = response.egresos;
 
-          
-          /* Con este metodo sumamos los ingresos totales, donde acc es una bandera y obj el parametro del objeto de ventas */   
+          this.sumaEgresos = response.egresos.reduce((acc, obj) => acc + obj.monto, 0);
 
-          this.sumaEgresos = this.egresos.reduce((
-            acc,
-            obj,
-          ) => acc + obj.monto,
-          0);
-          
-
-          /* Con este metodo sumamos los saldos totales, donde acc es una bandera y obj el parametro del objeto de ventas */
-          
-
-          this.ultimaSemana = this.sumaEgresos - 23700 -12000 - 36100 - 43050;
+          this.ultimaSemana = this.sumaEgresos - 23700 - 12000 - 36100 - 43050;
           this.ultimoMes = this.sumaEgresos - 12200 - 23500 - 79150;
-
         }
       },
       error => {
@@ -73,35 +59,50 @@ export class EgresosComponent implements OnInit {
       }
     )
   }
-
   
-  deleteEgreso(id){
+  egresosMensuales() {
+    this._egresoService.getEgresos().subscribe(
+      response => {
+        let sumador;
+
+        if (response.egresos) {
+          let egresosFiltrados = this.egresos.filter(egreso => new Date(egreso.fecha).getMonth() == new Date().getMonth());
+          sumador = egresosFiltrados.reduce((acc, obj,) => acc + obj.monto, 0);
+        }
+        this.sumaEgresosMensual = sumador;
+        console.log(sumador);
+      }
+    )
+  }
+
+
+  deleteEgreso(id) {
     let message = confirm("Desea eliminar esta venta?");
-        if(message){
-          this._egresoService.deleteEgreso(id).subscribe(
-            response => {
-              this.ngOnInit();
-            },
-            error => {
-              console.log(<any>error);
-            }
-          )
-        } else{
-          console.log('Venta no eliminada');
-        }    
+    if (message) {
+      this._egresoService.deleteEgreso(id).subscribe(
+        response => {
+          this.ngOnInit();
+        },
+        error => {
+          console.log(<any>error);
+        }
+      )
+    } else {
+      console.log('Venta no eliminada');
+    }
   }
 
-  
-  reloadComponent(){
+
+  reloadComponent() {
     this._router.navigateByUrl('/add-egreso', { skipLocationChange: true }).then(() => {
-            this._router.navigate(['/']);
-          }); 
+      this._router.navigate(['/']);
+    });
   }
 
-/* 
-  setConfirm(confirm){
-    this.confirm = this.egreso.entregado;
-  } */
+  /* 
+    setConfirm(confirm){
+      this.confirm = this.egreso.entregado;
+    } */
 
 }
 

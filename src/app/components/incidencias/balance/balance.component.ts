@@ -18,6 +18,7 @@ export class BalanceComponent implements OnInit {
   public egresos: Egreso[];
 
   public sumaVentasMensual;
+  public sumaVentasTotal;
   public mesesIngreso = new Array();
   public mesesEgreso = new Array();
   public mesesBalance = new Array();
@@ -40,19 +41,19 @@ export class BalanceComponent implements OnInit {
   ingresosMensuales() {
     this._ventaService.getVentas().subscribe(
       response => {
-        this.ventas = response.ventas;
         let sumador;
+        let ventasFiltradas
 
         if (response.ventas) {
           for (let i = 0; i < 12; i++) {
-            let ventasFiltradas = this.ventas.filter(venta => new Date(venta.fecha).getMonth() == i);
-
-            sumador = ventasFiltradas.reduce((
-              acc, obj,) =>
-              acc + obj.monto, 0);
-
+            ventasFiltradas = response.ventas.filter(venta => new Date(venta.fecha).getMonth() == i);
+            sumador = ventasFiltradas.reduce((acc, obj,) => acc + obj.monto, 0);
             this.mesesIngreso[i] = sumador;
           }
+
+          this.sumaVentasTotal = response.ventas.reduce( (acc, obj) => acc + obj.monto, 0);
+          let ventasFiltradasMensual = response.ventas.filter(venta => new Date(venta.fecha).getMonth() === new Date().getMonth());
+          this.sumaVentasMensual = ventasFiltradasMensual.reduce((acc,obj) => acc + obj.monto, 0);
         }
       }
     )
@@ -61,17 +62,13 @@ export class BalanceComponent implements OnInit {
   egresosMensuales() {
     this._egresoService.getEgresos().subscribe(
       response => {
-        this.egresos = response.egresos;
         let sumador;
 
         if (response.egresos) {
           for (let i = 0; i < 12; i++) {
-            let egresosFiltradas = this.egresos.filter(egresos => new Date(egresos.fecha).getMonth() == i);
+            let egresosFiltradas = response.egresos.filter(egresos => new Date(egresos.fecha).getMonth() == i);
 
-            sumador = egresosFiltradas.reduce((
-              acc, obj,) =>
-              acc + obj.monto, 0);
-
+            sumador = egresosFiltradas.reduce((acc, obj,) => acc + obj.monto, 0);
             this.mesesEgreso[i] = sumador;
           }
         }
