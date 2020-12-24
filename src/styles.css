@@ -41,10 +41,14 @@
 }
 
 body {
-  background-color: rgb(253, 253, 253);
-  background-color: #efefef;
+  /* background-color: rgb(253, 253, 253); */
+  background-color: #ededed;
   margin: 0px;
   padding: 0px;
+}
+
+.mat-drawer-container {
+  background-color: #ededed !important;
 }
 
 .my-custom-scrollbar {

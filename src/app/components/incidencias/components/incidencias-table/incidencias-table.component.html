@@ -1,0 +1,16 @@
+<!-- two line list -->
+<div>
+    <div class="mat-elevation-z8 tabla">
+        <mat-list class="">
+            <app-venta *ngFor="let venta of ventas" [venta]="venta">
+            </app-venta>
+        </mat-list>
+    </div>
+    <mat-card class="footer-table d-flex justify-content-end">
+        <div class="example-button-container">
+            <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon" routerLink="/add-venta">
+                <mat-icon>plus_one</mat-icon>
+            </button>
+        </div>
+    </mat-card>
+</div>

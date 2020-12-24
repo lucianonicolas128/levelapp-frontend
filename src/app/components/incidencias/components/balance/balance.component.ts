@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { VentasComponent } from '../../ventass/ventas/ventas.component';
+import { VentasComponent } from '../../../ventass/ventas/ventas.component';
 import { Venta } from 'src/app/models/venta';
-import { Egreso } from '../../../models/egreso';
-import { VentaService } from '../../../services/venta.service';
+import { Egreso } from '../../../../models/egreso';
+import { VentaService } from '../../../../services/venta.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { EgresoService } from '../../../services/egreso.service';
+import { EgresoService } from '../../../../services/egreso.service';
 
 @Component({
   selector: 'app-balance',

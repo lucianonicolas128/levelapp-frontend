@@ -1,0 +1,36 @@
+table {
+  }
+
+.tabla{
+  width: 100%;
+  background-color: white;
+  height: 350px;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 0px;
+}
+
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+.footer-table{
+  width: 100%;
+  flex: auto;
+  justify-content: end;
+}
+
+@media (min-width: 576px){
+
+  .tabla{
+    width: 100%;
+    background-color: white;
+    height: 650px;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 0px;
+  }
+}

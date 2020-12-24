@@ -1,0 +1,15 @@
+.prueba{
+    padding: 1rem;
+}
+
+.badge-success{
+    background-color: rgb(20, 172, 139)!important;
+}
+
+.badge-danger{
+    background-color: rgb(201, 0, 228)!important;
+}
+
+.text-small{
+    font-size: .9rem;
+}

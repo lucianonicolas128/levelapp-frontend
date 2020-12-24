@@ -1,0 +1,10 @@
+.tabla-productos{
+    width: 100%;
+    background-color: white;
+    height: 450px;
+    overflow: scroll;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    padding: 0px;
+    border-radius: .5rem;
+}

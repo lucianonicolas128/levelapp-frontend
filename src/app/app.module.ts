@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -18,10 +17,6 @@ import { AddventaComponent } from './components/ventass/addventa/addventa.compon
 import { EditventaComponent } from './components/ventass/editventa/editventa.component';
 import { DetailventaComponent } from './components/ventass/detailventa/detailventa.component';
 import { ErrorComponent } from './components/error/error.component';
-import { AddproductoComponent } from './components/productos/addproducto/addproducto.component';
-import { EditproductoComponent } from './components/productos/editproducto/editproducto.component';
-import { DetailproductoComponent } from './components/productos/detailproducto/detailproducto.component';
-import { ProductosComponent } from './components/productos/productos/productos.component';
 import { AddegresoComponent } from './components/egreso/addegreso/addegreso.component';
 import { DetailegresoComponent } from './components/egreso/detailegreso/detailegreso.component';
 import { EditegresoComponent } from './components/egreso/editegreso/editegreso.component';
@@ -35,12 +30,23 @@ import { EditMaterialComponent } from './components/presupuestator/edit-material
 import { PresupuestarComponent } from './components/presupuestator/presupuestar/presupuestar.component';
 import { IndexComponent } from './components/index/index/index.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { IncidenciasComponent } from './components/incidencias/incidencias.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { AddPreferencesComponent } from './components/preferences/add-preferences/add-preferences.component';
 import { EditPreferencesComponent } from './components/preferences/edit-preferences/edit-preferences.component';
 import { CalculadoraComponent } from './components/presupuestator/calculadora/calculadora.component';
-import { BalanceComponent } from './components/incidencias/balance/balance.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { IncidenciasModule } from './components/incidencias/incidencias.module';
+
+import { MaterialModule } from './material/material.module';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 const config = {
   apiKey: '<your-key>',
@@ -59,10 +65,6 @@ const config = {
     EditventaComponent,
     DetailventaComponent,
     ErrorComponent,
-    AddproductoComponent,
-    EditproductoComponent,
-    DetailproductoComponent,
-    ProductosComponent,
     AddegresoComponent,
     DetailegresoComponent,
     EditegresoComponent,
@@ -76,12 +78,11 @@ const config = {
     PresupuestarComponent,
     IndexComponent,
     LoginComponent,
-    IncidenciasComponent,
     PreferencesComponent,
     AddPreferencesComponent,
     EditPreferencesComponent,
     CalculadoraComponent,
-    BalanceComponent
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,7 +95,18 @@ const config = {
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule, // storage
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    
+    IncidenciasModule,
+
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     appRoutingProviders

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Producto } from '../../../models/producto';
-import { ProductoService } from '../../../services/producto.service';
-import { Global } from '../../../services/global';
+import { Producto } from '../../../../models/producto';
+import { ProductoService } from '../../../../services/producto.service';
+import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({

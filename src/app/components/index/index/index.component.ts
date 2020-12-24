@@ -19,7 +19,7 @@ Date.prototype.getWeekNumber = function () {
 
 @Component({
   selector: 'app-index',
-  templateUrl: './index.component.html',
+  templateUrl: './index.component copy.html',
   styleUrls: ['./index.component.css'],
   providers: [VentaService],
 })
