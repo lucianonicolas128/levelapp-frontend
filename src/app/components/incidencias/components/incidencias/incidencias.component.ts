@@ -35,6 +35,7 @@ export class IncidenciasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVentas();
+    this.ingresoSemanal();
   }
 
   
@@ -59,7 +60,7 @@ export class IncidenciasComponent implements OnInit {
             obj,
           ) => acc + obj.saldo,
           0);
-          this.ultimaSemana = this.sumaVentas - 33140 - 28350 -68910 -44550 -21680 - 95610 - 28740 - 63140 - 121478 - 55100 - 60050;
+          // this.ultimaSemana = this.sumaVentas - 33140 - 28350 -68910 -44550 -21680 - 95610 - 28740 - 63140 - 121478 - 55100 - 60050;
           this.ultimoMes = this.sumaVentas - this.mayo - this.junio - this.julio;
         }
       },
@@ -75,6 +76,25 @@ export class IncidenciasComponent implements OnInit {
 
   seleccionarBloque(bloque){
     this.bloque = bloque;
+  }
+
+
+  ingresoSemanal() {
+    let semanaActual = new Date().getWeekNumber;
+    this._ventaService.getVentas().subscribe(
+      response => {
+        let sumaSemana;
+        // console.log(semanaActual);
+
+        if (response.ventas) {
+
+          let ventasFiltradasPorSemana = response.ventas.filter(venta => (new Date(venta.fecha).getWeekNumber()) === new Date().getWeekNumber());
+          sumaSemana = ventasFiltradasPorSemana.reduce((acc, obj) => acc + obj.monto, 0);
+          this.ultimaSemana = sumaSemana;
+
+        }
+      }
+    )
   }
 
 

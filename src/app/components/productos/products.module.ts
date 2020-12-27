@@ -7,6 +7,7 @@ import { AddproductoComponent } from './components/addproducto/addproducto.compo
 import { MatTableDataSource } from '@angular/material/table';
 import { ItemComponent } from './components/item/item.component';
 
+
 @NgModule({
   declarations: [
     // BalanceComponent,

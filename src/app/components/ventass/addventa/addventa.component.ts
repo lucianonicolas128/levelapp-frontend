@@ -9,7 +9,7 @@ import { ClienteService } from '../../../services/cliente.service';
 import { routing } from 'src/app/app.routing';
 import { VentasComponent } from '../ventas/ventas.component';
 import { $ } from '../../../../../node_modules/jquery/dist/jquery.min.js';
-import { faSync } from 'node_modules/@fortawesome/free-solid-svg-icons/faSync'
+import { faSync } from 'node_modules/@fortawesome/free-solid-svg-icons/faSync';
 
 @Component({
   selector: 'app-addventa',

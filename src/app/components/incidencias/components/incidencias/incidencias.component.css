@@ -1,0 +1,26 @@
+.tabla{
+    border-radius: .2rem;
+    /* padding: 3rem; */
+
+}
+
+
+.incidencias{
+    padding: 0px;
+}
+
+.productos{
+    padding: 0px;
+    padding-top: 1rem
+}
+
+@media screen and (min-width: 576px){
+
+    .incidencias{
+        padding: 1rem;
+    }
+
+    .productos{
+        padding: 1rem;
+    }
+}

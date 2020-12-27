@@ -11,6 +11,7 @@ import { ProductosComponent } from '../productos/components/productos/productos.
 import { FormsModule } from '@angular/forms';
 import { AppModule } from 'src/app/app.module';
 import { ItemComponent } from '../productos/components/item/item.component';
+import { AddventaComponent } from '../ventass/addventa/addventa.component';
 
 
 
@@ -21,6 +22,7 @@ import { ItemComponent } from '../productos/components/item/item.component';
     IncidenciasTableComponent,
     VentaComponent,
     ProductosComponent,
+    AddventaComponent
     // ItemComponent
   ],
   imports: [

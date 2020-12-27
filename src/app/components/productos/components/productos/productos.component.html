@@ -1,8 +1,17 @@
 <div>
-  <div class="mat-elevation-z8 tabla-productos">
-    <mat-list class="">      
-      <app-item-producto *ngFor="let producto of productos" [producto]="producto">
-      </app-item-producto>
-  </mat-list>
-  </div>
+  <mat-card class="mat-elevation-z8">
+    <mat-card-title><p class="h5">Lista de Precios</p></mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-list class=" tabla-productos scrollbar-info">
+
+        <div *ngIf="!productos" class="spinner-border text-info text-center" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+
+        <app-item-producto *ngFor="let producto of productos" [producto]="producto">
+        </app-item-producto>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 </div>

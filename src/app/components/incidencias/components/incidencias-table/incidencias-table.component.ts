@@ -6,6 +6,8 @@ import { VentaService } from '../../../../services/venta.service';
 import { Global } from '../../../../services/global';
 import { MatPaginator } from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { AddventaComponent } from '../../../ventass/addventa/addventa.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-incidencias-table',
@@ -24,6 +26,7 @@ export class IncidenciasTableComponent implements AfterViewInit {
 
   constructor(
     private _ventaService: VentaService,
+    public dialog: MatDialog
   ) {
     this.url = Global.url;
   }
@@ -38,6 +41,14 @@ export class IncidenciasTableComponent implements AfterViewInit {
     if (this.dataSource) {
       this.dataSource.sort = this.sort;
     }
+  }
+  
+  openDialog(){
+    const dialogRef = this.dialog.open(AddventaComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

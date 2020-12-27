@@ -61,7 +61,6 @@ const config = {
   declarations: [
     AppComponent,
     VentasComponent,
-    AddventaComponent,
     EditventaComponent,
     DetailventaComponent,
     ErrorComponent,

@@ -17,11 +17,44 @@
 }
 
 .logo-img{
-  width: 10rem;
+  width: 8rem;
 }
 
 .mat-toolbar.mat-primary {
   /* background: #3f51b5; */
   background: linear-gradient(40deg, #2096ff, #05ffa3) !important;
   color: #fff;
+}
+
+.logo-negocio{
+  /* padding-left: 2rem; */
+  width: 100%;
+  height: auto;
+  padding: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+
+.logo-negocio img{
+  width: 100%;
+}
+
+.container-nav{
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media screen and (min-width: 576px){
+
+.container-nav{
+  width: 100%;
+  padding-right: 200px;
+  padding-left: 200px;
+  margin-right: auto;
+  margin-left: auto;
+}
 }

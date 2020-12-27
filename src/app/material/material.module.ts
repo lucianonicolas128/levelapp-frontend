@@ -15,8 +15,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import {MatTabsModule} from '@angular/material/tabs';
-// import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 @NgModule({
   declarations: [],
@@ -35,6 +37,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatPaginatorModule,
     MatSortModule,
     MatTabsModule,
+    MatDialogModule,
 
   ],
   exports: [
@@ -47,12 +50,13 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatButtonModule,
     MatSelectModule,
     MatRadioModule,
-    MatCardModule,
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatTabsModule,
+    MatDialogModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialModule { }

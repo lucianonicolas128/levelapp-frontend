@@ -1,16 +1,32 @@
 <!-- two line list -->
 <div>
-    <div class="mat-elevation-z8 tabla">
-        <mat-list class="">
+    <div class="mat-elevation-z8">
+        <mat-list class="tabla scrollbar-info">
+
+            <div *ngIf="!ventas" class="spinner-border text-info text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
             <app-venta *ngFor="let venta of ventas" [venta]="venta">
             </app-venta>
+
         </mat-list>
     </div>
-    <mat-card class="footer-table d-flex justify-content-end">
-        <div class="example-button-container">
-            <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon" routerLink="/add-venta">
+    <mat-divider></mat-divider>
+    <mat-card class="footer-table d-flex justify-content-between example-button-container p-2">
+
+            <a mat-mini-fab class="green" (click)="openDialog()">
                 <mat-icon>plus_one</mat-icon>
-            </button>
-        </div>
+            </a>
+
+            <a mat-mini-fab color="warn" (click)="openDialog()">
+                <mat-icon>plus_one</mat-icon>
+            </a>
+
+
+            <!-- <a mat-mini-fab class="green" routerLink="/add-venta">
+                <mat-icon>plus_one</mat-icon>
+            </a> -->
+
     </mat-card>
 </div>
