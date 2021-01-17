@@ -11,7 +11,11 @@ import { ProductosComponent } from '../productos/components/productos/productos.
 import { FormsModule } from '@angular/forms';
 import { AppModule } from 'src/app/app.module';
 import { ItemComponent } from '../productos/components/item/item.component';
-import { AddventaComponent } from '../ventass/addventa/addventa.component';
+import { AddventaComponent } from '../ventass/components/addventa/addventa.component';
+import { AddclienteComponent } from '../cliente/components/addcliente/addcliente.component';
+import { VentasModule } from '../ventass/ventas.module';
+import { EgresoComponent } from './components/egreso/egreso.component';
+import { EgresosComponent } from './components/egresos/egresos.component';
 
 
 
@@ -21,8 +25,8 @@ import { AddventaComponent } from '../ventass/addventa/addventa.component';
     IncidenciasComponent,
     IncidenciasTableComponent,
     VentaComponent,
-    ProductosComponent,
-    AddventaComponent
+    EgresoComponent,
+    EgresosComponent,
     // ItemComponent
   ],
   imports: [
@@ -30,7 +34,8 @@ import { AddventaComponent } from '../ventass/addventa/addventa.component';
     IncidenciasRoutingModule,
     MaterialModule,
     FormsModule,
-    ProductsModule
+    ProductsModule,
+    VentasModule
   ]
 })
 export class IncidenciasModule {

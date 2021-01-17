@@ -1,1 +1,28 @@
-<p>calculadora works!</p>
+<div class="text-center mx-5" *ngIf="material">
+    <h4>{{material.name}}</h4>
+    <div class="form-row mb-4">
+        <div class="custom-control custom-checkbox col">
+            <input type="checkbox" class="custom-control-input" id="laca">
+            <label class="custom-control-label" for="laca">Laca</label>
+        </div>
+        <div class="custom-control custom-checkbox col">
+            <input type="checkbox" class="custom-control-input" id="corte">
+            <label class="custom-control-label" for="corte">Corte</label>
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col col-sm-12">
+            <!-- First name -->
+            <input type="number" class="form-control" placeholder="ancho en cm" id="ancho" value="" required>
+        </div>
+        <p class="mx-1 my-auto col-sm-12">x</p>
+        <div class="col col-sm-12">
+            <!-- Last name -->
+            <input type="number" class="form-control" placeholder="alto en cm" id="alto" value="" required>
+        </div>
+    </div>
+    <button class="btn btn-info my-4 mx-0 btn-block" (click)="calcular()">Calcular</button>
+    <span *ngIf="cost != null">
+        <h3 id="cost">$ {{cost}}</h3>
+    </span>
+</div>

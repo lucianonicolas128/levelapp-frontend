@@ -1,0 +1,107 @@
+<div class="modal-header">
+
+  <h5 class="modal-title" id="exampleModal3Label">Editar venta</h5>
+  <!-- boton para cerrar modal -->
+  <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+<div class="modal-body">
+
+  <div *ngIf="venta">
+
+    <!-- TOAST DE ESTADO -->
+    <div class="alert alert-success" *ngIf="status == 'succes'">
+      <!-- La venta se ha agregado correctamente, puedes verlo <a [routerLink]="['/venta', save_venta._id]">aqui</a> -->
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'failed'">
+      La venta no se ha podido agregar
+    </div>
+    <!-- TOAST DE ESTADO -->
+
+    <form action="" #ventaForm="ngForm" (ngSubmit)="onSubmit(ventaForm)">
+      <div class="row">
+
+        <!-- FECHA -->
+        <div class="form-group col-md-3">
+          <label for="fecha">Fecha</label><br>
+          <input class="form-control" type="date" name="fecha" id="fecha" #fecha="ngModel"
+            [(ngModel)]="venta.fecha" required>
+          <span *ngIf="fecha.touched && !fecha.valid" class="form_error">
+            La fecha es obligatoria.
+          </span>
+        </div>
+        <!-- FECHA -->
+
+        <!-- CLIENTE -->
+        <div class="form-group col-md-9">
+          <label for="cliente">Cliente nombre</label>
+          <div class="row">
+            <select class="form-control col-md-10 col-lg-10" type="spinner" name="cliente" #cliente="ngModel"
+              [(ngModel)]="venta.cliente" required>
+              <option></option>
+              <option value="{{cliente.nombre}}" name="cliente" id="nombre" *ngFor="let cliente of clientes">
+                {{cliente.nombre}}
+              </option>
+            </select>
+            <!-- <fa-icon [icon]="faSync" (click)="getClientes()" class="btn col-md-1"></fa-icon> -->
+          </div>
+        </div>
+
+        <span *ngIf="!venta.cliente" class="col-md-12">
+          <app-addcliente></app-addcliente>
+        </span>
+        <!-- CLIENTE -->
+      </div>
+
+      <!-- PEDIDO -->
+      <div class="form-group">
+        <label for="pedido">Pedido</label><br>
+        <input class="form-control" name="pedido" id="" #pedido="ngModel" [(ngModel)]="venta.pedido">
+        <span *ngIf="pedido.touched && !pedido.valid" class="form_error">
+          El pedido es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripcion</label><br>
+        <textarea class="form-control" type="text" name="descripcion" #descripcion="ngModel"
+          [(ngModel)]="venta.descripcion"></textarea>
+      </div>
+      <!-- PEDIDO -->
+
+      <!-- MONTO Y PRECIO -->
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="monto">Monto</label><br>
+          <input class="form-control" type="number" name="monto" id="monto" #monto="ngModel"
+            [(ngModel)]="venta.monto" required>
+          <span *ngIf="monto.touched && !monto.valid" class="form_error">
+            El monto es obligatorio.
+          </span>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="monto">Saldo</label><br>
+          <input class="form-control" type="number" name="saldo" id="" #saldo="ngModel" [(ngModel)]="venta.saldo">
+          <span *ngIf="saldo.touched && !saldo.valid" class="form_error">
+            Si no entrega seña, por favor coloque 0.
+          </span>
+        </div>
+      </div>
+      <!-- MONTO Y PRECIO -->
+
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="entregado" #entregado="ngModel"
+          [(ngModel)]="venta.entregado" value="" id="defaultCheck1">
+        <label for="entregado" class="form-check-label">
+          Entregado?
+        </label>
+      </div>
+
+      <input class="btn btn-info mt-4 col-md-12" type="submit" value="Vender" name="" id=""
+        [disabled]="!ventaForm.form.valid" />
+    </form>
+  </div>
+</div>

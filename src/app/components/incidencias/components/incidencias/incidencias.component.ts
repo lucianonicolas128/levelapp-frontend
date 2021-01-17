@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VentasComponent } from '../../../ventass/ventas/ventas.component';
+import { VentasComponent } from '../../../ventass/components/ventas/ventas.component';
 import { Venta } from 'src/app/models/venta';
 import { VentaService } from '../../../../services/venta.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';

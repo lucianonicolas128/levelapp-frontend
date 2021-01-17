@@ -14,6 +14,7 @@ import { UploadService } from 'src/app/services/upload.service';
 export class EditPreferencesComponent implements OnInit {
 
   public preferences: Preferences;
+  public preferenceses: Preferences[];
   public url: string;
   public id: string;
   public status: string;
@@ -30,16 +31,29 @@ export class EditPreferencesComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this._route.params.subscribe( params => {
-      let id = params.id;
-      this.getPreferences(id);
-    });
+    this.getPreferenceses();
   }
 
+
   getPreferences(id){
-    this._preferencesService.getPreferences(this.id).subscribe(
+    this._preferencesService.getPreferences(id).subscribe(
       response => {
         this.preferences = response.preferences;
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  getPreferenceses(){
+    this._preferencesService.getPreferenceses().subscribe(
+      response => {
+        if(response.preferences) {
+          this.preferenceses = response.preferences;
+          this.id = response.preferences[0]._id;
+          this.getPreferences(this.id);
+        }
       },
       error => {
         console.log(<any>error);
@@ -51,27 +65,30 @@ export class EditPreferencesComponent implements OnInit {
     this._preferencesService.updatePreferences(this.preferences).subscribe(
       response => {
         if(response.preferences){
+          response.preferences._id = this.id;
+          this.status = 'succes';
+          this.save_preferences = response.preferences;
 
-          if(this.filesToUpload){
-            this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
-            .then((result:any) => {
-              this.status = 'succes';
-              console.log(result);
-              this.save_preferences = result.preferences;
-            });
-            this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
-            .then((result:any) => {
-              this.status = 'succes';
-              console.log(result);
-              this.save_preferences = result.preferences;
+          // if(this.filesToUpload){
+          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
+          //   .then((result:any) => {
+          //     this.status = 'succes';
+          //     console.log(result);
+          //     this.save_preferences = result.preferences;
+          //   });
+          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
+          //   .then((result:any) => {
+          //     this.status = 'succes';
+          //     console.log(result);
+          //     this.save_preferences = result.preferences;
               
-              this._router.navigate(['/admin']);
-            });
-          }else{
-            this.save_preferences = response.preferences;
-            this.status = 'succes';
-            this._router.navigate(['/admin']);
-          }
+          //     this._router.navigate(['/admin']);
+          //   });
+          // }else{
+          //   this.save_preferences = response.preferences;
+          //   this.status = 'succes';
+          //   this._router.navigate(['/admin']);
+          // }
         }else{
           this.status = 'failed';
         }

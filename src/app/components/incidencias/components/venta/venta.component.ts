@@ -8,6 +8,14 @@ import {
 import { Venta } from 'src/app/models/venta';
 import { VentaService } from 'src/app/services/venta.service';
 import { Global } from '../../../../services/global';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailventaComponent } from 'src/app/components/ventass/components/detailventa/detailventa.component';
+import { EditventaComponent } from 'src/app/components/ventass/components/editventa/editventa.component';
+
+
+export interface DialogData {
+  _id: string;
+}
 
 @Component({
   selector: 'app-venta',
@@ -17,7 +25,6 @@ import { Global } from '../../../../services/global';
 })
 export class VentaComponent implements OnInit {
 
-
   @Input() venta!: Venta;
   @Output() ventaClicked: EventEmitter<any> = new EventEmitter();
 
@@ -26,6 +33,7 @@ export class VentaComponent implements OnInit {
 
   constructor(
     private _ventaService: VentaService,
+    public dialog: MatDialog
   ) {
     this.url = Global.url;
   }
@@ -34,21 +42,67 @@ export class VentaComponent implements OnInit {
   }
 
   setEntrega(venta) {
-    if (!venta.entregado) {
-      venta.entregado = true;
-      venta.saldo = 0;
-    } else {
-      venta.entregado = false;
-      venta.saldo = venta.monto;
-    }
-
-    this._ventaService.updateVenta(venta).subscribe(
-      response => {
-        this.save_venta = venta;
+    let message = confirm("Ha entregado el producto?");
+    if(message){
+      if (!venta.entregado) {
+        venta.entregado = true;
+        venta.saldo = 0;
+      } else {
+        venta.entregado = false;
+        venta.saldo = venta.monto;
       }
-    )
-    this.ngOnInit();
+  
+      this._ventaService.updateVenta(venta).subscribe(
+        response => {
+          this.save_venta = venta;
+        }
+      )
+      this.ngOnInit();
+    }
   }
 
+  viewSale(id){
+    const dialogRef = this.dialog.open(DetailventaComponent, {
+      data: { _id: id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
+    });
+  }
+
+  deleteSale(id) {
+    let message = confirm("Desea eliminar esta venta?");
+    if (message) {
+      this._ventaService.deleteVenta(id).subscribe(
+        response => {
+          this.ngOnInit();
+        },
+        error => {
+          console.log(<any>error);
+        }
+      )
+    } else {
+      console.log('Venta no eliminada');
+    }
+  }
+
+  editSale(id){
+    const dialogRef = this.dialog.open(EditventaComponent, {
+      data: { _id: id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
+    });
+  }
+
+  background(valor){
+    if(!valor.entregado){
+      let element = document.getElementById('sale');
+      // element.classList.add("sin-entregar");
+      console.log(element);
+    }
+  }
 
 }

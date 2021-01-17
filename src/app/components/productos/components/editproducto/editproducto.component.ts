@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { UploadService } from '../../../../services/upload.service';
 import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+export interface DialogData {
+  _id: string;
+}
 
 @Component({
   selector: 'app-editproducto',
@@ -11,6 +16,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./editproducto.component.css'],
   providers: [ProductoService, UploadService]
 })
+
 export class EditproductoComponent implements OnInit {
 
   public title: string;
@@ -24,7 +30,9 @@ export class EditproductoComponent implements OnInit {
     private _productoService: ProductoService,
     private _uploadService: UploadService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    public dialogRef: MatDialogRef<EditproductoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.title = "Editar producto";
     this.url = Global.url;
@@ -33,7 +41,7 @@ export class EditproductoComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       let id = params.id;
-      this.getProducto(id);
+      this.getProducto(this.data._id);
     });
   }
 

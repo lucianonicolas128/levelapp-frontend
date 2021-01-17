@@ -17,8 +17,8 @@ export class PreferencesService{
 
 
     savePreferences(preferences: Preferences): Observable<any>{
-        let params = JSON.stringify(preferences);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let params = JSON.stringify(preferences);
 
         return this._http.post(this.url+'save-preferences', params, {headers:headers});
     }
@@ -27,6 +27,11 @@ export class PreferencesService{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this._http.get(this.url+'preferences/'+id, {headers:headers});
+    }
+
+    getPreferenceses(): Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this._http.get(this.url+'preferences', {headers: headers});
     }
 
     deletePreferences(id): Observable<any>{

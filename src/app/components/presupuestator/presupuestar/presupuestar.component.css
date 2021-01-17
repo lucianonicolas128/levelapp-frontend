@@ -1,0 +1,30 @@
+
+.productos{
+    padding: 0;
+    padding-top: 1rem;
+}
+
+.tabla-productos{
+    width: 100%;
+    background-color: white;
+    height: 70vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    padding: 0px;
+    border-radius: .5rem;
+    scrollbar-color: #aa66cc #F5F5F5;
+}
+
+
+@media screen and (min-width: 576px){
+
+    .incidencias{
+        padding: 1rem;
+    }
+
+    .productos{
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+}

@@ -9,31 +9,29 @@
         </ng-template>
 
       </mat-tab>
-      <mat-tab label="Egresos"> Content 2 </mat-tab>
+      <mat-tab label="Egresos">
+        <app-egresos></app-egresos>
+      </mat-tab>
+      <!-- <mat-tab label="AGREGAR"></mat-tab> -->
+      <a mat-raised-button>AGREGAR</a>
     </mat-tab-group>
 
   </div>
 
   <div class="col-md-4 productos">
-    <app-productos class=""></app-productos>
+    <!-- <app-productos class=""></app-productos> -->
 
-    <mat-card class="mt-4 p-4 mat-elevation-z8 text-right">
-
-      <!-- <i class="far fa-money-bill-alt fa-lg green z-depth-2 p-4 ml-3 mt-n3 rounded text-white" data-toggle="modal"
-      data-target="#asdasd"></i> -->
-
+    <mat-card class="p-4 mat-elevation-z8 text-right">
       <mat-card-subtitle>INGRESO SEMANAL</mat-card-subtitle>
       <mat-card-content>
+
         <h4 class="font-weight-bold">{{ultimaSemana | currency}}</h4>
-
         <hr>
-
         <span>Saldo: </span>
         <span class="text-uppercase badge badge-danger"> - {{saldoVentas | currency}}</span>
-      </mat-card-content>
 
+      </mat-card-content>
     </mat-card>
   </div>
 
 </div>
-

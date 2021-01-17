@@ -2,31 +2,52 @@
 <div>
     <div class="mat-elevation-z8">
         <mat-list class="tabla scrollbar-info">
+            <mat-form-field class="px-4 w-100 searcher">
+                <mat-label class="h6"></mat-label>
+                <input id="searcher" class="searcher" matInput name="" #venta="ngModel" [(ngModel)]="venta.name"
+                    [value]="venta.name" (keyup.enter)="searchSale(venta.name)">
+                <a matSuffix>
+                    <mat-icon (click)="searchSale(venta.name)">search</mat-icon>
+                </a>
+                <a matSuffix>
+                    <mat-icon (click)="cleanSale()">close</mat-icon>
+                </a>
+            </mat-form-field>
+
+            <span class="ventas" *ngIf="!ventasFiltered" class="py-0">
+                <app-venta *ngFor="let venta of ventas" [venta]="venta">
+                </app-venta>
+            </span>
+
+            <span class="ventas" *ngIf="ventasFiltered" class="py-0">
+                <app-venta *ngFor="let venta of ventasFiltered" [venta]="venta">
+                </app-venta>
+            </span>
+
+            <a mat-stroked-button color="warn" *ngIf="ventas" class="w-100 text-center mt-3 mb-2"
+                (click)="getAllSales()">
+                <div *ngIf="loadMore == 'esperando'">Cargar más ventas</div>
+
+                <div *ngIf="loadMore == 'cargando'" class="spinner-border text-danger text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </a>
 
             <div *ngIf="!ventas" class="spinner-border text-info text-center" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
 
-            <app-venta *ngFor="let venta of ventas" [venta]="venta">
-            </app-venta>
-
         </mat-list>
     </div>
+
     <mat-divider></mat-divider>
+
     <mat-card class="footer-table d-flex justify-content-between example-button-container p-2">
-
-            <a mat-mini-fab class="green" (click)="openDialog()">
-                <mat-icon>plus_one</mat-icon>
-            </a>
-
-            <a mat-mini-fab color="warn" (click)="openDialog()">
-                <mat-icon>plus_one</mat-icon>
-            </a>
-
-
-            <!-- <a mat-mini-fab class="green" routerLink="/add-venta">
-                <mat-icon>plus_one</mat-icon>
-            </a> -->
-
+        <a mat-raised-button color="succes" class="green" (click)="openDialog()">
+            <mat-icon>plus_one</mat-icon> Agregar Venta
+        </a>
+        <a mat-raised-button color="warn" class="red" (click)="openDialogEgreso()">
+            <mat-icon>plus_one</mat-icon> Agregar egreso
+        </a>
     </mat-card>
 </div>

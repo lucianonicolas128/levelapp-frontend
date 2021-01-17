@@ -1,0 +1,390 @@
+<!-- SECCION BODY -->
+<div class="container-fluid">
+
+  <!-- FILTRADO DE VENTAS -->
+  <div class="row my-2 ml-1">
+    <h6 class="mr-2 mt-2">Filtrar ventas: </h6>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-sm btn-success active">
+        <input (click)="actualizarFiltrado('todo')" type="radio" name="todo" id="option1" autocomplete="off" checked>
+        Todas
+      </label>
+      <label class="btn btn-sm btn-danger">
+        <input (click)="actualizarFiltrado('sinEntregar')" type="radio" name="sinEntregar" id="option2"
+          autocomplete="off"> Sin entregar
+      </label>
+    </div>
+  </div>
+  <hr>
+  <!-- FIN: FILTRADO DE VENTAS -->
+
+  <div *ngIf="!ventas " class="text-center mt-4">
+    <div class="spinner-grow text-info" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <!-- TODAS LAS VENTAS -->
+  <div *ngIf="filtrado == 'todo'">
+    <div *ngFor="let venta of ventas">
+      <div class="row">
+
+        <div class="col-6 text-left" (click)="getVenta(venta._id)" data-toggle="modal" data-target="#modalVerVenta">
+          <!-- Nombre cliente -->
+          <h6>{{venta.cliente}}</h6>
+          <div class="row">
+
+            <!-- badge entregado/sin entregar -->
+            <span (click)="setEntrega(venta)" class="ml-3">
+              <span *ngIf="!venta.entregado" class="badge badge-danger">
+                Sin entregar
+              </span>
+              <span *ngIf="venta.entregado" class="badge badge-success">
+                Entregado
+              </span>
+            </span>
+
+            <!-- pedido -->
+            <p class="text-black-50 ml-3">{{venta.pedido}}</p>
+          </div>
+        </div>
+
+        <div class="col-4 text-right" (click)="getVenta(venta._id)" data-toggle="modal" data-target="#modalVerVenta">
+
+          <!-- monto -->
+          <h6>$ {{venta.monto}}</h6>
+
+          <!-- fecha -->
+          <p class="text-info">{{venta.fecha}}</p>
+        </div>
+
+        <div class="col-1 text-center py-2">
+          <!-- <i class="fas fa-eye mx-1 icon-action" (click)="getVenta(venta._id)" data-toggle="modal"
+              data-target="#modalVerVenta"></i> -->
+          <i class="fas fa-edit mx-1" (click)="getVenta(venta._id)" data-toggle="modal"
+            data-target="#modalEditarVenta"></i>
+          <i class="fas fa-trash-alt mx-1" (click)="deleteSale(venta._id)"></i>
+        </div>
+
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <!-- VENTAS SIN ENTREGAR -->
+  <div *ngIf="filtrado == 'sinEntregar'">
+    <div *ngFor="let venta of ventaSinEntregar">
+      <div class="row">
+
+        <div class="col text-left">
+          <!-- Nombre cliente -->
+          <h6>{{venta.cliente}}</h6>
+
+          <div class="row">
+            <!-- badge entregado/sin entregar -->
+            <span (click)="setEntrega(venta)" class="ml-3">
+              <span *ngIf="!venta.entregado" class="badge badge-danger">
+                Sin entregar
+              </span>
+              <span *ngIf="venta.entregado" class="badge badge-success">
+                Entregado
+              </span>
+            </span>
+
+            <!-- pedido -->
+            <p class="text-black-50 ml-3">{{venta.pedido}}</p>
+          </div>
+        </div>
+
+        <div class="col text-right">
+
+          <!-- monto -->
+          <h6>$ {{venta.monto}}</h6>
+
+          <!-- fecha -->
+          <p class="text-info">{{venta.fecha}}</p>
+        </div>
+
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
+<!-- FIN: SECCION BODY -->
+
+<!-- MODAL PARA AGREGAR VENTA -->
+<div class="modal fade " id="modalAgregarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal3Label">Agregar nueva venta</h5>
+        <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <app-addventa></app-addventa> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN: MODAL PARA AGREGAR VENTA -->
+
+
+
+<!-- MODAL PARA EDITAR VENTA -->
+<div (click)="ngOnInit()" class="modal fade " id="modalEditarVenta" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModal3Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="exampleModal3Label">Editar venta</h5>
+        <!-- boton para cerrar modal -->
+        <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="venta">
+
+          <!-- TOAST DE ESTADO -->
+          <div class="alert alert-success" *ngIf="status == 'succes'">
+            <!-- La venta se ha agregado correctamente, puedes verlo <a [routerLink]="['/venta', save_venta._id]">aqui</a> -->
+          </div>
+          <div class="alert alert-danger" *ngIf="status == 'failed'">
+            La venta no se ha podido agregar
+          </div>
+          <!-- TOAST DE ESTADO -->
+
+          <form action="" #ventaForm="ngForm" (ngSubmit)="onSubmit(ventaForm)">
+            <div class="row">
+
+              <!-- FECHA -->
+              <div class="form-group col-md-3">
+                <label for="fecha">Fecha</label><br>
+                <input class="form-control" type="date" name="fecha" id="fecha" #fecha="ngModel"
+                  [(ngModel)]="venta.fecha" required>
+                <span *ngIf="fecha.touched && !fecha.valid" class="form_error">
+                  La fecha es obligatoria.
+                </span>
+              </div>
+              <!-- FECHA -->
+
+              <!-- CLIENTE -->
+              <div class="form-group col-md-9">
+                <label for="cliente">Cliente nombre</label>
+                <div class="row">
+                  <select class="form-control col-md-10 col-lg-10" type="spinner" name="cliente" #cliente="ngModel"
+                    [(ngModel)]="venta.cliente" required>
+                    <option></option>
+                    <option value="{{cliente.nombre}}" name="cliente" id="nombre" *ngFor="let cliente of clientes">
+                      {{cliente.nombre}}
+                    </option>
+                  </select>
+                  <!-- <fa-icon [icon]="faSync" (click)="getClientes()" class="btn col-md-1"></fa-icon> -->
+                </div>
+              </div>
+
+              <span *ngIf="!venta.cliente" class="col-md-12">
+                <!-- <app-addcliente></app-addcliente> -->
+              </span>
+              <!-- CLIENTE -->
+            </div>
+
+            <!-- PEDIDO -->
+            <div class="form-group">
+              <label for="pedido">Pedido</label><br>
+              <input class="form-control" name="pedido" id="" #pedido="ngModel" [(ngModel)]="venta.pedido">
+              <span *ngIf="pedido.touched && !pedido.valid" class="form_error">
+                El pedido es obligatorio.
+              </span>
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Descripcion</label><br>
+              <textarea class="form-control" type="text" name="descripcion" #descripcion="ngModel"
+                [(ngModel)]="venta.descripcion"></textarea>
+            </div>
+            <!-- PEDIDO -->
+
+            <!-- MONTO Y PRECIO -->
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="monto">Monto</label><br>
+                <input class="form-control" type="number" name="monto" id="monto" #monto="ngModel"
+                  [(ngModel)]="venta.monto" required>
+                <span *ngIf="monto.touched && !monto.valid" class="form_error">
+                  El monto es obligatorio.
+                </span>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="monto">Saldo</label><br>
+                <input class="form-control" type="number" name="saldo" id="" #saldo="ngModel" [(ngModel)]="venta.saldo">
+                <span *ngIf="saldo.touched && !saldo.valid" class="form_error">
+                  Si no entrega seña, por favor coloque 0.
+                </span>
+              </div>
+            </div>
+            <!-- MONTO Y PRECIO -->
+
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="entregado" #entregado="ngModel"
+                [(ngModel)]="venta.entregado" value="" id="defaultCheck1">
+              <label for="entregado" class="form-check-label">
+                Entregado?
+              </label>
+            </div>
+
+            <input class="btn btn-info mt-4 col-md-12" type="submit" value="Vender" name="" id=""
+              [disabled]="!ventaForm.form.valid" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN: MODAL PARA EDITAR VENTA -->
+
+
+<!-- MODAL PARA DETALLE VENTA -->
+<div (click)="ngOnInit()" class="modal fade " id="modalVerVenta" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModal3Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal3Label">Detalle venta</h5>
+        <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="data" *ngIf="venta">
+          <div class="row">
+            <div class="col-md-4">
+              <h5> {{venta.cliente}}</h5>
+            </div>
+            <div class="col-md-4">
+              <h5> {{telefono}}</h5>
+            </div>
+            <div class="col-md-4">
+              <h5> {{direccion}}</h5>
+            </div>
+          </div>
+
+          <table class="table table-hover table-md-responsive table-sm-responsive my-3">
+            <thead class="thead-dark bg-violet">
+              <tr class="bg-violet">
+                <th>Fecha</th>
+                <th>Pedido</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Saldo</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <div *ngIf="!venta " class="text-center mt-4">
+              <div class="spinner-grow text-info" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <tbody *ngIf="venta">
+              <tr>
+                <td scope="row">{{venta.fecha}}</td>
+                <td>{{venta.pedido}}</td>
+                <td>{{venta.descripcion}}</td>
+                <td><strong>${{venta.monto}}</strong></td>
+                <td><strong>${{venta.saldo}}</strong></td>
+                <td>
+                  <p *ngIf="confirm == false">
+                    <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
+                  </p>
+                </td>
+                <td>
+                  <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+                  <p *ngIf="confirm == true">
+                    <span class="confirm">
+                      ¿Estas seguro de eliminar esta venta? <br>
+                    </span>
+                    <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+                    <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h4 class="mt-5">Todas las compras del cliente</h4>
+          <table class="table table-hover table-md-responsive table-sm-responsive my-3">
+            <thead class="thead-dark bg-violet">
+              <tr class="bg-violet">
+                <th>Fecha</th>
+                <th>Pedido</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Saldo</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let venta of comprasCliente">
+                <td scope="row">{{venta.fecha}}</td>
+                <td>{{venta.pedido}}</td>
+                <td>{{venta.descripcion}}</td>
+                <td><strong>${{venta.monto}}</strong></td>
+                <td><strong>${{venta.saldo}}</strong></td>
+                <td>
+                  <p *ngIf="confirm == false">
+                    <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
+                  </p>
+                </td>
+                <td>
+                  <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+                  <p *ngIf="confirm == true">
+                    <span class="confirm">
+                      ¿Estas seguro de eliminar esta venta? <br>
+                    </span>
+                    <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+                    <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN: MODAL PARA DETALLE VENTA -->
+
+
+<div class="modal fade " id="modalAgregarEgreso" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal3Label">Agregar nuevo egreso</h5>
+        <button (click)="ngOnInit()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <app-addegreso></app-addegreso> -->
+      </div>
+    </div>
+  </div>
+</div>

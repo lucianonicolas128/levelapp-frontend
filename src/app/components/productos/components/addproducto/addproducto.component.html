@@ -1,66 +1,67 @@
-<!-- <div class="container" *ngIf="producto">
+<div class="container" *ngIf="producto">
+    <mat-dialog-content class="mat-typography">
 
-    <div class="alert alert-success" *ngIf="status == 'succes'">
-        El producto se ha agregado correctamente, puedes verlo 
-        <!-- <a [routerLink]="['/producto', save_producto._id]">aqui</a> -->
-    <!-- </div>
-    <div class="alert alert-danger" *ngIf="status == 'failed'">
-        El producto no se ha podido agregar
-    </div>
-    <form action="" #productoForm="ngForm" (ngSubmit)="onSubmit(productoForm)">
-        <div class="row">
-            <div class="form-group col-md-7 col-sm-12">
-                <label for="nombre">Nombre</label><br>
-                <input class="form-control" type="text" name="nombre" id="" #nombre="ngModel"
-                    [(ngModel)]="producto.nombre" required>
-                <span *ngIf="nombre.touched && !nombre.valid" class="form_error">
-                    El nombre es obligatorio.
-                </span>
+        <div class="px-2 text-center">
+            <div class="alert alert-warning text-center" *ngIf="status == 'loading'">
+                <div class="spinner-border text-primary text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
-            <div class="form-group col-md-5 col-sm-12">
-                <label for="categoria">Categoria</label><br>
-                <input type="text" class="form-control" name="categoria" id="" #categoria="ngModel"
-                    [(ngModel)]="producto.categoria" required>
-                <span *ngIf="categoria.touched && !categoria.valid" class="form_error">
-                    La categoria es obligatoria.
-                </span>
-            </div>
+            <div class="alert alert-success" *ngIf="status == 'succes'">El producto se ha agregado correctamente</div>
+            <div class="alert alert-danger" *ngIf="status == 'failed'">El producto no se ha podido agregar</div>
         </div>
 
-        <div class="form-group">
-            <label for="descripcion">Descripcion</label><br>
-            <textarea class="form-control" type="text" name="descripcion" id="" #descripcion="ngModel"
-                [(ngModel)]="producto.descripcion" required></textarea>
-            <span *ngIf="descripcion.touched && !descripcion.valid" class="form_error">
-                La descripcion es obligatoria.
-            </span>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-md-6 col-sm-12">
-                <label for="costo">Costo</label><br>
-                <input class="form-control" type="number" name="costo" #costo="ngModel" [(ngModel)]="producto.costo">
+        <form action="" #productoForm="ngForm" (ngSubmit)="onSubmit(productoForm)">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Nombre</mat-label>
+                        <input matInput type="text" name="nombre" id="" #nombre="ngModel"
+                        [(ngModel)]="producto.nombre" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Categoría</mat-label>
+                        <input matInput type="text" name="categoria" id="" #categoria="ngModel" [(ngModel)]="producto.categoria" required>
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="form-group col-md-6 col-sm-12">
-                <label for="precio">Precio</label><br>
-                <input class="form-control" type="number" name="precio" id="" #precio="ngModel"
-                    [(ngModel)]="producto.precio" required>
-                <span *ngIf="precio.touched && !precio.valid" class="form_error">
-                    El precio es obligatorio.
-                </span>
+
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label class="w-100">Descripción</mat-label>
+                <textarea matInput type="text" name="descripcion" id="" #descripcion="ngModel"
+                    [(ngModel)]="producto.descripcion" required></textarea>
+            </mat-form-field>
+
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Costo $</mat-label>
+                        <input matInput type="number" name="costo" #costo="ngModel"
+                            [(ngModel)]="producto.costo">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Precio $</mat-label>
+                        <input matInput type="number" name="precio" id="" #precio="ngModel"
+                            [(ngModel)]="producto.precio" required>
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
 
-        <p>
-            <label for="image">Imagen del proyecto</label>
-            <span class="image" *ngIf="producto.image" style="float: none;">
-                <img src="{{url+'get-image/'+producto.image}}" *ngIf="producto.image" alt="" style="width: 100px;">
-            </span> <br>
-            <input type="file" name="image" placeholder="Subir Imagen" (change)="fileChangeEvent($event)" id="" />
-        </p>
+            <!-- <p>
+                <label for="image">Imagen del proyecto</label>
+                <span class="image" *ngIf="producto.image" style="float: none;">
+                    <img src="{{url+'get-image/'+producto.image}}" *ngIf="producto.image" alt="" style="width: 100px;">
+                </span> <br>
+                <input type="file" name="image" placeholder="Subir Imagen" (change)="fileChangeEvent($event)" id="" />
+            </p> -->
 
-        <input type="submit" value="Enviar" class="btn btn-warning col-md-12 mt-4" name="" id=""
-            [disabled]="!productoForm.form.valid" />
+            <input type="submit" value="Enviar" class="btn btn-warning col-md-12 mt-4" name="" id=""
+                [disabled]="!productoForm.form.valid" />
 
-    </form>
-</div> --> -->
+        </form>
+    </mat-dialog-content>
+</div>

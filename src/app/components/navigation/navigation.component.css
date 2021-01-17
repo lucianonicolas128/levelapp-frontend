@@ -48,6 +48,17 @@
   margin-left: auto;
 }
 
+.presupuestator{
+  background-color: #057eff;
+  color: white;
+  border-radius: 0.3rem 0rem 0 0.3rem;
+  padding: 4px;
+}
+
+.presupuestator:hover{
+  background-color: #00438a;
+}
+
 @media screen and (min-width: 576px){
 
 .container-nav{

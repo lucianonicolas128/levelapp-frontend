@@ -19,6 +19,7 @@ export class PreferencesComponent implements OnInit {
   public status: string;
   public filesToUpload: Array<File>;
   public save_preferences;
+  public preferenceses: Preferences[];
 
   constructor(
     private _preferencesService: PreferencesService,
@@ -30,6 +31,34 @@ export class PreferencesComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.getPreferenceses();
+  }
+
+
+  getPreferences(id){
+    this._preferencesService.getPreferences(id).subscribe(
+      response => {
+        this.preferences = response.preferences;
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  getPreferenceses(){
+    this._preferencesService.getPreferenceses().subscribe(
+      response => {
+        if(response.preferences) {
+          this.preferences = response.preferences;
+          this.id = response.preferences[0]._id;
+          this.getPreferences(this.id);
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
   }
 
 }

@@ -34,6 +34,7 @@ export class AddegresoComponent implements OnInit {
   }
   
   onSubmit(form){
+    this.status = 'loading';
     
     //Guardar los datos
     this._egresoService.saveEgreso(this.egreso).subscribe(

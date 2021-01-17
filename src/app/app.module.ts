@@ -12,19 +12,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VentasComponent } from './components/ventass/ventas/ventas.component';
-import { AddventaComponent } from './components/ventass/addventa/addventa.component';
-import { EditventaComponent } from './components/ventass/editventa/editventa.component';
-import { DetailventaComponent } from './components/ventass/detailventa/detailventa.component';
 import { ErrorComponent } from './components/error/error.component';
 import { AddegresoComponent } from './components/egreso/addegreso/addegreso.component';
 import { DetailegresoComponent } from './components/egreso/detailegreso/detailegreso.component';
 import { EditegresoComponent } from './components/egreso/editegreso/editegreso.component';
 import { EgresosComponent } from './components/egreso/egresos/egresos.component';
-import { AddclienteComponent } from './components/cliente/addcliente/addcliente.component';
-import { DetailclienteComponent } from './components/cliente/detailcliente/detailcliente.component';
-import { EditclienteComponent } from './components/cliente/editcliente/editcliente.component';
-import { ClientesComponent } from './components/cliente/clientes/clientes.component';
 import { AddMaterialComponent } from './components/presupuestator/add-material/add-material.component';
 import { EditMaterialComponent } from './components/presupuestator/edit-material/edit-material.component';
 import { PresupuestarComponent } from './components/presupuestator/presupuestar/presupuestar.component';
@@ -47,6 +39,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ClienteModule } from './components/cliente/cliente.module';
+import { VentasModule } from './components/ventass/ventas.module';
+import { ProductsModule } from './components/productos/products.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const config = {
   apiKey: '<your-key>',
@@ -60,18 +57,11 @@ const config = {
 @NgModule({
   declarations: [
     AppComponent,
-    VentasComponent,
-    EditventaComponent,
-    DetailventaComponent,
     ErrorComponent,
     AddegresoComponent,
     DetailegresoComponent,
     EditegresoComponent,
     EgresosComponent,
-    AddclienteComponent,
-    DetailclienteComponent,
-    EditclienteComponent,
-    ClientesComponent,
     AddMaterialComponent,
     EditMaterialComponent,
     PresupuestarComponent,
@@ -99,13 +89,17 @@ const config = {
     MaterialModule,
     
     IncidenciasModule,
+    ClienteModule,
+    VentasModule,
+    ProductsModule,
 
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     appRoutingProviders

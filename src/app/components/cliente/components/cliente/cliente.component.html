@@ -1,0 +1,11 @@
+<mat-list-item class="py-3">
+    <p matLine>
+        <span class="h6" (click)="viewClient(cliente._id)">{{cliente.nombre}},</span>
+        <span class="pl-2 text-info text-small"> {{cliente.telefono}}</span>
+        <span class="h6" (click)="viewClient(cliente._id)">{{cliente.direccion}}</span>
+    </p>
+    <!-- <span class="demo-2"> {{producto.precio | currency: '$'}} </span> -->
+    <mat-icon matPrefix (click)="editClient(cliente._id)">edit</mat-icon>
+    <mat-icon matPrefix (click)="deleteClient(cliente._id)">delete</mat-icon>
+    <mat-divider></mat-divider>
+</mat-list-item>

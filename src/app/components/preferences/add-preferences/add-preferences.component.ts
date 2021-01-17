@@ -40,26 +40,30 @@ export class AddPreferencesComponent implements OnInit {
       response => {
         if(response.preferences){
 
-          if(this.filesToUpload){
-            this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
-            .then((result:any) => {
-              this.status = 'succes';
-              console.log(result);
-              this.save_preferences = result.preferences;
-            });
-            this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
-            .then((result:any) => {
-              this.status = 'succes';
-              console.log(result);
-              this.save_preferences = result.preferences;
+          this.save_preferences = response.preferences;
+          console.log(response.preferences);
+          this.status = 'succes';
+
+          // if(this.filesToUpload){
+          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
+          //   .then((result:any) => {
+          //     this.status = 'succes';
+          //     console.log(result);
+          //     this.save_preferences = result.preferences;
+          //   });
+          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
+          //   .then((result:any) => {
+          //     this.status = 'succes';
+          //     console.log(result);
+          //     this.save_preferences = result.preferences;
               
-              this._router.navigate(['/admin']);
-            });
-          }else{
-            this.save_preferences = response.preferences;
-            this.status = 'succes';
-            this._router.navigate(['/admin']);
-          }
+          //     this._router.navigate(['/admin']);
+          //   });
+          // }else{
+          //   this.save_preferences = response.preferences;
+          //   this.status = 'succes';
+          //   this._router.navigate(['/admin']);
+          // }
         }else{
           this.status = 'failed';
         }

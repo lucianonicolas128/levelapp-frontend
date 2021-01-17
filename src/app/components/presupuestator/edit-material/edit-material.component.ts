@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MaterialService } from 'src/app/services/material.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { Material } from '../../../models/material';
 import { Global } from '../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+export interface DialogData {
+  _id: string;
+}
 
 @Component({
   selector: 'app-edit-material',
@@ -23,7 +28,9 @@ export class EditMaterialComponent implements OnInit {
     private _materialService: MaterialService,
     private _uploadService: UploadService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    public dialogRef: MatDialogRef<EditMaterialComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.title = "Editar material";
     this.url = Global.url;
@@ -32,7 +39,7 @@ export class EditMaterialComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       let id = params.id;
-      this.getMaterial(id);
+      this.getMaterial(this.data._id);
     });
   }
 

@@ -25,7 +25,7 @@ export class AddproductoComponent implements OnInit {
     private _uploadService: UploadService
   ) {
     this.title = "Agregar producto";
-    this.producto = new Producto('','','','',0,0,'');
+    this.producto = new Producto('','','','',null,null,'');
     this.url = Global.url;
    }
 
@@ -33,6 +33,7 @@ export class AddproductoComponent implements OnInit {
   }
 
   onSubmit(form){
+    this.status = 'loading';
     
     //Guardar los datos
     this._productoService.saveProducto(this.producto).subscribe(

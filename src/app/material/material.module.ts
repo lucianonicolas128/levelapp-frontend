@@ -18,6 +18,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -38,6 +40,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatSortModule,
     MatTabsModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule,
 
   ],
   exports: [
@@ -56,7 +61,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatSortModule,
     MatTabsModule,
     MatDialogModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule,
   ]
 })
 export class MaterialModule { }

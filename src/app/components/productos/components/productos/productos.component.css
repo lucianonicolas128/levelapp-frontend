@@ -1,7 +1,7 @@
 .tabla-productos{
     width: 100%;
     background-color: white;
-    height: 450px;
+    height: 60vh;
     overflow: scroll;
     overflow-x: hidden;
     /* overflow-y: hidden; */
@@ -9,3 +9,23 @@
     border-radius: .5rem;
     scrollbar-color: #aa66cc #F5F5F5;
 }
+
+
+.greenblue{
+    background-color: rgb(0, 184, 160);
+    color: white !important;
+  }
+  
+  .greenblue:hover{
+    color: #444;
+    background-color: rgb(0, 131, 114);
+  }
+  
+  .red {
+    color: white !important;
+  }
+  
+  .red:hover{
+    background-color: rgb(214, 4, 4);
+  }
+  

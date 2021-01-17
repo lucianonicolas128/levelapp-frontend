@@ -1,0 +1,55 @@
+table {
+}
+
+.tabla{
+width: 100%;
+background-color: white;
+height: 350px;
+overflow: scroll;
+overflow-x: hidden;
+padding: 0px;
+border-radius: .5rem;
+}
+
+.green{
+background-color: rgb(0, 184, 104);
+}
+
+.ventas{
+padding-top: -3rem;
+}
+
+mat-form-field {
+padding-bottom: 0 !important;
+margin-bottom: 0 !important;
+}
+
+
+.example-button-container {
+display: flex;
+justify-content: center;
+width: 120px;
+}
+
+.footer-table{
+width: 100%;
+flex: auto;
+justify-content: end;
+}
+
+.searcher{
+padding: 0 !important;
+}
+
+@media (min-width: 576px){
+
+.tabla{
+  width: 100%;
+  background-color: white;
+  /* height: 650px; */
+  height: 65vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 0px;
+}
+}

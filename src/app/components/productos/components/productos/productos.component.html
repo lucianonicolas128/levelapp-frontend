@@ -1,6 +1,23 @@
 <div>
   <mat-card class="mat-elevation-z8">
-    <mat-card-title><p class="h5">Lista de Precios</p></mat-card-title>
+    <mat-card-title>
+      <p class="h6">Productos
+
+        <mat-form-field class="ml-2">
+          <mat-label class="h6"></mat-label>
+          <input id="searcher" matInput name="" #producto="ngModel" [(ngModel)]="producto.name" [value]="producto.name"
+            (keyup.enter)="searchProduct(producto.name)">
+          <a matSuffix>
+            <mat-icon (click)="searchProduct(producto.name)">search</mat-icon>
+          </a>
+          <a matSuffix>
+            <mat-icon (click)="cleanProducts()">close</mat-icon>
+          </a>
+        </mat-form-field>
+      </p>
+
+
+    </mat-card-title>
     <mat-divider></mat-divider>
     <mat-card-content>
       <mat-list class=" tabla-productos scrollbar-info">
@@ -9,9 +26,24 @@
           <span class="sr-only">Loading...</span>
         </div>
 
-        <app-item-producto *ngFor="let producto of productos" [producto]="producto">
-        </app-item-producto>
+        <span *ngIf="!productsFiltered" class="p-0">
+          <app-item-producto *ngFor="let producto of productos" [producto]="producto">
+          </app-item-producto>
+        </span>
+        <span *ngIf="productsFiltered" class="p-0">
+          <app-item-producto *ngFor="let producto of productsFiltered" [producto]="producto">
+          </app-item-producto>
+        </span>
+
       </mat-list>
+
+
     </mat-card-content>
+  </mat-card>
+  <mat-divider></mat-divider>
+  <mat-card class="footer-table d-flex justify-content-end example-button-container p-3">
+    <a mat-raised-button class="greenblue" (click)="addProduct()">
+      <mat-icon>plus_one</mat-icon> Agregar producto
+    </a>
   </mat-card>
 </div>

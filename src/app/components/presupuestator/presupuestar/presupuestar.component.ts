@@ -4,7 +4,14 @@ import { Material } from '../../../models/material';
 import { Global } from '../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { $ } from '../../../../../node_modules/jquery/dist/jquery.min.js';
+import { MatDialog } from '@angular/material/dialog';
+import { CalculadoraComponent } from '../calculadora/calculadora.component';
+import { AddMaterialComponent } from '../add-material/add-material.component';
+import { EditMaterialComponent } from '../edit-material/edit-material.component';
 
+export interface DialogData {
+  _id: string;
+}
 
 @Component({
   selector: 'app-presupuestar',
@@ -30,7 +37,8 @@ export class PresupuestarComponent implements OnInit {
   constructor(
     private _materialService: MaterialService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.url = Global.url;
     this.confirm = false;
@@ -38,6 +46,24 @@ export class PresupuestarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMaterials();
+  }
+
+  openCalculadora(id) {
+    const dialogRef = this.dialog.open(CalculadoraComponent, {
+      data: { _id: id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
+    });
+  }
+
+  addMaterial(){
+    const dialogRef = this.dialog.open(AddMaterialComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
+    });
   }
 
   getMaterials(){
@@ -70,13 +96,20 @@ export class PresupuestarComponent implements OnInit {
         }    
   }
 
-  getMaterial(id){
-    this._materialService.getMaterial(id).subscribe(
-      response => {
-        this.material = response.material;
-        this.price = response.material.price;
-      }
-    )
+  editMaterial(id){
+    const dialogRef = this.dialog.open(EditMaterialComponent, {
+      data: { _id: id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
+    });
+    // this._materialService.getMaterial(id).subscribe(
+    //   response => {
+    //     this.material = response.material;
+    //     this.price = response.material.price;
+    //   }
+    // )
   }
 
   calcular(){

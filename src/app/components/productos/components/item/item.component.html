@@ -1,8 +1,9 @@
 <mat-list-item class="py-3">
     <p matLine>
-        <span class="h6">{{producto.nombre}},</span>
+        <span class="h6" (click)="viewProduct(producto._id)">{{producto.nombre}},</span>
         <span class="pl-2 text-info text-small"> {{producto.categoria}}</span>
     </p>
     <span class="demo-2"> {{producto.precio | currency: '$'}} </span>
+    <mat-icon matPrefix (click)="editProduct(producto._id)">edit</mat-icon>
     <mat-divider></mat-divider>
 </mat-list-item>

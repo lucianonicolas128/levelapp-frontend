@@ -1,0 +1,53 @@
+<div class="row m-3">
+  <div class="col-md-12 productos">
+    <div>
+      <mat-card class="mat-elevation-z8">
+        <mat-card-title>
+          <p class="h6">Clientes
+
+            <mat-form-field class="ml-2">
+              <mat-label class="h6"></mat-label>
+              <input id="searcher" matInput name="" #cliente="ngModel" [(ngModel)]="cliente.name" [value]="cliente.name"
+                (keyup.enter)="searchClient(cliente.name)">
+              <a matSuffix>
+                <mat-icon (click)="searchClient(cliente.name)">search</mat-icon>
+              </a>
+              <a matSuffix>
+                <mat-icon (click)="cleanSearcher()">close</mat-icon>
+              </a>
+            </mat-form-field>
+          </p>
+
+
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-list class=" tabla-productos scrollbar-info">
+
+            <div *ngIf="!clientes" class="spinner-border text-info text-center" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+
+            <span *ngIf="!clientesFiltered" class="p-0">
+              <app-cliente *ngFor="let cliente of clientes" [cliente]="cliente">
+              </app-cliente>
+            </span>
+            <span *ngIf="clientesFiltered" class="p-0">
+              <app-cliente *ngFor="let cliente of clientesFiltered" [cliente]="cliente">
+              </app-cliente>
+            </span>
+
+          </mat-list>
+
+
+        </mat-card-content>
+      </mat-card>
+      <mat-divider></mat-divider>
+      <mat-card class="footer-table d-flex justify-content-end example-button-container p-3">
+        <a mat-raised-button class="green" color="accent" (click)="addClient()">
+          <mat-icon>plus_one</mat-icon> Agregar Cliente
+        </a>
+      </mat-card>
+    </div>
+  </div>
+</div>
