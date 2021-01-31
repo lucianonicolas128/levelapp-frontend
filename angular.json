@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "level-app"
+    }
+  },
+  "defaultProject": "level-app",
+  "cli": {
+    "analytics": "9083b466-19e1-4d38-8c7a-cda2f2fbfd0b"
+  }
 }
