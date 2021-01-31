@@ -11,6 +11,7 @@ import { Global } from '../../../../services/global';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailventaComponent } from 'src/app/components/ventass/components/detailventa/detailventa.component';
 import { EditventaComponent } from 'src/app/components/ventass/components/editventa/editventa.component';
+import { Router } from '@angular/router';
 
 
 export interface DialogData {
@@ -33,7 +34,8 @@ export class VentaComponent implements OnInit {
 
   constructor(
     private _ventaService: VentaService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
   ) {
     this.url = Global.url;
   }
@@ -76,7 +78,9 @@ export class VentaComponent implements OnInit {
     if (message) {
       this._ventaService.deleteVenta(id).subscribe(
         response => {
-          this.ngOnInit();
+          // this.ngOnInit();
+
+        this.router.navigate(['./incidencias']);
         },
         error => {
           console.log(<any>error);
