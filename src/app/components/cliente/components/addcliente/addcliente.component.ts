@@ -3,6 +3,7 @@ import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { UploadService } from '../../../../services/upload.service';
 import { Global } from '../../../../services/global';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addcliente',
@@ -11,25 +12,21 @@ import { Global } from '../../../../services/global';
   providers: [ClienteService, UploadService]
 })
 export class AddclienteComponent implements OnInit {
-
-  public title: string;
+  form!: FormGroup;
   public cliente: Cliente;
   public status: string;
-  public filesToUpload: Array<File>;
   public save_cliente;
-  public url: string;
   public clientes: Cliente[];
   auxClient: Cliente[];
   messageClient;
 
   constructor(
-
+    private formBuilder: FormBuilder,
     private _clienteService: ClienteService,
     private _uploadService: UploadService
   ) {
-    this.title = "Nuevo Cliente";
     this.cliente = new Cliente('', '', 0, '',);
-    this.url = Global.url;
+    this.buildForm();
   }
 
   ngOnInit(): void {
@@ -59,36 +56,33 @@ export class AddclienteComponent implements OnInit {
   }
 
   onSubmit(form) {
+    this.cliente = this.form.value;
     this.checkClient(this.cliente.nombre);
-
     if (this.messageClient) {
       this.status = 'loading';
-      //Guardar los datos
-      this._clienteService.saveCliente(this.cliente).subscribe(
-        response => {
-          if (response.cliente) {
-            if (this.clientes.filter(cliente => cliente.nombre != response.cliente.nombre)) {
+      if (this.form.valid) {
+        this.cliente = this.form.value;
+        this._clienteService.saveCliente(this.cliente).subscribe(
+          response => {
               this.save_cliente = response.cliente;
               this.status = 'succes';
-              /* window.location.reload(); */
               form.reset();
-            }
-          } else {
-            this.status = 'failed';
+          },
+          error => {
+            console.log(<any>error);
           }
-        },
-        error => {
-          console.log(<any>error);
-        }
-      );
-    } else {
-      this.status = 'failed';
+        );
+      }
     }
   }
 
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      nombre: ['', Validators.required],
+      telefono: ['', Validators.required],
+      direccion: [''],
+    });
   }
-
 
 }

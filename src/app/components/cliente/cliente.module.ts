@@ -23,12 +23,13 @@ import { ClienteComponent } from './components/cliente/cliente.component';
     CommonModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     AddclienteComponent,
     EditclienteComponent,
-    DetailclienteComponent
+    DetailclienteComponent,
+    ClientesComponent,
   ]
 })
 export class ClienteModule { }

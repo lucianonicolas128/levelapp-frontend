@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import {VentasComponent } from './components/ventass/components/ventas/ventas.component'
+// import {VentasComponent } from './components/sales/components/ventas/ventas.component'
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,5 @@ import {VentasComponent } from './components/ventass/components/ventas/ventas.co
 export class AppComponent {
   title = 'level-app';
   faEdit = faEdit;
-  public ventas : VentasComponent;
+  // public ventas : VentasComponent;
 }

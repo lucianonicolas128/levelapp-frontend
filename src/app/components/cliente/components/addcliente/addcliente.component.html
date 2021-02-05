@@ -1,7 +1,6 @@
 <div class="container bg-gray p-3 rounded" *ngIf="cliente">
-    <h2>{{title}}</h2>
 
-    <form action="" #clienteForm="ngForm" (ngSubmit)="onSubmit(clienteForm)">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
         <div class="row">
             <div class="px-2 text-center">
                 <div class="alert alert-warning text-center" *ngIf="status == 'loading'">
@@ -18,25 +17,23 @@
             <div class="col-md-4 col-xs-12">
                 <mat-form-field class="w-100" appearance="fill">
                     <mat-label class="w-100">Nombre</mat-label>
-                    <input matInput class="w-100" matInput type="text" name="nombre" id="" #nombre="ngModel"
-                        [(ngModel)]="cliente.nombre" required>
+                    <input matInput class="w-100" type="text" formControlName="nombre">
                 </mat-form-field>
             </div>
             <div class="col-md-8 col-xs-12">
                 <mat-form-field class="w-100" appearance="fill">
-                    <mat-label class="w-100">Cliente</mat-label>
-                    <input matInput type="text" name="telefono" id="" #telefono="ngModel"
-                        [(ngModel)]="cliente.telefono">
+                    <mat-label class="w-100">Teléfono</mat-label>
+                    <input matInput type="text" formControlName="telefono">
                 </mat-form-field>
             </div>
         </div>
 
         <mat-form-field class="w-100 example-full-width" appearance="fill">
             <mat-label>Dirección</mat-label>
-            <textarea matInput name="direccion" id="" #direccion="ngModel" [(ngModel)]="cliente.direccion"></textarea>
+            <textarea matInput formControlName="direccion"></textarea>
         </mat-form-field>
 
         <input type="submit" class="btn btn-warning col-md-12 mt-4" value="Agregar cliente" name="" id=""
-            [disabled]="!clienteForm.form.valid" />
+            [disabled]="form.invalid" />
     </form>
 </div>

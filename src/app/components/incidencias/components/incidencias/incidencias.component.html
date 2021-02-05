@@ -3,35 +3,28 @@
 
     <mat-tab-group class="mat-elevation-z8 tabla bg-white p-2">
       <mat-tab label="Ventas">
-
         <ng-template matTabContent>
-          <app-incidencias-table></app-incidencias-table>
+          <app-sales-table></app-sales-table>
         </ng-template>
-
       </mat-tab>
       <mat-tab label="Egresos">
-        <app-egresos></app-egresos>
+        <app-egresses></app-egresses>
       </mat-tab>
       <!-- <mat-tab label="AGREGAR"></mat-tab> -->
       <a mat-raised-button>AGREGAR</a>
     </mat-tab-group>
-
   </div>
 
   <div class="col-xl-4 col-md-3 productos">
     <!-- <app-productos class=""></app-productos> -->
-
     <mat-card class="p-4 mat-elevation-z8 text-right">
       <mat-card-subtitle>INGRESO SEMANAL</mat-card-subtitle>
       <mat-card-content>
-
         <h4 class="font-weight-bold">{{ultimaSemana | currency}}</h4>
         <hr>
         <span>Saldo: </span>
         <span class="text-uppercase badge badge-danger"> - {{saldoVentas | currency}}</span>
-
       </mat-card-content>
     </mat-card>
   </div>
-
 </div>

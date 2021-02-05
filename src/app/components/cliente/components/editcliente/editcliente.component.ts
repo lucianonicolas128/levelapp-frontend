@@ -2,9 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { UploadService } from '../../../../services/upload.service';
-import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface DialogData {
   _id: string;
@@ -18,24 +18,21 @@ export interface DialogData {
 })
 
 export class EditclienteComponent implements OnInit {
-
-  public title: string;
+  form!: FormGroup;
   public cliente: Cliente;
+  public clientes: Cliente[];
   public status: string;
-  public filesToUpload: Array<File>;
   public save_cliente;
-  public url: string;
+  messageClient;
 
   constructor(
+    private formBuilder: FormBuilder,
     private _clienteService: ClienteService,
-    private _uploadService: UploadService,
-    private _router: Router,
     private _route: ActivatedRoute,
     public dialogRef: MatDialogRef<EditclienteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    this.title = "Editar cliente";
-    this.url = Global.url;
+    this.buildForm();
   }
 
   ngOnInit(): void {
@@ -45,7 +42,7 @@ export class EditclienteComponent implements OnInit {
     });
   }
 
-  getCliente(id){
+  getCliente(id) {
     this._clienteService.getCliente(id).subscribe(
       response => {
         this.cliente = response.cliente;
@@ -56,26 +53,43 @@ export class EditclienteComponent implements OnInit {
     )
   }
 
-  onSubmit(form){
-    
-    //Guardar los datos
-    this._clienteService.updateCliente(this.cliente).subscribe(
-      response =>{
-        if(response.cliente){
-          this.save_cliente = response.cliente;
-          this.status = 'succes';
-        }else{
-          this.status = 'failed';
-        }
-      },
-      error =>{
-        console.log(<any> error);
+  onSubmit(form) {
+    this.cliente = this.form.value;
+    this.checkClient(this.cliente.nombre);
+    if (this.messageClient) {
+      this.status = 'loading';
+      if (this.form.valid) {
+        this._clienteService.updateCliente(this.cliente).subscribe(
+          response => {
+            this.save_cliente = response.cliente;
+            this.status = 'succes';
+            form.reset();
+          },
+          error => {
+            console.log(<any>error);
+          }
+        );
       }
-    );
+    }
   }
 
-  fileChangeEvent(fileInput: any){
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+
+  checkClient(nombre) {
+    if (this.clientes.find(cliente => cliente.nombre.toUpperCase().normalize() === nombre.toUpperCase().normalize())) {
+      let message = alert("El cliente ya existe");
+      this.messageClient = false;
+    } else {
+      this.messageClient = true;
+    }
+  }
+
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      nombre: ['', Validators.required],
+      telefono: ['', Validators.required],
+      direccion: [''],
+    });
   }
 
 }

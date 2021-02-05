@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NavigationComponent } from '../navigation/navigation.component';
-import { AddventaComponent } from '../ventass/components/addventa/addventa.component';
-import { IncidenciasTableComponent } from './components/incidencias-table/incidencias-table.component';
-import { IncidenciasComponent } from './components/incidencias/incidencias.component';
+import { AddVentaComponent } from '../sales/components/add-venta/add-venta.component';
 
 
 const routes: Routes = [
@@ -13,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: 'add-venta',
-        component: AddventaComponent
+        component: AddVentaComponent
       }
     ]
   },

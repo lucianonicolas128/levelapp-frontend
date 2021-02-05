@@ -1,0 +1,56 @@
+<!-- two line list -->
+<div>
+    <div class="mat-elevation-z8">
+        
+        <mat-list class="tabla scrollbar-info">
+
+            <!-- <mat-form-field class="px-4 w-100 searcher">
+                <mat-label class="h6"></mat-label>
+                <input id="searcher" class="searcher" matInput name="" #venta="ngModel" [(ngModel)]="venta.name" [value]="venta.name"
+                    (keyup.enter)="searchSale(venta.name)">
+                <a matSuffix>
+                    <mat-icon (click)="searchSale(venta.name)">search</mat-icon>
+                </a>
+                <a matSuffix>
+                    <mat-icon (click)="cleanSale()">close</mat-icon>
+                </a>
+            </mat-form-field> -->
+
+            <span class="ventas" *ngIf="!egresosFiltered" class="py-0">
+                <app-egress *ngFor="let egreso of egresos" [egreso]="egreso">
+
+                </app-egress>
+            </span>
+
+            <span class="ventas" *ngIf="egresosFiltered" class="py-0">
+                <app-egress *ngFor="let egreso of egresosFiltered" [egreso]="egreso">
+                </app-egress>
+            </span>
+
+            <a mat-stroked-button color="accent" *ngIf="egresos" class="w-100 text-center mt-3 mb-2"
+                (click)="getAllEgresos()">
+                <div *ngIf="loadMore == 'esperando'">Cargar más egresos</div>
+
+                <div *ngIf="loadMore == 'cargando'" class="spinner-border text-danger text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </a>
+
+            <div *ngIf="!egresos" class="spinner-border text-info text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </mat-list>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-card class="footer-table d-flex justify-content-between example-button-container p-2">
+        <a mat-mini-fab class="green" (click)="openDialog()">
+            <mat-icon>plus_one</mat-icon>
+        </a>
+        <a mat-mini-fab color="warn" (click)="openDialogEgreso()">
+            <mat-icon>plus_one</mat-icon>
+        </a>
+    </mat-card>
+</div>

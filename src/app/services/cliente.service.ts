@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Cliente } from '../models/cliente';
 import { Global } from './global';
-
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class ClienteService{
@@ -23,7 +23,7 @@ export class ClienteService{
         let params = JSON.stringify(cliente);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(this.url+'/save-cliente', params, {headers: headers});
+        return this._http.post(`${environment.url_api}save-cliente`, params,  {headers: headers});
     }
 
     getClientes(): Observable<any>{

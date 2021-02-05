@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -13,19 +14,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ErrorComponent } from './components/error/error.component';
-import { AddegresoComponent } from './components/egreso/addegreso/addegreso.component';
-import { DetailegresoComponent } from './components/egreso/detailegreso/detailegreso.component';
-import { EditegresoComponent } from './components/egreso/editegreso/editegreso.component';
-import { EgresosComponent } from './components/egreso/egresos/egresos.component';
-import { AddMaterialComponent } from './components/presupuestator/add-material/add-material.component';
-import { EditMaterialComponent } from './components/presupuestator/edit-material/edit-material.component';
-import { PresupuestarComponent } from './components/presupuestator/presupuestar/presupuestar.component';
 import { IndexComponent } from './components/index/index/index.component';
 import { LoginComponent } from './components/auth/login/login.component';
+
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { AddPreferencesComponent } from './components/preferences/add-preferences/add-preferences.component';
 import { EditPreferencesComponent } from './components/preferences/edit-preferences/edit-preferences.component';
-import { CalculadoraComponent } from './components/presupuestator/calculadora/calculadora.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -40,10 +34,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ClienteModule } from './components/cliente/cliente.module';
-import { VentasModule } from './components/ventass/ventas.module';
+import { SalesModule } from './components/sales/sales.module';
 import { ProductsModule } from './components/productos/products.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { PresupuestatorModule } from './components/presupuestator/presupuestator.module';
 
 const config = {
   apiKey: '<your-key>',
@@ -58,19 +53,11 @@ const config = {
   declarations: [
     AppComponent,
     ErrorComponent,
-    AddegresoComponent,
-    DetailegresoComponent,
-    EditegresoComponent,
-    EgresosComponent,
-    AddMaterialComponent,
-    EditMaterialComponent,
-    PresupuestarComponent,
     IndexComponent,
     LoginComponent,
     PreferencesComponent,
     AddPreferencesComponent,
     EditPreferencesComponent,
-    CalculadoraComponent,
     NavigationComponent,
   ],
   imports: [
@@ -87,12 +74,12 @@ const config = {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    
     IncidenciasModule,
     ClienteModule,
-    VentasModule,
+    SalesModule,
     ProductsModule,
 
+    PresupuestatorModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,

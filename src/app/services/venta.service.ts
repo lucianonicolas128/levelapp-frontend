@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Venta } from '../models/venta';
 import { Global } from './global';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class VentaService{
@@ -19,10 +20,9 @@ export class VentaService{
     }
 
     saveVenta(venta: Venta): Observable<any>{
-        let params = JSON.stringify(venta);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-        return this._http.post(this.url+'save-venta', params, {headers: headers});
+        let params = JSON.stringify(venta);
+        return this._http.post(`${environment.url_api}save-venta`, params,  {headers: headers});
     }
 
     getVentas(): Observable<any>{
