@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   url_api: 'https://levelapp-lm.herokuapp.com/api/',
+  // url_api: 'http://localhost:3700/api/',
   firebase: {
   /*   apiKey: "AIzaSyC4Pgt63mK_CgeJ5EuVUEhhm2qqLUqfMuo",
     authDomain: "levelapp-5f355.web.app",

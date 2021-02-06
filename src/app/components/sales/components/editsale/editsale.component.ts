@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { faSync } from 'node_modules/@fortawesome/free-solid-svg-icons/faSync'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export interface DialogData {
   _id: string;
@@ -17,43 +18,36 @@ export interface DialogData {
 @Component({
   selector: 'app-editsale',
   templateUrl: './editsale.component.html',
+  // templateUrl: '../add-venta/add-venta.component.html',
   styleUrls: ['./editsale.component.css'],
   providers: [VentaService, ClienteService, UploadService]
 })
 export class EditsaleComponent implements OnInit {
-  public faSync = faSync;
-
-  public title: string;
+  form!: FormGroup;
   public venta: Venta;
   public cliente: Cliente;
   public status: string;
   public filesToUpload: Array<File>;
   public save_venta;
-  public url: string;
-
   public _ID_: string;
   public nombreCliente: string;
-
   public clientes: Cliente[];
 
   constructor(
+    private formBuilder: FormBuilder,
     private _ventaService: VentaService,
-    private _uploadService: UploadService,
     private _clienteService: ClienteService,
-    private _router: Router,
     private _route: ActivatedRoute,
     public dialogRef: MatDialogRef<EditsaleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    this.title = "Editar venta";
-    this.url = Global.url;
+    this.buildForm();
   }
 
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       let id = params.id;
       this.getVenta(this.data._id);
-      // this.ventasComponent.getVenta(id);
     });
     this.getClientes();
   }
@@ -61,7 +55,7 @@ export class EditsaleComponent implements OnInit {
   getClientes() {
     this._clienteService.getClientes().subscribe(
       response => {
-        if(response.clientes){
+        if (response.clientes) {
           this.clientes = response.clientes;
         }
       },
@@ -73,7 +67,6 @@ export class EditsaleComponent implements OnInit {
 
 
   getVenta(id) {
-    // this.ventasComponent.getVenta(id);
     this._ventaService.getVenta(id).subscribe(
       response => {
         this.venta = response.venta;
@@ -84,34 +77,20 @@ export class EditsaleComponent implements OnInit {
     )
   }
 
-
-  // getCliente(id) {
-  //   this._clienteService.getCliente(id).subscribe(
-  //     response => {
-  //       this.cliente = response.cliente;
-  //     }
-  //   )
-  // }
-
   onSubmit(form) {
     if (this.venta.entregado) {
       this.venta.saldo = 0;
     }
-
-    //Guardar los datos
-    this._ventaService.updateVenta(this.venta).subscribe(
-      response => {
-        if (response.venta) {
-          this.save_venta = response.venta;
+    this.status = 'loading';
+    console.log(this.form.value);
+    console.log(this.venta);
+    if (this.venta) {
+      this._ventaService.updateVenta(this.venta).subscribe(
+        response => {
           this.status = 'succes';
-        } else {
-          this.status = 'failed';
-        }
-      },
-      error => {
-        console.log(<any>error);
-      }
-    );
+          form.reset();
+        })
+    } else { this.status = 'failed'; }
   }
 
 
@@ -122,6 +101,23 @@ export class EditsaleComponent implements OnInit {
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
+  }
+
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      fecha: ['', Validators.required],
+      cliente: ['', Validators.required],
+      pedido: [''],
+      descripcion: [''],
+      monto: [, Validators.required],
+      saldo: [],
+      entregado: [],
+    });
+  }
+
+  get clienteField() {
+    return this.form.get('cliente');
   }
 
 }

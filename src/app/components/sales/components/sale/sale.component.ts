@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { DetailventaComponent } from '../detailventa/detailventa.component';
 import { EditsaleComponent } from '../editsale/editsale.component';
 
-
 export interface DialogData { _id: string; }
 
 @Component({
@@ -26,7 +25,6 @@ export class SaleComponent implements OnInit {
 
   @Input() venta!: Venta;
   @Output() ventaClicked: EventEmitter<any> = new EventEmitter();
-
   url;
   save_venta;
 
@@ -51,7 +49,6 @@ export class SaleComponent implements OnInit {
         venta.entregado = false;
         venta.saldo = venta.monto;
       }
-
       this._ventaService.updateVenta(venta).subscribe(
         response => {
           this.save_venta = venta;
@@ -76,9 +73,9 @@ export class SaleComponent implements OnInit {
     if (message) {
       this._ventaService.deleteVenta(id).subscribe(
         response => {
-          // this.ngOnInit();
-
-          this.router.navigate(['./incidencias']);
+          this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/incidencias']);
+          });
         },
         error => {
           console.log(<any>error);
@@ -98,13 +95,4 @@ export class SaleComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
-  background(valor) {
-    if (!valor.entregado) {
-      let element = document.getElementById('sale');
-      // element.classList.add("sin-entregar");
-      console.log(element);
-    }
-  }
-
 }

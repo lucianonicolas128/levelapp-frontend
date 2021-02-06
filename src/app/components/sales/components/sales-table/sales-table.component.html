@@ -2,7 +2,7 @@
 <div>
     <div class="mat-elevation-z8">
         <mat-list class="tabla scrollbar-info">
-            <mat-form-field class="px-4 w-100 searcher">
+            <mat-form-field class="px-4 w-100 searcher sticky-top">
                 <mat-label class="h6"></mat-label>
                 <input id="searcher" class="searcher" matInput name="" #venta="ngModel" [(ngModel)]="venta.name"
                     [value]="venta.name" (keyup.enter)="searchSale(venta.name)">
