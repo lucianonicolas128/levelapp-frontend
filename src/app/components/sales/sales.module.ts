@@ -8,6 +8,7 @@ import { DetailventaComponent } from './components/detailventa/detailventa.compo
 import { EditsaleComponent } from './components/editsale/editsale.component';
 import { SalesTableComponent } from './components/sales-table/sales-table.component';
 import { SaleComponent } from './components/sale/sale.component';
+import { AddSaleComponent } from './components/add-sale/add-sale.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SaleComponent } from './components/sale/sale.component';
     EditsaleComponent,
     SalesTableComponent,
     SaleComponent,
+    AddSaleComponent,
     
   ],
   imports: [

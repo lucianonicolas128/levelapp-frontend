@@ -10,29 +10,33 @@
     <!-- <mat-toolbar></mat-toolbar> -->
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/incidencias">
+      <a mat-list-item routerLink="/dashboard/incidencias">
         <mat-icon class="mr-2">trending_up</mat-icon>
         Ventas y egresos
       </a>
-      <a mat-list-item routerLink="/productos">
+      <a mat-list-item routerLink="/dashboard/productos">
         <mat-icon class="mr-2">shopping_bag</mat-icon> Productos
       </a>
-      <a mat-list-item routerLink="/clientes">
+      <a mat-list-item routerLink="/dashboard/clientes">
         <mat-icon class="mr-2">group</mat-icon> Clientes
       </a>
-      <a mat-list-item routerLink="/balance">
+      <a mat-list-item routerLink="/dashboard/balance">
         <mat-icon class="mr-2">attach_money</mat-icon> Balances
       </a>
-      <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/presupuestator" class="">
+      <mat-divider *ngIf="company == lm"></mat-divider>
+      <a mat-list-item *ngIf="company == lm" routerLink="/dashboard/presupuestator" class="">
         <mat-icon class="mr-2">monetization_on</mat-icon>Presupuestator
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/index">
+      <a mat-list-item routerLink="/dashboard/index">
         <mat-icon class="mr-2">help_outline</mat-icon> Ayuda
       </a>
-      <a mat-list-item routerLink="/preferences">
+      <a mat-list-item routerLink="/dashboard/preferences">
         <mat-icon class="mr-2">settings</mat-icon> Configuración
+      </a>
+      <mat-divider class="mt-5"></mat-divider>
+      <a mat-list-item (click)="logout()">
+        <mat-icon class="mr-2">logout</mat-icon> Cerrar Sesión
       </a>
     </mat-nav-list>
   </mat-sidenav>

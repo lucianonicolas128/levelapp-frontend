@@ -3,6 +3,7 @@ export class Material{
         public _id: string,
         public name: string,
         public price: number,
-        public category: string
+        public category: string,
+        public company: string,
     ){}
 }

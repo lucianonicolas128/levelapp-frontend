@@ -27,7 +27,9 @@
                 </app-egress>
             </span>
 
-            <a mat-stroked-button color="accent" *ngIf="egresos" class="w-100 text-center mt-3 mb-2"
+            <span *ngIf="egresos.length < 1" class="w-100 text-center mt-2"><p>Aun no hay egresos para mostrar.</p></span>
+
+            <a mat-stroked-button color="accent" *ngIf="egresos.length > 9" class="w-100 text-center mt-3 mb-2"
                 (click)="getAllEgresos()">
                 <div *ngIf="loadMore == 'esperando'">Cargar más egresos</div>
 

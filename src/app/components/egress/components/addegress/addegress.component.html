@@ -9,14 +9,13 @@
             <div class="alert alert-success" *ngIf="status == 'succes'">El egreso se ha agregado correctamente.</div>
             <div class="alert alert-danger" *ngIf="status == 'failed'">El egreso no se ha podido agregar.</div>
         </div>
-        
-        <form action="" #egresoForm="ngForm" (ngSubmit)="onSubmit(egresoForm)">
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
             <div class="row">
                 <div class="col-md-6 col-xs-12">
                     <mat-form-field class="w-100" appearance="fill">
                         <mat-label class="w-100">Fecha</mat-label>
-                        <input matInput [matDatepicker]="picker" class="w-100" name="fecha" id="fecha" #fecha="ngModel"
-                            [(ngModel)]="egreso.fecha" required>
+                        <input matInput [matDatepicker]="picker" class="w-100" formControlName="fecha">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -24,30 +23,28 @@
                 <div class="col-md-6 col-xs-12">
                     <mat-form-field class="w-100" appearance="fill">
                         <mat-label>Proveedor</mat-label>
-                        <input matInput type="text" name="proveedor" id="" #proveedor="ngModel"
-                            [(ngModel)]="egreso.proveedor" required>
+                        <input matInput type="text" formControlName="proveedor">
                     </mat-form-field>
                 </div>
             </div>
 
             <mat-form-field class="example-full-width w-100">
                 <mat-label class="w-100">Pedido</mat-label>
-                <input matInput name="pedido" id="" #pedido="ngModel" [(ngModel)]="egreso.pedido" required>
+                <input matInput type="text" formControlName="pedido">
             </mat-form-field>
 
             <mat-form-field class="example-full-width w-100">
                 <mat-label class="w-100">Descripción</mat-label>
-                <textarea matInput type="text" name="descripcion" #descripcion="ngModel"
-                    [(ngModel)]="egreso.descripcion"></textarea>
+                <textarea matInput type="text" formControlName="descripcion"></textarea>
             </mat-form-field>
 
             <mat-form-field class="example-full-width w-100">
                 <mat-label class="w-100">Monto</mat-label>
-                <input matInput type="number" name="monto" id="" #monto="ngModel" [(ngModel)]="egreso.monto" required>
+                <input matInput type="number" formControlName="monto">
             </mat-form-field>
 
             <input type="submit" value="Agregar egreso" class="btn btn-danger mt-4 col-md-12 col-sm-12" name="" id=""
-                [disabled]="!egresoForm.form.valid" />
+                [disabled]="form.invalid" />
 
         </form>
     </mat-dialog-content>

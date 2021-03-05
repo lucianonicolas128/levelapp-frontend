@@ -8,64 +8,86 @@ import { PresupuestarComponent } from './components/presupuestator/components/pr
 import { ClientesComponent } from './components/cliente/components/clientes/clientes.component';
 import { BalanceComponent } from './components/incidencias/components/balance/balance.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
-import { AddVentaComponent } from './components/sales/components/add-venta/add-venta.component';
-
+import { AddSaleComponent } from './components/sales/components/add-sale/add-sale.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { AdminGuard } from './admin.guard';
+import { WelcomeComponent } from './components/index/welcome/welcome.component';
 
 const routes: Routes = [
-  {
-      path: '',
-      component: NavigationComponent,
-      children: [
-          {
-              path: '',
-              redirectTo: 'index',
-              pathMatch: 'full',
-          },
-          {
-              path: 'index',
-              component: IndexComponent
-          },
-          {
-              path: 'incidencias',
-              component: IncidenciasComponent,
-          },
-          {
-              path: 'add-venta',
-              component: AddVentaComponent
-          },
-          {
-              path: 'productos',
-              component: LayoutProductsComponent
-          },
-          {
-              path: 'presupuestator',
-              component: PresupuestarComponent
-          },
-          {
-              path: 'clientes',
-              component: ClientesComponent
-              // loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule)
-          },
-          {
-              path: 'balance',
-              component: BalanceComponent
-          },
-          {
-              path: 'preferences',
-              component: PreferencesComponent
-          }
-      ]
-  },
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'dashboard',
+        component: NavigationComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'index',
+                canActivate: [AdminGuard],
+                pathMatch: 'full',
+            },
+            {
+                path: 'index',
+                component: IndexComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'incidencias',
+                component: IncidenciasComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'add-sale',
+                component: AddSaleComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'productos',
+                component: LayoutProductsComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'presupuestator',
+                component: PresupuestarComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'clientes',
+                component: ClientesComponent,
+                canActivate: [AdminGuard],
+                // loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule)
+            },
+            {
+                path: 'balance',
+                component: BalanceComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'preferences',
+                component: PreferencesComponent,
+                canActivate: [AdminGuard],
+            }
+        ],
+    },
 
-  { path: '**', component: IndexComponent },
+    { path: 'login', component: LoginComponent },
+
+    { path: 'register', component: RegisterComponent },
+
+    { path: 'welcome', component: WelcomeComponent },
+
+    { path: '**', component: LoginComponent },
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-
-    preloadingStrategy: PreloadAllModules
-  })],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, {
+        preloadingStrategy: PreloadAllModules
+    })],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VentaService } from '../../../../services/venta.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { EgresoService } from '../../../../services/egreso.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-balance',
@@ -10,7 +11,6 @@ import { EgresoService } from '../../../../services/egreso.service';
   providers: [VentaService, EgresoService],
 })
 export class BalanceComponent implements OnInit {
-
   public sumaVentasMensual;
   public sumaVentasTotal;
   public mesesIngreso = new Array();
@@ -23,21 +23,11 @@ export class BalanceComponent implements OnInit {
   constructor(
     private _ventaService: VentaService,
     private _egresoService: EgresoService,
+    private authService: AuthService,
     private _router: Router,
     private _route: ActivatedRoute
   ) {
-    this.month[0] = "Ene"; 
-    this.month[1] = "Feb";
-    this.month[2] = "Mar";
-    this.month[3] = "Abr";
-    this.month[4] = "May";
-    this.month[5] = "Jun";
-    this.month[6] = "Jul";
-    this.month[7] = "Ago";
-    this.month[8] = "Sep";
-    this.month[9] = "Oct";
-    this.month[10] = "Nov";
-    this.month[11] = "Dic";
+    this.month = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
   }
 
   ngOnInit(): void {
@@ -45,20 +35,21 @@ export class BalanceComponent implements OnInit {
   }
 
   filterYear(year) {
-    this._ventaService.getVentas().subscribe(
+    let company = this.authService.getUID();
+    this._ventaService.getVentasCompany(company).subscribe(
       response => {
-        if (response.ventas) {
-          this.filtradoBalance(response.ventas, this.mesesIngreso, this.sumaVentasTotal, this.sumaVentasMensual, year);
-          this.sumaVentasTotal = response.ventas.reduce((acc, obj) => acc + obj.monto, 0);
-          let ventasFiltradasMensual = response.ventas.filter(venta => new Date(venta.fecha).getMonth() === new Date().getMonth());
+        if (response.ventasFiltrados) {
+          this.filtradoBalance(response.ventasFiltrados, this.mesesIngreso, this.sumaVentasTotal, this.sumaVentasMensual, year);
+          this.sumaVentasTotal = response.ventasFiltrados.reduce((acc, obj) => acc + obj.monto, 0);
+          let ventasFiltradasMensual = response.ventasFiltrados.filter(venta => new Date(venta.fecha).getMonth() === new Date().getMonth());
           this.sumaVentasMensual = ventasFiltradasMensual.reduce((acc, obj) => acc + obj.monto, 0);
         }
       }
     )
-    this._egresoService.getEgresos().subscribe(
+    this._egresoService.getEgresosCompany(company).subscribe(
       response => {
-        if (response.egresos) {
-          this.filtradoBalance(response.egresos, this.mesesEgreso, this.sumaEgresosTotal, this.sumaEgresosMensual, year);
+        if (response.egresosFiltrados) {
+          this.filtradoBalance(response.egresosFiltrados, this.mesesEgreso, this.sumaEgresosTotal, this.sumaEgresosMensual, year);
         }
       }
     )
@@ -75,11 +66,6 @@ export class BalanceComponent implements OnInit {
       sumador = filtrado.reduce((acc, obj,) => acc + obj.monto, 0);
       meses[i] = sumador;
     }
-    // sumaTotal = incidencia.reduce((acc, obj) => acc + obj.monto, 0);
-    // let ventasFiltradasMensual = incidencia.filter(venta => new Date(venta.fecha).getMonth() === new Date().getMonth());
-    // sumaMensual = ventasFiltradasMensual.reduce((acc, obj) => acc + obj.monto, 0);
   }
-
-  
 
 }

@@ -39,6 +39,11 @@ import { ProductsModule } from './components/productos/products.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PresupuestatorModule } from './components/presupuestator/presupuestator.module';
+import { RegisterComponent } from './components/auth/register/register.component';
+
+import * as firebase from 'firebase';
+import { WelcomeComponent } from './components/index/welcome/welcome.component';
+firebase.initializeApp(environment.firebase);
 
 const config = {
   apiKey: '<your-key>',
@@ -59,6 +64,8 @@ const config = {
     AddPreferencesComponent,
     EditPreferencesComponent,
     NavigationComponent,
+    RegisterComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,7 @@ const config = {
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
-    AngularFireModule.initializeApp(config),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule, // storage

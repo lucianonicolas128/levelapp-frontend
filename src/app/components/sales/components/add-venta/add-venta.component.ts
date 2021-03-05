@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Venta } from '../../../../models/venta';
 import { VentaService } from '../../../../services/venta.service';
 import { UploadService } from '../../../../services/upload.service';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { SalesService } from 'src/app/services/sales/sales.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-venta',
@@ -12,7 +14,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./add-venta.component.css'],
   providers: [VentaService, ClienteService, UploadService]
 })
-export class AddVentaComponent implements OnInit {
+export class AddVentaComponent implements AfterViewInit {
   form!: FormGroup;
   public venta: Venta;
   public cliente: Cliente;
@@ -24,14 +26,13 @@ export class AddVentaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _ventaService: VentaService,
     private _clienteService: ClienteService,
+    private authService: AuthService
   ) {
-    this.venta = new Venta('', '', '', '', '', 0, 0, false);
+    this.venta = new Venta('', '', '', '', '', 0, 0, false, '');
     this.buildForm();
   }
 
-  ngOnInit(): void {
-    this.getClientes();
-  }
+  ngAfterViewInit(): void { this.getClientes(); }
 
   _filter(value: string): Cliente[] {
     const filterValue = value.toLowerCase();
@@ -39,15 +40,10 @@ export class AddVentaComponent implements OnInit {
   }
 
   getClientes() {
-    this._clienteService.getClientes().subscribe(
-      response => {
-        if (response.clientes) {
-          this.clientes = response.clientes;
-        }
-      },
-      error => {
-        console.log(<any>error);
-      }
+    let company = this.authService.getUID();
+    this._clienteService.getClientesCompany(company).subscribe(
+      response => { if (response.clientesFiltrados) { this.clientes = response.clientesFiltrados; } },
+      error => { console.log(<any>error); }
     )
   }
 
@@ -63,7 +59,10 @@ export class AddVentaComponent implements OnInit {
   onSubmit(form) {
     this.status = 'loading';
     if (this.form.valid) {
+      let company = this.authService.getUID();
       this.venta = this.form.value;
+      this.venta.saldo = this.venta.monto;
+      this.venta.company = company;
       this._ventaService.saveVenta(this.venta).subscribe(
         response => {
           this.status = 'succes';
@@ -74,7 +73,6 @@ export class AddVentaComponent implements OnInit {
 
   actualizarCliente() {
     this.getClientes();
-    console.log("Lista de clientes actualizada");
   }
 
   private buildForm() {
@@ -90,9 +88,12 @@ export class AddVentaComponent implements OnInit {
     });
   }
 
-  get clienteField(){
-    return this.form.get('cliente');
-  }
+  get clienteField() { return this.form.get('cliente'); }
+
+  get montoField() { return this.form.get('monto'); }
+
+  get dateField() { return this.form.get('fecha') }
+
 }
 
 

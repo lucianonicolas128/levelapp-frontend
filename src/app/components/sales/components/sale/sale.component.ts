@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, } from '@angular/core';
 import { Venta } from 'src/app/models/venta';
 import { VentaService } from 'src/app/services/venta.service';
 import { Global } from '../../../../services/global';
@@ -27,16 +21,19 @@ export class SaleComponent implements OnInit {
   @Output() ventaClicked: EventEmitter<any> = new EventEmitter();
   url;
   save_venta;
+  booleano;
+  pedidos;
 
   constructor(
     private _ventaService: VentaService,
     public dialog: MatDialog,
     private router: Router,
-  ) {
-    this.url = Global.url;
-  }
+  ) { this.url = Global.url; }
 
   ngOnInit(): void {
+    // console.log(this.venta);
+    // this.pedidos = JSON.parse(this.venta.pedido);
+    // console.log(this.pedidos)
   }
 
   setEntrega(venta) {
@@ -50,22 +47,15 @@ export class SaleComponent implements OnInit {
         venta.saldo = venta.monto;
       }
       this._ventaService.updateVenta(venta).subscribe(
-        response => {
-          this.save_venta = venta;
-        }
+        response => { this.save_venta = venta; }
       )
       this.ngOnInit();
     }
   }
 
   viewSale(id) {
-    const dialogRef = this.dialog.open(DetailventaComponent, {
-      data: { _id: id }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      this.ngOnInit();
-    });
+    const dialogRef = this.dialog.open(DetailventaComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
   }
 
   deleteSale(id) {

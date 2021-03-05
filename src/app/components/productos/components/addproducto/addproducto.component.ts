@@ -2,71 +2,59 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { UploadService } from '../../../../services/upload.service';
-import { Global } from '../../../../services/global';
-import { FormsModule } from '@angular/forms'
+import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addproducto',
   templateUrl: './addproducto.component.html',
   styleUrls: ['./addproducto.component.css'],
-  providers: [ProductoService, UploadService]
+  providers: [ProductoService, UploadService, AuthService]
 })
 export class AddproductoComponent implements OnInit {
-
-  public title: string;
+  formProduct!: FormGroup;
   public producto: Producto;
   public status: string;
-  public filesToUpload: Array<File>;
   public save_producto;
-  public url: string;
 
   constructor(
+    private formBuilder: FormBuilder,
     private _productoService: ProductoService,
-    private _uploadService: UploadService
+    private _uploadService: UploadService,
+    private authService: AuthService,
   ) {
-    this.title = "Agregar producto";
-    this.producto = new Producto('','','','',null,null,'');
-    this.url = Global.url;
-   }
-
-  ngOnInit(): void {
+    this.producto = new Producto('', '', '', '', null, null, '', '');
+    this.buildForm();
   }
 
-  onSubmit(form){
-    this.status = 'loading';
-    
-    //Guardar los datos
-    this._productoService.saveProducto(this.producto).subscribe(
-      response =>{
-        if(response.producto){
-          // Subir la imagen
-          if(this.filesToUpload){
-            this._uploadService.makeFileRequest(Global.url+"upload-image-album/"+response.producto._id, [], this.filesToUpload, 'image')
-            .then((result:any)=>{
-              this.status = 'succes';
-              console.log(result);
-              this.save_producto = result.producto;
-              form.reset();
-            });
-          }else{
-            this.save_producto = response.producto;
-            this.status = 'succes';
-            form.reset();
-          }
+  ngOnInit(): void { }
 
+  onSubmit(form) {
+    this.status = 'loading';
+    let company = this.authService.getUID();
+    this.producto = this.formProduct.value;
+    this.producto.company = company;
+    this._productoService.saveProducto(this.producto).subscribe(
+      response => {
+        if (response.producto) {
+          this.save_producto = response.producto;
+          this.status = 'succes';
+          form.reset();
         }
-        else{
-          this.status = 'failed';
-        }
+        else { this.status = 'failed'; }
       },
-      error =>{
-        console.log(<any> error);
-      }
+      error => { console.log(<any>error); }
     );
   }
 
-  fileChangeEvent(fileInput: any){
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  private buildForm() {
+    this.formProduct = this.formBuilder.group({
+      _id: [''],
+      nombre: ['', Validators.required],
+      descripcion: [''],
+      categoria: [''],
+      costo: [''],
+      precio: ['', Validators.required],
+    });
   }
-
 }

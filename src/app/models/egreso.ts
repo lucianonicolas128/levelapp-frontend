@@ -5,6 +5,7 @@ export class Egreso{
         public proveedor: string,
         public pedido: string,
         public descripcion: string,
-        public monto: number
+        public monto: number,
+        public company: string,
     ){}
 }

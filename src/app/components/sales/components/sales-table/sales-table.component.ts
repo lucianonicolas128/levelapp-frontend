@@ -2,11 +2,11 @@ import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Venta } from '../../../../models/venta';
 import { VentaService } from '../../../../services/venta.service';
-import { Global } from '../../../../services/global';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AddegressComponent } from 'src/app/components/egress/components/addegress/addegress.component';
 import { AddVentaComponent } from '../add-venta/add-venta.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sales-table',
@@ -16,65 +16,64 @@ import { AddVentaComponent } from '../add-venta/add-venta.component';
 })
 
 export class SalesTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource: MatTableDataSource<Venta>;
-  ventas!: Venta[];
-  url;
+  ventas: Venta[] = [];
   ventasFiltered;
   loadMore = "esperando";
-
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private authService: AuthService,
     private _ventaService: VentaService,
     public dialog: MatDialog
-  ) {
-    this.url = Global.url;
+  ) { }
+
+  ngAfterViewInit() { this.getLatestSales(); }
+
+  getLatestSales() {
+    let company = this.authService.getUID();
+    this._ventaService.getVentasCompany(company)
+      .subscribe(response => { this.ventas = response.ventasFiltrados.slice(0, 20); })
   }
 
-  ngAfterViewInit() {
-    this.getLatestSales();
+  addCompany() {
+    let company = this.authService.getUID();
+    console.log(company);
+    this.ventas.forEach(venta => {
+      venta.company = company;
+      this._ventaService.updateVenta(venta).subscribe(
+        response => { console.log(); },
+        error => { console.log(<any>error); }
+      );
+    });
   }
 
-  getLatestSales(){
-    this._ventaService.getVentas()
-    .subscribe(data => {
-      this.ventas = data.ventas.slice(0,20);
-    })
+  getSales() {
+    this._ventaService.getVentas().subscribe(response => { this.ventas = response.ventas; this.addCompany(); })
   }
 
-  getAllSales(){
+  getAllSales() {
+    let company = this.authService.getUID();
     this.loadMore = "cargando";
-    this._ventaService.getVentas()
-    .subscribe(data => {
-      this.ventas = data.ventas;
-    })
+    this._ventaService.getVentasCompany(company)
+      .subscribe(response => { this.ventas = response.ventasFiltrados; })
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(AddVentaComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      this.ngAfterViewInit();
-    });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
   }
 
   openDialogEgreso() {
     const dialogRef = this.dialog.open(AddegressComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-
-      this.ngAfterViewInit();
-    });
-
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
   }
 
-  searchSale(param){
+  searchSale(param) {
     this.ventasFiltered = this.ventas.filter(venta => venta.cliente.toUpperCase().includes(param.toUpperCase()));
   }
 
-  cleanSale(){
+  cleanSale() {
     this.ventasFiltered = null;
     (<HTMLInputElement>document.getElementById('searcher')).value = '';
   }

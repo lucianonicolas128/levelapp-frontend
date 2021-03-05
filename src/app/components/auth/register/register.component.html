@@ -1,0 +1,34 @@
+<div class="fondo w-100">
+    <div class="fondo2">
+        <div class="container my-5 py-5 z-depth-1 login">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-5 col-11">
+                    <div class="text-center mb-3">
+                        <img src="../../../../assets/img/LOGO_LEVEL_APP.png" class="w-75" alt="">
+                        <h3 class="text-white mt-3">Bienvenido/a!</h3>
+                    </div>
+                    <mat-card class="p-5 mb-3">
+                        <form class="text-center" [formGroup]="form" (ngSubmit)="register($event)">
+                            <p class="h4 mb-4">Registrarse</p>
+                            <!-- Email -->
+                            <mat-form-field class="w-100">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="email" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field class="w-100">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="password" formControlName="password">
+                            </mat-form-field>
+                            <button class="btn btn-info btn-block my-4" [disabled]="form.invalid" type="submit">Registrarse</button>
+                            <!-- Register -->
+                            <p>Ya tenes una cuenta?
+                                <a routerLink="/login">Iniciá sesión.</a>
+                            </p>
+                        </form>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

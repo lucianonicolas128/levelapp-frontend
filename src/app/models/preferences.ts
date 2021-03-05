@@ -1,5 +1,6 @@
 export class Preferences {
     constructor(
+        public _id: string,
         public nameCommerce: string,
         public descriptionCommerce: string,
         public imageLogo: string,
@@ -12,7 +13,8 @@ export class Preferences {
         public linkedin: string,
         public firstColor: string,
         public secondColor: string,
-        public imageBanner: string
+        public imageBanner: string,
+        public company: string,
 
     ){}
 }

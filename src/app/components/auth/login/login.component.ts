@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { UserI } from '../../../models/user.interface';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder  } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +10,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  form: FormGroup;
 
   constructor(
+    private formBuilder: FormBuilder,
     private authSvc: AuthService,
     private _route: Router
-  ) { }
+  ) {
+    this.buildForm();
+  }
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -23,18 +27,42 @@ export class LoginComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    
+    let uid = this.authSvc.getUID();
+    console.log(uid)
+    // if (uid != null) { this._route.navigate(['/dashboard']); }
+    if (this.authSvc.hasUser) { this._route.navigate(['/dashboard']); }
   }
 
-  onLogin(form: UserI){
-    console.log('Form', form);
-    this.authSvc
-    .loginByEmail(form)
-    .then(res =>{
-        console.log('Succefully', res);
-        this._route.navigate(['/'])
+  private buildForm(){
+    this.form = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email ]],
+      password: ['', Validators.required]
     })
-    .catch(err => console.log('Error', err));
   }
+
+  login(event: Event){
+    event.preventDefault();
+    if(this.form.valid){
+      const value = this.form.value;
+      this.authSvc.login(value.email, value.password)
+      .then(() => {
+        this._route.navigate(['/dashboard']);
+      })
+      .catch(() => {
+        alert('No es valido');
+      })
+    }
+  }
+
+  // onLogin(form: UserI){
+  //   console.log('Form', form);
+  //   this.authSvc
+  //   .loginByEmail(form)
+  //   .then(res =>{
+  //       console.log('Succefully', res);
+  //       this._route.navigate(['/'])
+  //   })
+  //   .catch(err => console.log('Error', err));
+  // }
 
 }

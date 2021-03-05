@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 // import {VentasComponent } from './components/sales/components/ventas/ventas.component'
 
 @Component({
@@ -7,8 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent{
   title = 'level-app';
-  faEdit = faEdit;
   // public ventas : VentasComponent;
 }

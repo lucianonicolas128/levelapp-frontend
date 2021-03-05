@@ -10,6 +10,7 @@ import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { faSync } from 'node_modules/@fortawesome/free-solid-svg-icons/faSync'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface DialogData {
   _id: string;
@@ -38,6 +39,7 @@ export class EditsaleComponent implements OnInit {
     private _ventaService: VentaService,
     private _clienteService: ClienteService,
     private _route: ActivatedRoute,
+    private authService: AuthService,
     public dialogRef: MatDialogRef<EditsaleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
@@ -45,45 +47,31 @@ export class EditsaleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._route.params.subscribe(params => {
-      let id = params.id;
-      this.getVenta(this.data._id);
-    });
+    this._route.params.subscribe(params => { this.getVenta(this.data._id); });
     this.getClientes();
   }
 
   getClientes() {
-    this._clienteService.getClientes().subscribe(
-      response => {
-        if (response.clientes) {
-          this.clientes = response.clientes;
-        }
-      },
-      error => {
-        console.log(<any>error);
-      }
+    let company = this.authService.getUID();
+    this._clienteService.getClientesCompany(company).subscribe(
+      response => { if (response.clientes) { this.clientes = response.clientesFiltrados; } },
+      error => { console.log(<any>error); }
     )
   }
 
 
   getVenta(id) {
     this._ventaService.getVenta(id).subscribe(
-      response => {
-        this.venta = response.venta;
-      },
-      error => {
-        console.log(<any>error);
-      }
+      response => { this.venta = response.venta; },
+      error => { console.log(<any>error); }
     )
   }
 
   onSubmit(form) {
-    if (this.venta.entregado) {
-      this.venta.saldo = 0;
-    }
+    if (this.venta.entregado) { this.venta.saldo = 0; }
+    let company = this.authService.getUID();
     this.status = 'loading';
-    console.log(this.form.value);
-    console.log(this.venta);
+    this.venta.company = company;
     if (this.venta) {
       this._ventaService.updateVenta(this.venta).subscribe(
         response => {
@@ -116,8 +104,6 @@ export class EditsaleComponent implements OnInit {
     });
   }
 
-  get clienteField() {
-    return this.form.get('cliente');
-  }
+  get clienteField() { return this.form.get('cliente'); }
 
 }

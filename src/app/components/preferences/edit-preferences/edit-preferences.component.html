@@ -1,1 +1,73 @@
-<p>edit-preferences works!</p>
+<div class="row m-3">
+    <div *ngIf="preferences" class="col-12 mat-elevation-z8 productos bg-white">
+        <div class="alert alert-success" *ngIf="status == 'succes'">Preferencias actualizadas correctamente.</div>
+        <div class="alert alert-danger" *ngIf="status == 'failed'">Las preferencias no se han podido agregar.</div>
+        <form class="text-center p-5" [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <!-- Name & phone -->
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Nombre del negocio</mat-label>
+                        <input matInput type="text" formControlName="nameCommerce" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput type="tel" formControlName="phoneContact">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <mat-form-field class="example-full-width w-100" appearance="fill">
+                <mat-label class="w-100">Descripción</mat-label>
+                <textarea matInput rows="4" type="text" formControlName="descriptionCommerce"></textarea>
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field class="example-full-width w-100" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="emailContact">
+            </mat-form-field>
+
+            <!-- Logo -->
+            <!-- <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Cargar logo</span>
+                </div>
+            </div> -->
+
+            <!-- Ubication -->
+            <mat-form-field class="example-full-width w-100" appearance="fill">
+                <mat-label class="w-100">Dirección</mat-label>
+                <input matInput type="text" formControlName="ubicationContact">
+            </mat-form-field>
+
+            <!-- Facebook, instagram & twitter -->
+            <div class="row">
+                <div class="col-md-4 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label class="w-100">Facebook</mat-label>
+                        <input matInput type="text" formControlName="facebook">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>Instagram</mat-label>
+                        <input matInput type="text" formControlName="instagram">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>Twitter</mat-label>
+                        <input matInput type="text" formControlName="twitter">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary" class="w-100" type="submit"
+                [disabled]="form.invalid">Actualizar preferencias</button>
+        </form>
+    </div>
+</div>

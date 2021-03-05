@@ -6,12 +6,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { VentaService } from '../../../../services/venta.service';
 import { Venta } from '../../../../models/venta'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
 
-import { faPhoneAlt, faMapMarker } from '@fortawesome/free-solid-svg-icons'
-
-export interface DialogData {
-  _id: string;
-}
+export interface DialogData { _id: string; }
 
 @Component({
   selector: 'app-detailcliente',
@@ -20,27 +17,21 @@ export interface DialogData {
   providers: [VentaService, ClienteService]
 })
 export class DetailclienteComponent implements OnInit {
-  public url: string;
   public cliente: Cliente;
   public confirm: boolean;
   public ventas: Venta[];
   public comprasCliente: Venta[];
   public venta: Venta;
 
-  faPhone = faPhoneAlt;
-  faMap = faMapMarker;
-
   constructor(
+    private authService: AuthService,
     private _clienteService: ClienteService,
     private _ventaService: VentaService,
     private _router: Router,
     private _route: ActivatedRoute,
     public dialogRef: MatDialogRef<DetailclienteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {
-    this.url = Global.url;
-    this.confirm = false
-   }
+  ) { this.confirm = false }
 
   ngOnInit(): void {
     this._route.params.subscribe(params => {
@@ -49,56 +40,44 @@ export class DetailclienteComponent implements OnInit {
     });
   }
 
-  getCliente(id){
-    this._clienteService.getCliente(id).subscribe(
-      response => {
-        this.cliente = response.cliente;
-        this.getVentas(); 
-      }
-    )
+  getCliente(id) {
+    this._route.params.subscribe(response => {
+      this._clienteService.getCliente(id).subscribe(
+        response => {
+          this.cliente = response.cliente;
+          this.getVentas();
+        })
+    })
   }
 
-  setConfirm(confirm){
+  setConfirm(confirm) {
     this.confirm = confirm;
   }
 
-  deleteCliente(id){
+  deleteCliente(id) {
     this._clienteService.deleteCliente(id).subscribe(
-      response => {
-        this._router.navigate(['/clientes']);
-      },
-      error => {
-        console.log(<any>error)
-      }
+      response => { this._router.navigate(['/clientes']); },
+      error => { console.log(<any>error) }
     )
   }
 
-  
-  getVentas(){
-    this._ventaService.getVentas().subscribe(
+  getVentas() {
+    let company = this.authService.getUID();
+    this._ventaService.getVentasCompany(company).subscribe(
       response => {
-        if(response.ventas){
-          this.ventas = response.ventas;
-
-          /* FILTRAMOS TODAS LAS COMPRAS DE ESTE CLIENTE */
+        if (response.ventasFiltrados) {
+          this.ventas = response.ventasFiltrados;
           this.comprasCliente = this.ventas.filter(venta => venta.cliente == this.cliente.nombre);
         }
       },
-      error => {
-        console.log(<any>error);
-      }
+      error => { console.log(<any>error); }
     )
   }
 
-  
-  deleteVenta(id){
+  deleteVenta(id) {
     this._ventaService.deleteVenta(id).subscribe(
-      response => {
-        this._router.navigate(['/ventas']);
-      },
-      error => {
-        console.log(<any>error)
-      }
+      response => { this._router.navigate(['/incidencias']); },
+      error => { console.log(<any>error) }
     )
   }
 

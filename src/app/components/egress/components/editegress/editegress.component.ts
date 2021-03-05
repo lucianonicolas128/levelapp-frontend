@@ -1,73 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Egreso } from '../../../../models/egreso';
 import { EgresoService } from '../../../../services/egreso.service';
 import { UploadService } from '../../../../services/upload.service';
-import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+export interface DialogData { _id: string; }
 
 @Component({
   selector: 'app-editegress',
   templateUrl: '../addegress/addegress.component.html',
   styleUrls: ['./editegress.component.css'],
-  providers: [EgresoService, UploadService]
+  providers: [EgresoService, UploadService, AuthService]
 })
-export class EditegressComponent implements OnInit {
 
-  public title: string;
+export class EditegressComponent implements OnInit {
+  form!: FormGroup;
   public egreso: Egreso;
   public status: string;
   public filesToUpload: Array<File>;
   public save_egreso;
-  public url: string;
 
   constructor(
+    private formBuilder: FormBuilder,
     private _egresoService: EgresoService,
-    private _uploadService: UploadService,
-    private _router: Router,
-    private _route: ActivatedRoute
-  ) {
-    this.title = "Editar egreso";
-    this.url = Global.url;
+    private _route: ActivatedRoute,
+    private authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { 
+    this.buildForm();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { this.getegreso(); }
+
+  getegreso() {
     this._route.params.subscribe(params => {
-      let id = params.id;
-      this.getegreso(id);
-    });
+      this._egresoService.getEgreso(this.data._id).subscribe(
+        response => {
+          this.egreso = response.egreso;
+          this.form.patchValue(response.egreso)
+        },
+        error => { console.log(<any>error); }
+      )
+    })
   }
 
-  getegreso(id){
-    this._egresoService.getEgreso(id).subscribe(
-      response => {
-        this.egreso = response.egreso;
-      },
-      error => {
-        console.log(<any>error);
-      }
-    )
-  }
-
-  onSubmit(form){
-    
-    //Guardar los datos
+  onSubmit(form) {
+    this.egreso = this.form.value;
+    this.egreso.company = this.authService.getUID();
     this._egresoService.updateEgreso(this.egreso).subscribe(
-      response =>{
-        if(response.egreso){
+      response => {
+        if (response.egreso) {
           this.save_egreso = response.egreso;
           this.status = 'succes';
-        }else{
-          this.status = 'failed';
-        }
+        } else { this.status = 'failed'; }
       },
-      error =>{
-        console.log(<any> error);
-      }
+      error => { console.log(<any>error); }
     );
   }
 
-  fileChangeEvent(fileInput: any){
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      fecha: ['', Validators.required],
+      proveedor: ['', Validators.required],
+      pedido: ['',],
+      descripcion: [''],
+      monto: [, Validators.required],
+    });
   }
-
 }

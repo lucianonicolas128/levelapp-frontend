@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Preferences } from '../../../models/preferences';
 import { PreferencesService } from '../../../services/preferences.service';
-import { Global } from '../../../services/global';
-import { Router, ActivatedRoute, Params} from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UploadService } from 'src/app/services/upload.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-preferences',
@@ -12,7 +13,7 @@ import { UploadService } from 'src/app/services/upload.service';
   providers: [PreferencesService, UploadService]
 })
 export class AddPreferencesComponent implements OnInit {
-
+  form!: FormGroup;
   public preferences: Preferences;
   public url: string;
   public id: string;
@@ -21,63 +22,45 @@ export class AddPreferencesComponent implements OnInit {
   public save_preferences;
 
   constructor(
+    private formBuilder: FormBuilder,
     private _preferencesService: PreferencesService,
-    private _uploadService: UploadService,
-    private _router: Router,
-    private _route: ActivatedRoute
-    ) { 
-      this.preferences = new Preferences('','','','','','','','','','','','','');
-      this.url = Global.url;
-    }
-
-
-  ngOnInit(): void {
+    private authService: AuthService,
+  ) {
+    this.preferences = new Preferences('', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    this.buildForm();
   }
-  
-  
-  onSubmit(form){
+
+  ngOnInit(): void { }
+
+  onSubmit(form) {
+    let company = this.authService.getUID();
+    this.preferences = this.form.value;
+    this.preferences.company = company;
     this._preferencesService.savePreferences(this.preferences).subscribe(
       response => {
-        if(response.preferences){
-
+        if (response.preferences) {
           this.save_preferences = response.preferences;
-          console.log(response.preferences);
           this.status = 'succes';
+        } else { this.status = 'failed'; }
 
-          // if(this.filesToUpload){
-          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
-          //   .then((result:any) => {
-          //     this.status = 'succes';
-          //     console.log(result);
-          //     this.save_preferences = result.preferences;
-          //   });
-          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
-          //   .then((result:any) => {
-          //     this.status = 'succes';
-          //     console.log(result);
-          //     this.save_preferences = result.preferences;
-              
-          //     this._router.navigate(['/admin']);
-          //   });
-          // }else{
-          //   this.save_preferences = response.preferences;
-          //   this.status = 'succes';
-          //   this._router.navigate(['/admin']);
-          // }
-        }else{
-          this.status = 'failed';
-        }
-      
       },
-      error =>{
-        console.log(<any>error);
-      }
+      error => { console.log(<any>error); }
     );
   }
 
-  fileChangeEvent(fileInput: any){
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      nameCommerce: ['', Validators.required],
+      descriptionCommerce: [''],
+      phoneContact: [''],
+      emailContact: [''],
+      ubicationContact: [''],
+      facebook: [''],
+      instagram: [''],
+      twitter: [''],
+      linkedin: [''],
+    });
   }
-
 
 }

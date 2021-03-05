@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Egreso } from '../../../../models/egreso';
 import { EgresoService } from '../../../../services/egreso.service';
 import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface DialogData { _id: string; }
 
 @Component({
   selector: 'app-detailegress',
@@ -19,7 +21,9 @@ export class DetailegressComponent implements OnInit {
   constructor(
     private _egresoService: EgresoService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    public dialogRef: MatDialogRef<DetailegressComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.url = Global.url;
     this.confirm = false
@@ -28,7 +32,7 @@ export class DetailegressComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       let id = params.id;
-      this.getEgreso(id);
+      this.getEgreso(this.data._id);
     });
   }
 

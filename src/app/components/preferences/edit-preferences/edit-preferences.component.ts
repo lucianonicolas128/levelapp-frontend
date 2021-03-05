@@ -1,107 +1,87 @@
 import { Component, OnInit } from '@angular/core';
 import { Preferences } from '../../../models/preferences';
 import { PreferencesService } from '../../../services/preferences.service';
-import { Global } from '../../../services/global';
-import { Router, ActivatedRoute, Params} from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UploadService } from 'src/app/services/upload.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-preferences',
-  templateUrl: '../add-preferences/add-preferences.component.html',
+  // templateUrl: '../add-preferences/add-preferences.component.html',
+  templateUrl: './edit-preferences.component.html',
   styleUrls: ['./edit-preferences.component.css'],
   providers: [PreferencesService, UploadService]
 })
 export class EditPreferencesComponent implements OnInit {
-
+  form!: FormGroup;
   public preferences: Preferences;
   public preferenceses: Preferences[];
-  public url: string;
   public id: string;
   public status: string;
-  public filesToUpload: Array<File>;
   public save_preferences;
+  aux;
 
   constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
     private _preferencesService: PreferencesService,
-    private _uploadService: UploadService,
-    private _router: Router,
-    private _route: ActivatedRoute
-    ) { 
-      this.url = Global.url;
-    }
-
-  ngOnInit(): void {
-    this.getPreferenceses();
+  ) {
+    this.buildForm();
   }
 
+  ngOnInit(): void { this.getPreferenceses(); }
 
-  getPreferences(id){
+  getPreferences(id) {
     this._preferencesService.getPreferences(id).subscribe(
-      response => {
-        this.preferences = response.preferences;
-      },
-      error => {
-        console.log(<any>error);
-      }
+      response => { this.preferences = response.preferences; },
+      error => { console.log(<any>error); }
     )
   }
 
-  getPreferenceses(){
+  getPreferenceses() {
+    let company = this.authService.getUID();
     this._preferencesService.getPreferenceses().subscribe(
       response => {
-        if(response.preferences) {
+        if (response.preferences) {
           this.preferenceses = response.preferences;
-          this.id = response.preferences[0]._id;
-          this.getPreferences(this.id);
+          this.aux = this.preferenceses.filter(preference => preference.company === company);
+          this.preferences = this.aux[0];
+          if(this.preferences){
+            this.form.patchValue(this.preferences);
+          }
         }
       },
-      error => {
-        console.log(<any>error);
-      }
+      error => { console.log(<any>error); }
     )
   }
 
-  onSubmit(form){
+  onSubmit(form) {
+    let company = this.authService.getUID();
+    this.preferences = this.form.value;
+    this.preferences.company = company;
     this._preferencesService.updatePreferences(this.preferences).subscribe(
       response => {
-        if(response.preferences){
-          response.preferences._id = this.id;
-          this.status = 'succes';
-          this.save_preferences = response.preferences;
-
-          // if(this.filesToUpload){
-          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-logo/"+response.preferences._id, [], this.filesToUpload, 'image')
-          //   .then((result:any) => {
-          //     this.status = 'succes';
-          //     console.log(result);
-          //     this.save_preferences = result.preferences;
-          //   });
-          //   this._uploadService.makeFileRequest(Global.url+"upload-image-preferences-banner/"+response.preferences._id, [], this.filesToUpload, 'image')
-          //   .then((result:any) => {
-          //     this.status = 'succes';
-          //     console.log(result);
-          //     this.save_preferences = result.preferences;
-              
-          //     this._router.navigate(['/admin']);
-          //   });
-          // }else{
-          //   this.save_preferences = response.preferences;
-          //   this.status = 'succes';
-          //   this._router.navigate(['/admin']);
-          // }
-        }else{
-          this.status = 'failed';
-        }
-      
+        if (response.preferences) { this.status = 'succes'; }
+        else { this.status = 'failed'; }
       },
-      error =>{
-        console.log(<any>error);
-      }
+      error => { console.log(<any>error); }
     );
   }
 
-  fileChangeEvent(fileInput: any){
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      _id: [''],
+      nameCommerce: ['', Validators.required],
+      descriptionCommerce: [''],
+      phoneContact: [''],
+      emailContact: [''],
+      ubicationContact: [''],
+      facebook: [''],
+      instagram: [''],
+      twitter: [''],
+      linkedin: [''],
+    });
   }
 
 }

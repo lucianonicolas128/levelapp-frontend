@@ -2,47 +2,39 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { UploadService } from '../../../../services/upload.service';
-import { Global } from '../../../../services/global';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-addcliente',
   templateUrl: './addcliente.component.html',
   styleUrls: ['./addcliente.component.css'],
-  providers: [ClienteService, UploadService]
+  providers: [ClienteService, UploadService, AuthService]
 })
 export class AddclienteComponent implements OnInit {
   form!: FormGroup;
   public cliente: Cliente;
   public status: string;
   public save_cliente;
-  public clientes: Cliente[];
-  auxClient: Cliente[];
+  public clientes: Cliente[] = [];
   messageClient;
 
   constructor(
     private formBuilder: FormBuilder,
     private _clienteService: ClienteService,
-    private _uploadService: UploadService
+    private authService: AuthService,
   ) {
-    this.cliente = new Cliente('', '', 0, '',);
+    this.cliente = new Cliente('', '', 0, '', '');
     this.buildForm();
   }
 
-  ngOnInit(): void {
-    this.getClientes();
-  }
+  ngOnInit(): void { this.getClientes(); }
 
   getClientes() {
-    this._clienteService.getClientes().subscribe(
-      response => {
-        if (response.clientes) {
-          this.clientes = response.clientes;
-        }
-      },
-      error => {
-        console.log(<any>error);
-      }
+    let company = this.authService.getUID();
+    this._clienteService.getClientesCompany(company).subscribe(
+      response => { if (response.clientes) { this.clientes = response.clientes; } },
+      error => { console.log(<any>error); }
     )
   }
 
@@ -50,27 +42,26 @@ export class AddclienteComponent implements OnInit {
     if (this.clientes.find(cliente => cliente.nombre.toUpperCase().normalize() === nombre.toUpperCase().normalize())) {
       let message = alert("El cliente ya existe");
       this.messageClient = false;
-    } else {
-      this.messageClient = true;
-    }
+    } else { this.messageClient = true; }
   }
 
   onSubmit(form) {
     this.cliente = this.form.value;
-    this.checkClient(this.cliente.nombre);
+    if (this.clientes.length > 0) { this.checkClient(this.cliente.nombre); }
+    else { this.messageClient = true; };
+    this.cliente.company = this.authService.getUID();
     if (this.messageClient) {
       this.status = 'loading';
       if (this.form.valid) {
         this.cliente = this.form.value;
+        this.cliente.company = this.authService.getUID();
         this._clienteService.saveCliente(this.cliente).subscribe(
           response => {
-              this.save_cliente = response.cliente;
-              this.status = 'succes';
-              form.reset();
+            this.save_cliente = response.cliente;
+            this.status = 'succes';
+            form.reset();
           },
-          error => {
-            console.log(<any>error);
-          }
+          error => { console.log(<any>error); }
         );
       }
     }

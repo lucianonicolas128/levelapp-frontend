@@ -9,6 +9,7 @@ export class Venta{
         public descripcion: string,
         public monto: number,
         public saldo: number,
-        public entregado: boolean
+        public entregado: boolean,
+        public company: string,
     ){}
 }

@@ -2,9 +2,15 @@
 
   <div class="data" *ngIf="venta">
     <div class="row">
-        <div class="col-md-4"><h5> {{venta.cliente}}</h5></div>
-        <div class="col-md-4"><h5> {{telefono}}</h5></div>
-        <div class="col-md-4"><h5> {{direccion}}</h5></div>
+      <div class="col-md-4">
+        <h5> {{venta.cliente}}</h5>
+      </div>
+      <div class="col-md-4">
+        <h5> {{telefono}}</h5>
+      </div>
+      <div class="col-md-4">
+        <h5> {{direccion}}</h5>
+      </div>
     </div>
 
     <table class="table table-hover table-md-responsive table-sm-responsive my-3">
@@ -29,24 +35,24 @@
       <tbody *ngIf="venta">
         <tr>
           <td scope="row">{{venta.fecha | date: 'dd/MM/YY'}}</td>
-          <td >{{venta.pedido}}</td>
+          <td>{{venta.pedido}}</td>
           <td>{{venta.descripcion}}</td>
           <td><strong>${{venta.monto}}</strong></td>
           <td><strong>${{venta.saldo}}</strong></td>
           <td>
-              <p *ngIf="confirm == false">
-                  <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
-              </p>
+            <p *ngIf="confirm == false">
+              <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
+            </p>
           </td>
           <td>
-              <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
-              <p *ngIf="confirm == true">
-                  <span class="confirm">
-                        ¿Estas seguro de eliminar esta venta? <br>
-                  </span>
-                  <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
-                  <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
-              </p>
+            <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+            <p *ngIf="confirm == true">
+              <span class="confirm">
+                ¿Estas seguro de eliminar esta venta? <br>
+              </span>
+              <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+              <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+            </p>
           </td>
         </tr>
       </tbody>
@@ -70,24 +76,24 @@
       <tbody>
         <tr *ngFor="let venta of comprasCliente">
           <td scope="row">{{venta.fecha | date: 'dd/MM/YY'}}</td>
-          <td >{{venta.pedido}}</td>
+          <td>{{venta.pedido}}</td>
           <td>{{venta.descripcion}}</td>
           <td><strong>${{venta.monto}}</strong></td>
           <td><strong>${{venta.saldo}}</strong></td>
           <td>
-              <p *ngIf="confirm == false">    
-                  <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
-              </p>
+            <p *ngIf="confirm == false">
+              <!-- <a [routerLink]="['/editar-venta', venta._id]" class="btn btn-outline-warning mr-3">Editar</a> -->
+            </p>
           </td>
           <td>
-              <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
-              <p *ngIf="confirm == true">
-                  <span class="confirm">
-                        ¿Estas seguro de eliminar esta venta? <br>
-                  </span>
-                  <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
-                  <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
-              </p>
+            <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+            <p *ngIf="confirm == true">
+              <span class="confirm">
+                ¿Estas seguro de eliminar esta venta? <br>
+              </span>
+              <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
+              <a (click)="deleteVenta(venta._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
+            </p>
           </td>
         </tr>
       </tbody>
@@ -98,5 +104,3 @@
 <div class="container p-0 mt-3">
   <!-- <button type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['']">Volver a inicio</button> -->
 </div>
-
-

@@ -7,6 +7,7 @@ import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddproductoComponent } from '../addproducto/addproducto.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -18,7 +19,7 @@ import { AddproductoComponent } from '../addproducto/addproducto.component';
 export class ProductosComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource: MatTableDataSource<Producto>;
-  productos!: Producto[];
+  productos: Producto[] = [];
   url;
   productsFiltered;
 
@@ -29,18 +30,16 @@ export class ProductosComponent implements AfterViewInit {
     private _productoService: ProductoService,
     private _router: Router,
     private _route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthService,
   ) {
     this.url = Global.url;
     this.confirm = false;
   }
 
   ngAfterViewInit() {
-    this._productoService.getProductos()
-      .subscribe(data => {
-        this.productos = data.productos;
-        this.dataSource = new MatTableDataSource<Producto>(this.productos);
-      })
+    this.getProductsCompany();
+    // this.getProductos();
   }
 
   getProductos() {
@@ -54,6 +53,14 @@ export class ProductosComponent implements AfterViewInit {
         console.log(<any>error);
       }
     )
+  }
+
+  getProductsCompany() {
+    let company = this.authService.getUID();
+    this._productoService.getProductsCompany(company).subscribe(
+      response => {
+        if (response.productosFiltrados) { this.productos = response.productosFiltrados; }
+      })
   }
 
   addProduct() {

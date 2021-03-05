@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ProductsRoutingModule } from './products-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddproductoComponent } from './components/addproducto/addproducto.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { ItemComponent } from './components/item/item.component';
@@ -32,6 +32,7 @@ import { LayoutProductsComponent } from './components/layout-products/layout-pro
     ProductsRoutingModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule
     
   ],
   exports: [

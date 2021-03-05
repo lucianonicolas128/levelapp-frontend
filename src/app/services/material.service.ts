@@ -3,17 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Material } from '../models/material';
 import { Global } from './global';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable()
 export class MaterialService{
-    public url: string;
-
-    constructor(
-        private _http: HttpClient
-    ){
-        this.url = Global.url;
-    }
+    constructor(private _http: HttpClient) { }
 
     testService(){
         return 'Probando el servicio de angular';
@@ -23,27 +18,27 @@ export class MaterialService{
         let params = JSON.stringify(material);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(this.url+'/save-material', params, {headers: headers});
+        return this._http.post(`${environment.url_api}save-material`, params, {headers: headers});
     }
 
     getMateriales(): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(this.url+'materials', {headers: headers});
+        return this._http.get(`${environment.url_api}materials`, {headers: headers});
     }
 
     getMaterial(id): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(this.url+'material/'+id, {headers: headers});
+        return this._http.get(`${environment.url_api}material/${id}`, {headers: headers});
     }
 
     deleteMaterial(id): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.delete(this.url+'material/'+id, {headers: headers});
+        return this._http.delete(`${environment.url_api}material/${id}`, {headers: headers});
     }
 
     updateMaterial(material): Observable<any>{
         let params = JSON.stringify(material);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.put(this.url+'material/'+material._id, params, {headers: headers});
+        return this._http.put(`${environment.url_api}material/${material._id}`, params, {headers: headers});
     }
 }

@@ -23,7 +23,7 @@ export class AddMaterialComponent implements OnInit {
     private _uploadService: UploadService
   ) {
     this.title = "Nuevo material";
-    this.material = new Material('','',0,'');
+    this.material = new Material('','',0,'','');
     this.url = Global.url;
    }
 

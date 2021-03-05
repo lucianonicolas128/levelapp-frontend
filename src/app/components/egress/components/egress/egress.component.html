@@ -11,5 +11,7 @@
         <span (click)="setEntrega(egreso)"  class="badge badge-danger" *ngIf="!egreso.entregado">Sin entregar</span> -->
         <span class="demo-2 pl-2 text-info text-small"> {{egreso.pedido}} </span>
     </div>
+    <mat-icon matPrefix (click)="edit(egreso._id)">edit</mat-icon>
+    <mat-icon matPrefix (click)="delete(egreso._id)">delete</mat-icon>
     <mat-divider></mat-divider>
 </mat-list-item>

@@ -10,10 +10,10 @@
               <input id="searcher" matInput name="" #cliente="ngModel" [(ngModel)]="cliente.name" [value]="cliente.name"
                 (keyup.enter)="searchClient(cliente.name)">
               <a matSuffix>
-                <mat-icon (click)="searchClient(cliente.name)">search</mat-icon>
+                <mat-icon (click)="searchClient(cliente.name)" class="pointer">search</mat-icon>
               </a>
               <a matSuffix>
-                <mat-icon (click)="cleanSearcher()">close</mat-icon>
+                <mat-icon (click)="cleanSearcher()" class="pointer">close</mat-icon>
               </a>
             </mat-form-field>
           </p>
@@ -23,6 +23,10 @@
         <mat-divider></mat-divider>
         <mat-card-content>
           <mat-list class=" tabla-productos scrollbar-info">
+
+            <span *ngIf="clientes.length < 1" class="w-100 text-center mt-2">
+              <p>Aun no hay clientes para mostrar.</p>
+            </span>
 
             <div *ngIf="!clientes" class="spinner-border text-info text-center" role="status">
               <span class="sr-only">Loading...</span>
