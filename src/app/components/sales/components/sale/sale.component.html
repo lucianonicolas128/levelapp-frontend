@@ -1,4 +1,4 @@
-<mat-list-item class="mt-0 pt-0" [ngClass]="venta.entregado == false ? 'sin-entregar' : '' " id="sale">
+<mat-list-item class="mt-0 pt-0" [ngClass]="venta.entregado == false || venta.entregado == null ? 'sin-entregar' : '' " id="sale">
     <div matLine (click)="viewSale(venta._id)">
         <span class="h6">{{venta.cliente}},</span>
         <span class="pl-2 text-info text-small"> el {{venta.fecha | date: 'dd/MM/yyyy'}}</span>
