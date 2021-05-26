@@ -1,13 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
-import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-export interface DialogData {
-  _id: string;
-}
+export interface DialogData { _id: string; }
 
 @Component({
   selector: 'app-detailproducto',
@@ -16,8 +13,7 @@ export interface DialogData {
   providers: [ProductoService]
 })
 export class DetailproductoComponent implements OnInit {
-  public url: string;
-  public producto: Producto;
+  public product!: Producto;
   public confirm: boolean;
 
   constructor(
@@ -26,40 +22,42 @@ export class DetailproductoComponent implements OnInit {
     private _route: ActivatedRoute,
     public dialogRef: MatDialogRef<DetailproductoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-    ) {
-      this.url = Global.url;
-      this.confirm = false
-    }
+  ) { this.confirm = false }
 
   ngOnInit(): void {
-    this._route.params.subscribe(params => {
-      let id = params.id;
-      this.getProducto(this.data._id);
-    });
+    this.getProducto();
   }
 
-  
-  getProducto(id){
-    this._productoService.getProducto(id).subscribe(
-      response => {
-        this.producto = response.producto;
-      }
-    )
+  getProducto() {
+    this._route.params.subscribe(response => {
+      this._productoService.getProducto(this.data._id).subscribe(
+        data => {
+          this.product = data.producto;
+        },
+        error => { console.log(<any>error); }
+      )
+    })
   }
 
-  setConfirm(confirm){
-    this.confirm = confirm;
-  }
+  setConfirm(confirm) { this.confirm = confirm; }
 
-  deleteProducto(id){
+  deleteProducto(id) {
     this._productoService.deleteProducto(id).subscribe(
-      response => {
-        this._router.navigate(['/productos']);
-      },
-      error => {
-        console.log(<any>error)
-      }
+      response => { this._router.navigate(['/productos']); },
+      error => { console.log(<any>error) }
     )
+  }
+
+  deleteProduct(id) {
+    let message = confirm("Desea eliminar este producto?");
+    if (message) {
+      this._productoService.deleteProducto(id).subscribe(
+        response => {
+          this.dialogRef.close()
+        },
+        error => { console.log(<any>error); }
+      )
+    } else { console.log('Producto no eliminad'); }
   }
 
 }

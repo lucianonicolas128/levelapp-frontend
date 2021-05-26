@@ -1,20 +1,13 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
-import { Global } from '../../../../services/global';
 import { EditproductoComponent } from '../editproducto/editproducto.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailproductoComponent } from '../detailproducto/detailproducto.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
-export interface DialogData {
-  _id: string;
-}
+export interface DialogData { _id: string; }
 
 @Component({
   selector: 'app-item-producto',
@@ -23,37 +16,32 @@ export interface DialogData {
   providers: [ProductoService]
 })
 export class ItemComponent implements OnInit {
-
-  @Input() producto!: Producto;
-  @Output() productoClicked: EventEmitter<any> = new EventEmitter();
-
-  url;
-  productos: Producto[];
+  @Input() product!: Producto;
+  @Output() productClicked: EventEmitter<any> = new EventEmitter();
+  public products: Producto[];
 
   constructor(
     private _productoService: ProductoService,
-    public dialog: MatDialog
-  ) {
-    this.url = Global.url;
-  }
+    private _authService: AuthService,
+    public dialog: MatDialog,
+    public _router: Router
+  ) { }
 
   ngOnInit(): void {
-    // this.getProducts();
-    this.productoClicked;
+    this.productClicked;
   }
 
-  getProducts(){
-    this._productoService.getProductos()
-    .subscribe(
-      response => {
-        this.productos = response.productos;
-      }
-    )
+  getProducts() {
+    let company = this._authService.getUID();
+    this._productoService.getProducts(company)
+      .subscribe(
+        response => { this.products = response.productos; }
+      )
   }
 
-  editProduct(id){
+  editProduct(id) {
     const dialogRef = this.dialog.open(EditproductoComponent, {
-      data: { _id: id}
+      data: { _id: id }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -61,13 +49,24 @@ export class ItemComponent implements OnInit {
     });
   }
 
-  viewProduct(id){
+  viewProduct(id) {
     const dialogRef = this.dialog.open(DetailproductoComponent, {
-      data: { _id: id}
+      data: { _id: id }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      this.ngOnInit();
+      location.reload();
+      // this.ngOnInit();
     });
   }
+
+  deleteProduct(id) {
+    let message = confirm("Desea eliminar este producto?");
+    if (message) {
+      this._productoService.deleteProducto(id).subscribe(
+        response => { location.reload(); },
+        error => { console.log(<any>error); }
+      )
+    } else { console.log('Producto no eliminad'); }
+  }
+
 }

@@ -1,48 +1,40 @@
-<div>
-  <mat-card class="mat-elevation-z8">
+<mat-card class="mat-elevation-z8">
     <mat-card-title>
-      <p class="h6">Productos
-        <mat-form-field class="ml-2">
-          <mat-label class="h6"></mat-label>
-          <input id="searcher" matInput name="" #producto="ngModel" [(ngModel)]="producto.name" [value]="producto.name"
-            (keyup.enter)="searchProduct(producto.name)">
-          <a matSuffix>
-            <mat-icon (click)="searchProduct(producto.name)" class="pointer">search</mat-icon>
-          </a>
-          <a matSuffix>
-            <mat-icon (click)="cleanProducts()" class="pointer">close</mat-icon>
-          </a>
-        </mat-form-field>
-      </p>
+        <h6>Productos
+            <mat-form-field class="ml-2 w-auto">
+                <mat-label class="h6"></mat-label>
+                <input id="searcher" matInput name="" #producto="ngModel" [(ngModel)]="producto.name"
+                    [value]="producto.name" (keyup.enter)="searchProduct(producto.name)">
+                <a matSuffix>
+                    <mat-icon (click)="searchProduct(producto.name)" class="pointer">search</mat-icon>
+                </a>
+                <a matSuffix>
+                    <mat-icon (click)="cleanProducts()" class="pointer">close</mat-icon>
+                </a>
+            </mat-form-field>
+        </h6>
     </mat-card-title>
-    <mat-divider></mat-divider>
     <mat-card-content>
-      <mat-list class=" tabla-productos scrollbar-info">
-
-        <div *ngIf="productos.length < 1" class="spinner-border text-info text-center" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-
-        <span *ngIf="productos.length < 1" class="w-100 text-center mt-2"><p>Aun no hay productos para mostrar.</p></span>
-
-        <span *ngIf="!productsFiltered" class="p-0">
-          <app-item-producto *ngFor="let producto of productos" [producto]="producto">
-          </app-item-producto>
-        </span>
-        <span *ngIf="productsFiltered" class="p-0">
-          <app-item-producto *ngFor="let producto of productsFiltered" [producto]="producto">
-          </app-item-producto>
-        </span>
-
-      </mat-list>
-
-
+        <mat-list class="tabla-productos scrollbar-info">
+            <div *ngIf="products.length < 1" class="spinner-border text-info text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="products.length < 1" class="w-100 text-center mt-2">
+                <p>Aun no hay productos para mostrar.</p>
+            </span>
+            <span *ngIf="!productsFiltered" class="p-0">
+                <app-item-producto *ngFor="let product of products" [product]="product">
+                </app-item-producto>
+            </span>
+            <span *ngIf="productsFiltered" class="p-0">
+                <app-item-producto *ngFor="let product of productsFiltered" [product]="product">
+                </app-item-producto>
+            </span>
+        </mat-list>
     </mat-card-content>
-  </mat-card>
-  <mat-divider></mat-divider>
-  <mat-card class="footer-table d-flex justify-content-end example-button-container p-3">
-    <a mat-raised-button class="greenblue" (click)="addProduct()">
-      <mat-icon>plus_one</mat-icon> Agregar producto
-    </a>
-  </mat-card>
-</div>
+    <mat-card-actions>
+        <a mat-raised-button class="greenblue" (click)="addProduct()">
+            <mat-icon>plus_one</mat-icon> Agregar producto
+        </a>
+    </mat-card-actions>
+</mat-card>

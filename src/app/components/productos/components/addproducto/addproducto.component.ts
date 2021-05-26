@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddproductoComponent implements OnInit {
   formProduct!: FormGroup;
-  public producto: Producto;
+  public product: Producto;
   public status: string;
   public save_producto;
 
@@ -23,7 +23,7 @@ export class AddproductoComponent implements OnInit {
     private _uploadService: UploadService,
     private authService: AuthService,
   ) {
-    this.producto = new Producto('', '', '', '', null, null, '', '');
+    this.product = new Producto('', '', '', '', null, null, '', '');
     this.buildForm();
   }
 
@@ -32,9 +32,9 @@ export class AddproductoComponent implements OnInit {
   onSubmit(form) {
     this.status = 'loading';
     let company = this.authService.getUID();
-    this.producto = this.formProduct.value;
-    this.producto.company = company;
-    this._productoService.saveProducto(this.producto).subscribe(
+    this.product = this.formProduct.value;
+    this.product.company = company;
+    this._productoService.saveProducto(this.product).subscribe(
       response => {
         if (response.producto) {
           this.save_producto = response.producto;

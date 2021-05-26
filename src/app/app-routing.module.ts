@@ -59,7 +59,6 @@ const routes: Routes = [
                 path: 'clientes',
                 component: ClientesComponent,
                 canActivate: [AdminGuard],
-                // loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule)
             },
             {
                 path: 'balance',

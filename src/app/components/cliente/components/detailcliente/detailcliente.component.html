@@ -36,7 +36,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let venta of comprasCliente">
-            <td scope="row">{{venta.fecha}}</td>
+            <td scope="row">{{venta.fecha | date: 'dd/MM/yyyy'}}</td>
             <td>{{venta.pedido}}</td>
             <td>{{venta.descripcion}}</td>
             <td><strong>${{venta.monto}}</strong></td>

@@ -1,29 +1,22 @@
-<div class="container" *ngIf="producto">
-    <div class="data">
-        <h3>{{producto.nombre}}</h3>
-        <h6 class="text-secondary">Categoria: {{producto.categoria}}</h6>
-        <hr>
-        <h6>Descripcion: {{producto.descripcion}}</h6>
-        <h6 class="text-danger">Costo: ${{producto.costo}}</h6>
-        <h6 class="text-success">Precio: ${{producto.precio}}</h6>
-
-        <div class="image" *ngIf="producto.image">
-            <img src="{{url+'get-image/'+producto.image}}" *ngIf="producto.image" alt="">
-        </div>
-
-        <hr>
-
-        <p *ngIf="confirm == false">
-            <a [routerLink]="['/editar-producto', producto._id]" class="btn btn-outline-warning mr-3">Editar</a>
-            <a (click)="setConfirm(true)" class="btn btn-outline-danger ">Borrar</a>
+<div *ngIf="product" class="container">
+    <h3 mat-dialog-title>{{product.nombre}}</h3>
+    <h6 mat-dialog-subtitle>Categoria <span class="text-primary">{{product.categoria}}</span></h6>
+    <mat-divider class="my-3"></mat-divider>
+    <mat-dialog-content>
+        <p>Descripción:<br>
+            {{product.descripcion}}
         </p>
-
-        <p *ngIf="confirm == true">
-            <span class="confirm">
-                ¿Estas seguro de eliminar este producto? <br>
-            </span>
-            <a (click)="setConfirm(false)" class="btn btn-outline-warning mr-3">Cancelar</a>
-            <a (click)="deleteProducto(producto._id)" class="btn btn-outline-danger">Eliminar definitivamente</a>
-        </p>
-    </div>
+        <h5>
+            <span class="text-danger">Costo: {{product.costo | currency : '$'}} |</span>
+            <span class="text-success"> Precio: {{product.precio | currency : '$'}}</span>
+        </h5>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button color="primary" [routerLink]="['/editar-producto', product._id]">
+            <mat-icon>edit</mat-icon> Editar
+        </button>
+        <button mat-raised-button color="accent" (click)="deleteProduct(product._id)">
+            <mat-icon>delete</mat-icon> Borrar
+        </button>
+    </mat-dialog-actions>
 </div>

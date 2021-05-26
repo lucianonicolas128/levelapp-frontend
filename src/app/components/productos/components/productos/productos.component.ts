@@ -1,6 +1,4 @@
 import { Component, AfterViewInit } from '@angular/core';
-
-import { MatTableDataSource } from '@angular/material/table';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { Global } from '../../../../services/global';
@@ -17,50 +15,33 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 
 export class ProductosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource: MatTableDataSource<Producto>;
-  productos: Producto[] = [];
-  url;
-  productsFiltered;
-
-  public confirm: boolean;
-  public producto: Producto;
+  public products: Producto[] = [];
+  public url: string;
+  public productsFiltered: any;
+  public isConfirm: boolean;
+  public product: Producto;
 
   constructor(
     private _productoService: ProductoService,
     private _router: Router,
-    private _route: ActivatedRoute,
     public dialog: MatDialog,
     private authService: AuthService,
   ) {
-    this.url = Global.url;
-    this.confirm = false;
+    this.isConfirm = false;
   }
 
   ngAfterViewInit() {
-    this.getProductsCompany();
-    // this.getProductos();
+    this.getProducts();
   }
 
-  getProductos() {
-    this._productoService.getProductos().subscribe(
-      response => {
-        if (response.productos) {
-          this.productos = response.productos;
-        }
-      },
-      error => {
-        console.log(<any>error);
-      }
-    )
-  }
-
-  getProductsCompany() {
+  getProducts() {
     let company = this.authService.getUID();
-    this._productoService.getProductsCompany(company).subscribe(
+    this._productoService.getProducts(company).subscribe(
       response => {
-        if (response.productosFiltrados) { this.productos = response.productosFiltrados; }
-      })
+        if (response.productosFiltrados) { this.products = response.productosFiltrados; }
+      },
+      error => { console.log(<any>error); }
+    )
   }
 
   addProduct() {
@@ -72,7 +53,7 @@ export class ProductosComponent implements AfterViewInit {
   }
 
   searchProduct(param) {
-    this.productsFiltered = this.productos.filter(producto => producto.nombre.toUpperCase().includes(param.toUpperCase()));
+    this.productsFiltered = this.products.filter(producto => producto.nombre.toUpperCase().includes(param.toUpperCase()));
   }
 
   cleanProducts() {
@@ -84,16 +65,10 @@ export class ProductosComponent implements AfterViewInit {
     let message = confirm("Desea eliminar este producto?");
     if (message) {
       this._productoService.deleteProducto(id).subscribe(
-        response => {
-          this.ngAfterViewInit();
-        },
-        error => {
-          console.log(<any>error);
-        }
+        response => { this.ngAfterViewInit(); },
+        error => { console.log(<any>error); }
       )
-    } else {
-      console.log('Producto no eliminado');
-    }
+    } else { console.log('Producto no eliminado'); }
   }
 
   reloadComponent() {

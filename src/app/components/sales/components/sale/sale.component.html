@@ -1,4 +1,4 @@
-<mat-list-item class="mt-0 pt-0" [ngClass]="venta.entregado == false ? 'sin-entregar' : '' " id="sale">
+<mat-list-item class="mt-0 pt-0" [ngClass]="venta.entregado == false || venta.entregado == null ? 'sin-entregar' : '' " id="sale">
     <div matLine (click)="viewSale(venta._id)">
         <span class="h6">{{venta.cliente}},</span>
         <span class="pl-2 text-info text-small"> el {{venta.fecha | date: 'dd/MM/yyyy'}}</span>
@@ -12,7 +12,6 @@
         <span (click)="setEntrega(venta)" class="badge badge-success" *ngIf="venta.entregado">Entregado</span>
         <span (click)="setEntrega(venta)" class="badge badge-danger" *ngIf="!venta.entregado">Sin entregar</span>
         <span class="demo-2 pl-2 text-info text-small"> {{venta.pedido}} </span>
-        <!-- <span class="demo-2 pl-2 text-info text-small" *ngFor="let ped of pedidos"> {{ped.producto}}, {{ped.cantidad}} unidades, ${{ped.total}} </span><br> -->
     </div>
     <mat-divider></mat-divider>
 </mat-list-item>

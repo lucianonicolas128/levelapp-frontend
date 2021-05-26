@@ -43,6 +43,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 
 import * as firebase from 'firebase';
 import { WelcomeComponent } from './components/index/welcome/welcome.component';
+import { ProductComponent } from './components/products/components/product/product.component';
 firebase.initializeApp(environment.firebase);
 
 const config = {
@@ -66,6 +67,7 @@ const config = {
     NavigationComponent,
     RegisterComponent,
     WelcomeComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,

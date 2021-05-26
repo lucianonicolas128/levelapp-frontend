@@ -17,7 +17,7 @@ export interface DialogData { _id: string; }
 
 export class EditproductoComponent implements OnInit {
   formProduct!: FormGroup;
-  public producto: Producto;
+  public product: Producto;
   public status: string;
   public save_producto;
 
@@ -39,7 +39,7 @@ export class EditproductoComponent implements OnInit {
     this._route.params.subscribe(response => {
       this._productoService.getProducto(this.data._id).subscribe(
         data => {
-          this.producto = data.producto;
+          this.product = data.producto;
           this.formProduct.patchValue(data.producto);
         },
         error => { console.log(<any>error); }
@@ -49,9 +49,9 @@ export class EditproductoComponent implements OnInit {
 
   onSubmit(form) {
     let company = this.authService.getUID();
-    this.producto = this.formProduct.value;
-    this.producto.company = company;
-    this._productoService.updateProducto(this.producto).subscribe(
+    this.product = this.formProduct.value;
+    this.product.company = company;
+    this._productoService.updateProducto(this.product).subscribe(
       response => {
         if (response.producto) {
           this.save_producto = response.producto;
