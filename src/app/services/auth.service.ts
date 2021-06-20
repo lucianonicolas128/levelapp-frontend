@@ -13,13 +13,15 @@ import { Global } from './global';
 export class AuthService {
     public url: string;
     public userData: Observable<firebase.User>;
+    public company: string;
 
     constructor(
         private afAuth: AngularFireAuth,
-        private _http: HttpClient
+        private _http: HttpClient,
     ) {
         this.userData = afAuth.authState;
         this.url = Global.url;
+        this.company = localStorage.getItem('TOKEN');
     }
 
     createUser(email: string, password: string) {

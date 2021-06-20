@@ -43,7 +43,16 @@ import { RegisterComponent } from './components/auth/register/register.component
 
 import * as firebase from 'firebase';
 import { WelcomeComponent } from './components/index/welcome/welcome.component';
-import { ProductComponent } from './components/products/components/product/product.component';
+// import { CategoryComponent } from './components/category/components/category/category.component';
+// import { CategoriesComponent } from './components/category/components/categories/categories.component';
+import { AuthService } from './services/auth.service';
+import { CategoryService } from './services/category.service';
+import { ClienteService } from './services/cliente.service';
+import { EgresoService } from './services/egreso.service';
+import { MaterialService } from './services/material.service';
+import { PreferencesService } from './services/preferences.service';
+import { ProductoService } from './services/producto.service';
+import { VentaService } from './services/venta.service';
 firebase.initializeApp(environment.firebase);
 
 const config = {
@@ -67,7 +76,8 @@ const config = {
     NavigationComponent,
     RegisterComponent,
     WelcomeComponent,
-    ProductComponent,
+    // CategoryComponent,
+    // CategoriesComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +108,15 @@ const config = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    AuthService,
+    CategoryService,
+    ClienteService,
+    EgresoService,
+    MaterialService,
+    PreferencesService,
+    ProductoService,
+    VentaService
   ],
   bootstrap: [AppComponent]
 })

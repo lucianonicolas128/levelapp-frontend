@@ -1,8 +1,8 @@
 <!-- two line list -->
-<div>
+<!-- <div>
     <div class="mat-elevation-z8">
         
-        <mat-list class="tabla scrollbar-info">
+        <mat-list class="tabla scrollbar-info"> -->
 
             <!-- <mat-form-field class="px-4 w-100 searcher">
                 <mat-label class="h6"></mat-label>
@@ -16,7 +16,7 @@
                 </a>
             </mat-form-field> -->
 
-            <span class="ventas" *ngIf="!egresosFiltered" class="py-0">
+            <!-- <span class="ventas" *ngIf="!egresosFiltered" class="py-0">
                 <app-egress *ngFor="let egreso of egresos" [egreso]="egreso">
 
                 </app-egress>
@@ -43,9 +43,9 @@
             </div>
 
         </mat-list>
-    </div>
+    </div> -->
 
-    <mat-divider></mat-divider>
+    <!-- <mat-divider></mat-divider>
 
     <mat-card class="footer-table d-flex justify-content-between example-button-container p-2">
         <a mat-mini-fab class="green" (click)="openDialog()">
@@ -54,5 +54,88 @@
         <a mat-mini-fab color="warn" (click)="openDialogEgreso()">
             <mat-icon>plus_one</mat-icon>
         </a>
-    </mat-card>
+    </mat-card> -->
+<!-- </div> -->
+
+<div class="col-md-12">
+    <mat-form-field>
+        <mat-label>Buscar egreso</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.proveedor}}
+                </td>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                <td mat-cell *matCellDef="let row" class="date">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="view(row._id)">
+                            <mat-icon>remove_red_eye</mat-icon>
+                            <span>Ver</span>
+                        </button>
+                        <button mat-menu-item (click)="edit(row._id)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                        </button>
+                        <button mat-menu-item (click)="delete(row._id)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
+                        </button>
+                    </mat-menu>
+                    {{row.fecha | date: 'dd/MM/yyyy'}}
+                </td>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="pedido">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pedido </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.pedido}}
+
+                    <!-- <mat-chip-list>
+                        <mat-chip class="tel-chip" (click)="setEntrega(row)" *ngIf="row.entregado">
+                            Entregado
+                        </mat-chip>
+                        <mat-chip class="accent-chip" (click)="setEntrega(row)" *ngIf="!row.entregado">
+                            Sin entregar
+                        </mat-chip>
+                    </mat-chip-list> -->
+                </td>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+                <td mat-cell *matCellDef="let row" class="font-weight-bold">
+                    {{row.monto | currency}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                <td mat-cell *matCellDef="let row">
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No hay productos con el nombre "{{input.value}}"</td>
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </div>
 </div>

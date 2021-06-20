@@ -1,11 +1,14 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
-import { Global } from '../../../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddproductoComponent } from '../addproducto/addproducto.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { EditproductoComponent } from '../editproducto/editproducto.component';
+import { DetailproductoComponent } from '../detailproducto/detailproducto.component';
 
 @Component({
   selector: 'app-productos',
@@ -15,8 +18,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 
 export class ProductosComponent implements AfterViewInit {
+  displayedColumns: string[] = ['nombre', 'categoria', 'precio'];
+  dataSource: MatTableDataSource<Producto>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   public products: Producto[] = [];
-  public url: string;
   public productsFiltered: any;
   public isConfirm: boolean;
   public product: Producto;
@@ -25,7 +33,6 @@ export class ProductosComponent implements AfterViewInit {
     private _productoService: ProductoService,
     private _router: Router,
     public dialog: MatDialog,
-    private authService: AuthService,
   ) {
     this.isConfirm = false;
   }
@@ -35,33 +42,32 @@ export class ProductosComponent implements AfterViewInit {
   }
 
   getProducts() {
-    let company = this.authService.getUID();
-    this._productoService.getProducts(company).subscribe(
+    this._productoService.getProducts().subscribe(
       response => {
-        if (response.productosFiltrados) { this.products = response.productosFiltrados; }
+        if (response.productosFiltrados) {
+          this.products = response.productosFiltrados;
+          this.dataSource = new MatTableDataSource(response.productosFiltrados);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       },
       error => { console.log(<any>error); }
     )
   }
 
-  addProduct() {
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  add() {
     const dialogRef = this.dialog.open(AddproductoComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      this.ngAfterViewInit();
-    });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
   }
 
-  searchProduct(param) {
-    this.productsFiltered = this.products.filter(producto => producto.nombre.toUpperCase().includes(param.toUpperCase()));
-  }
-
-  cleanProducts() {
-    this.productsFiltered = null;
-    (<HTMLInputElement>document.getElementById('searcher')).value = '';
-  }
-
-  deleteProduct(id) {
+  delete(id) {
     let message = confirm("Desea eliminar este producto?");
     if (message) {
       this._productoService.deleteProducto(id).subscribe(
@@ -69,6 +75,17 @@ export class ProductosComponent implements AfterViewInit {
         error => { console.log(<any>error); }
       )
     } else { console.log('Producto no eliminado'); }
+  }
+
+
+  edit(id) {
+    const dialogRef = this.dialog.open(EditproductoComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
+  }
+
+  view(id) {
+    const dialogRef = this.dialog.open(DetailproductoComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
   }
 
   reloadComponent() {

@@ -8,27 +8,23 @@ import { environment } from '../../environments/environment'
 
 @Injectable()
 export class EgresoService{
-    constructor(private _http: HttpClient) { }
+    public company: string;
 
-    testService(){
-        return 'Probando el servicio de angular';
+    constructor(
+        private _http: HttpClient
+    ) {
+        this.company = localStorage.getItem('TOKEN');
     }
 
     saveEgreso(egreso: Egreso): Observable<any>{
         let params = JSON.stringify(egreso);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-
         return this._http.post(`${environment.url_api}save-egreso`, params, {headers: headers});
     }
 
     getEgresos(): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(`${environment.url_api}egresos`, {headers: headers});
-    }
-
-    getEgresosCompany(company): Observable<any> {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(`${environment.url_api}egresos/${company}`, {headers: headers});
+        return this._http.get(`${environment.url_api}egresos/${this.company}`, {headers: headers});
     }
 
     getEgreso(id): Observable<any>{

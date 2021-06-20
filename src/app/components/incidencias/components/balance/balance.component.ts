@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-balance',
   templateUrl: './balance.component.html',
   styleUrls: ['./balance.component.css'],
-  providers: [VentaService, EgresoService],
 })
 export class BalanceComponent implements OnInit {
   public sumaVentasMensual;
@@ -23,9 +22,6 @@ export class BalanceComponent implements OnInit {
   constructor(
     private _ventaService: VentaService,
     private _egresoService: EgresoService,
-    private authService: AuthService,
-    private _router: Router,
-    private _route: ActivatedRoute
   ) {
     this.month = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
   }
@@ -35,8 +31,7 @@ export class BalanceComponent implements OnInit {
   }
 
   filterYear(year) {
-    let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         if (response.ventasFiltrados) {
           this.filtradoBalance(response.ventasFiltrados, this.mesesIngreso, this.sumaVentasTotal, this.sumaVentasMensual, year);
@@ -46,7 +41,7 @@ export class BalanceComponent implements OnInit {
         }
       }
     )
-    this._egresoService.getEgresosCompany(company).subscribe(
+    this._egresoService.getEgresos().subscribe(
       response => {
         if (response.egresosFiltrados) {
           this.filtradoBalance(response.egresosFiltrados, this.mesesEgreso, this.sumaEgresosTotal, this.sumaEgresosMensual, year);

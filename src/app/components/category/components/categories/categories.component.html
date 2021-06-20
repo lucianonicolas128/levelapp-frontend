@@ -1,0 +1,40 @@
+<mat-card class="mat-elevation-z8 col-md-8">
+    <mat-card-title>
+        <h6>Categorias
+            <mat-form-field class="ml-2 w-auto">
+                <mat-label class="h6"></mat-label>
+                <input id="searcher" matInput name="" #category="ngModel" [(ngModel)]="category.name"
+                    [value]="category.name" (keyup.enter)="searchCategory(category.name)">
+                <a matSuffix>
+                    <mat-icon (click)="searchCategory(category.name)" class="pointer">search</mat-icon>
+                </a>
+                <a matSuffix>
+                    <mat-icon (click)="cleanCategory()" class="pointer">close</mat-icon>
+                </a>
+            </mat-form-field>
+        </h6>
+    </mat-card-title>
+    <mat-card-content>
+        <mat-list class="tabla-productos scrollbar-info">
+            <div *ngIf="categories.length < 1" class="spinner-border text-info text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="categories.length < 1" class="w-100 text-center mt-2">
+                <p>Aun no hay categories para mostrar.</p>
+            </span>
+            <span *ngIf="!categoriesFiltered" class="p-0">
+                <app-item-producto *ngFor="let category of categories" [category]="category">
+                </app-item-producto>
+            </span>
+            <span *ngIf="categoriesFiltered" class="p-0">
+                <app-item-producto *ngFor="let category of categoriesFiltered" [category]="category">
+                </app-item-producto>
+            </span>
+        </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+        <a mat-raised-button class="greenblue" (click)="addCategory()">
+            <mat-icon>plus_one</mat-icon> Agregar categoria
+        </a>
+    </mat-card-actions>
+</mat-card>

@@ -8,10 +8,12 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class ProductoService {
-    constructor(private _http: HttpClient) { }
+    public company: string;
 
-    testService() {
-        return 'Probando el servicio de angular';
+    constructor(
+        private _http: HttpClient
+    ) {
+        this.company = localStorage.getItem('TOKEN');
     }
 
     saveProducto(producto: Producto): Observable<any> {
@@ -20,14 +22,9 @@ export class ProductoService {
         return this._http.post(`${environment.url_api}save-producto`, params, { headers: headers });
     }
 
-    // getProductos(): Observable<any>{
-    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    //     return this._http.get(`${environment.url_api}productos`, {headers: headers});
-    // }
-
-    getProducts(company): Observable<any> {
+    getProducts(): Observable<any> {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(`${environment.url_api}productos/${company}`, { headers: headers });
+        return this._http.get(`${environment.url_api}productos/${this.company}`, { headers: headers });
     }
 
     getProducto(id): Observable<any> {

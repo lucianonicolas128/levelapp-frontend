@@ -6,7 +6,13 @@ import { environment } from '../../environments/environment'
 
 @Injectable()
 export class ClienteService {
-    constructor(private _http: HttpClient) { }
+    public company: string;
+
+    constructor(
+        private _http: HttpClient
+    ) {
+        this.company = localStorage.getItem('TOKEN');
+    }
 
     testService() {
         return 'Probando el servicio de angular';
@@ -20,12 +26,7 @@ export class ClienteService {
 
     getClientes(): Observable<any> {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(`${environment.url_api}clientes`, { headers: headers });
-    }
-
-    getClientesCompany(company): Observable<any> {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.get(`${environment.url_api}clientes/${company}`, { headers: headers });
+        return this._http.get(`${environment.url_api}clientes/${this.company}`, { headers: headers });
     }
 
     getCliente(id): Observable<any> {

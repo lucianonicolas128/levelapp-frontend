@@ -18,7 +18,6 @@ Date.prototype.getWeekNumber = function () {
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
-  providers: [VentaService],
 })
 
 export class IndexComponent implements OnInit {
@@ -48,7 +47,7 @@ export class IndexComponent implements OnInit {
 
   getVentas() {
     let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         if (response.ventasFiltrados) {
           this.ventas = response.ventasFiltrados;
@@ -63,7 +62,7 @@ export class IndexComponent implements OnInit {
   ingresoSemanal() {
     let company = this.authService.getUID();
     let semanaActual = new Date().getWeekNumber;
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         let sumaSemana;
         if (response.ventasFiltrados) {
@@ -78,7 +77,7 @@ export class IndexComponent implements OnInit {
 
   ingresosMensuales() {
     let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         let sumador;
         if (response.ventasFiltrados) {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
-import { UploadService } from '../../../../services/upload.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,7 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-addcliente',
   templateUrl: './addcliente.component.html',
   styleUrls: ['./addcliente.component.css'],
-  providers: [ClienteService, UploadService, AuthService]
 })
 export class AddclienteComponent implements OnInit {
   form!: FormGroup;
@@ -32,7 +30,7 @@ export class AddclienteComponent implements OnInit {
 
   getClientes() {
     let company = this.authService.getUID();
-    this._clienteService.getClientesCompany(company).subscribe(
+    this._clienteService.getClientes().subscribe(
       response => { if (response.clientes) { this.clientes = response.clientes; } },
       error => { console.log(<any>error); }
     )

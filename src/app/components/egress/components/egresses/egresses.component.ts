@@ -6,56 +6,54 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AddegressComponent } from 'src/app/components/egress/components/addegress/addegress.component';
 import { AddVentaComponent } from 'src/app/components/sales/components/add-venta/add-venta.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { EditegressComponent } from '../editegress/editegress.component';
+import { DetailegressComponent } from '../detailegress/detailegress.component';
 
 @Component({
   selector: 'app-egresses',
   templateUrl: './egresses.component.html',
   styleUrls: ['./egresses.component.css'],
-  providers: [EgresoService, AuthService]
+  providers: [EgresoService]
 })
 export class EgressesComponent implements AfterViewInit {
+  displayedColumns: string[] = ['fecha', 'nombre', 'pedido', 'precio'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   dataSource: MatTableDataSource<Egreso>;
   egresos: Egreso[] = [];
   egresosFiltered;
   loadMore = "esperando";
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private _egresoService: EgresoService,
     public dialog: MatDialog,
-    private authService: AuthService,
   ) { }
 
-  ngAfterViewInit(): void { this.getEgressCompany(); }
+  ngAfterViewInit(): void { this.getEgress(); }
 
   getLatestEgresos() {
     this._egresoService.getEgresos()
       .subscribe(data => { this.egresos = data.egresos.slice(0, 10); })
   }
 
-  getEgressCompany() {
-    let company = this.authService.getUID();
-    this._egresoService.getEgresosCompany(company).subscribe(
-      response => { if (response.egresosFiltrados) { this.egresos = response.egresosFiltrados; } })
-  }
-
-  addCompany() {
-    let company = this.authService.getUID();
-    console.log(company);
-    this.getEgresos();
-    this.egresos.forEach(egreso => {
-      egreso.company = company;
-      this._egresoService.updateEgreso(egreso).subscribe(
-        response => { console.log(); },
-        error => { console.log(<any>error); }
-      );
-    });
+  getEgress() {
+    this._egresoService.getEgresos().subscribe(
+      response => {
+        if (response.egresosFiltrados) {
+          this.egresos = response.egresosFiltrados;
+          this.dataSource = new MatTableDataSource(response.egresosFiltrados);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      })
   }
 
   getEgresos() {
     this._egresoService.getEgresos().subscribe(
-      response => { if (response.egresos) { this.egresos = response.egresos; this.addCompany() }; },
+      response => { if (response.egresos) this.egresos = response.egresos; }
     )
   }
 
@@ -81,5 +79,26 @@ export class EgressesComponent implements AfterViewInit {
       this.ngAfterViewInit();
     });
   }
+
+  edit(id) {
+    const dialogRef = this.dialog.open(EditegressComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
+  }
+
+  view(id) {
+    const dialogRef = this.dialog.open(DetailegressComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
+  }
+
+  delete(id) {
+    let message = confirm("Desea eliminar este producto?");
+    if (message) {
+      this._egresoService.deleteEgreso(id).subscribe(
+        response => { this.ngAfterViewInit(); },
+        error => { console.log(<any>error); }
+      )
+    } else { console.log('Producto no eliminado'); }
+  }
+
 
 }

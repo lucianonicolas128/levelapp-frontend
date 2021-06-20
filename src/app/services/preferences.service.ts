@@ -7,7 +7,13 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class PreferencesService {
-    constructor(private _http: HttpClient) { }
+    public company: string;
+
+    constructor(
+        private _http: HttpClient
+    ) {
+        this.company = localStorage.getItem('TOKEN');
+    }
 
     savePreferences(preferences: Preferences): Observable<any> {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -19,11 +25,6 @@ export class PreferencesService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this._http.get(`${environment.url_api}preferences/${id}`, { headers: headers });
     }
-
-    // getPreferenceses(company): Observable<any> {
-    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    //     return this._http.get(`${environment.url_api}preferences/${company}`, { headers: headers });
-    // }
 
     getPreferenceses(): Observable<any> {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');

@@ -53,7 +53,7 @@ export class EditsaleComponent implements OnInit {
 
   getClientes() {
     let company = this.authService.getUID();
-    this._clienteService.getClientesCompany(company).subscribe(
+    this._clienteService.getClientes().subscribe(
       response => { if (response.clientes) { this.clientes = response.clientesFiltrados; } },
       error => { console.log(<any>error); }
     )

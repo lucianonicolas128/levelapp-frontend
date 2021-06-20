@@ -1,22 +1,48 @@
 <div class="row m-3">
-  <div class="col-xl-8 col-md-9 incidencias">
+  <div class="col-xl-9 col-md-9 incidencias">
 
-    <mat-tab-group class="mat-elevation-z8 tabla bg-white p-2">
+    <!-- <mat-tab-group mat-align-tabs="center" color="accent">
       <mat-tab label="Ventas">
-        <ng-template matTabContent>
-          <app-sales-table></app-sales-table>
-        </ng-template>
+        <app-sales-table></app-sales-table>
       </mat-tab>
       <mat-tab label="Egresos">
         <app-egresses></app-egresses>
       </mat-tab>
-      <!-- <mat-tab label="AGREGAR"></mat-tab> -->
-      <a mat-raised-button>AGREGAR</a>
-    </mat-tab-group>
+    </mat-tab-group> -->
+
+    <mat-chip-list class="example-chip mb-2" cdkDropList cdkDropListOrientation="horizontal"
+      >
+      <mat-chip class="example-box ml-3 mb-3" cdkDrag (click)="active('ventas')">
+        Ventas
+      </mat-chip>
+      <mat-chip class="example-box mb-3" cdkDrag (click)="active('egresos')">
+        Egresos
+      </mat-chip>
+    </mat-chip-list>
+
+    <div *ngIf="isActive == 'ventas'">
+      <app-sales-table></app-sales-table>
+    </div>
+    <div *ngIf="isActive == 'egresos'">
+      <app-egresses></app-egresses>
+    </div>
+
+    <mat-divider class="mx-3"></mat-divider>
+
+    <mat-card class="footer-table mx-3 d-flex justify-content-between example-button-container p-2">
+      <button mat-flat-button color="succes" class="mx-2 text-left green" (click)="addSale()">
+        <mat-icon>plus_one</mat-icon>
+        Nueva venta
+      </button>
+      <button mat-flat-button color="accent" class="mx-2 text-right" (click)="addEgress()">
+        <mat-icon>plus_one</mat-icon>
+        Nuevo egreso
+      </button>
+    </mat-card>
   </div>
 
-  <div class="col-xl-4 col-md-3 productos">
-    <!-- <app-productos class=""></app-productos> -->
+
+  <div class="col-xl-3 col-md-3 productos">
     <mat-card class="p-4 mat-elevation-z8 text-right">
       <mat-card-subtitle>INGRESO SEMANAL</mat-card-subtitle>
       <mat-card-content>

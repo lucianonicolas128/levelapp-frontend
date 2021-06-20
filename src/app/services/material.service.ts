@@ -8,10 +8,12 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class MaterialService{
-    constructor(private _http: HttpClient) { }
+    public company: string;
 
-    testService(){
-        return 'Probando el servicio de angular';
+    constructor(
+        private _http: HttpClient
+    ) {
+        this.company = localStorage.getItem('TOKEN');
     }
 
     saveMaterial(material: Material): Observable<any>{

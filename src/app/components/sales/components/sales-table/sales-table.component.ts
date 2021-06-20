@@ -6,7 +6,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AddegressComponent } from 'src/app/components/egress/components/addegress/addegress.component';
 import { AddVentaComponent } from '../add-venta/add-venta.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { EditsaleComponent } from '../editsale/editsale.component';
+import { DetailventaComponent } from '../detailventa/detailventa.component';
 
 @Component({
   selector: 'app-sales-table',
@@ -16,48 +18,91 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 
 export class SalesTableComponent implements AfterViewInit {
+  displayedColumns: string[] = ['fecha', 'nombre', 'estado', 'precio'];
   dataSource: MatTableDataSource<Venta>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   ventas: Venta[] = [];
   ventasFiltered;
   loadMore = "esperando";
-  @ViewChild(MatSort) sort: MatSort;
+  save_venta;
 
   constructor(
-    private authService: AuthService,
     private _ventaService: VentaService,
     public dialog: MatDialog
   ) { }
 
-  ngAfterViewInit() { this.getLatestSales(); }
+  ngAfterViewInit() {
+    this.getAllSales();
+  }
 
   getLatestSales() {
-    let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company)
+    this._ventaService.getVentas()
       .subscribe(response => { this.ventas = response.ventasFiltrados.slice(0, 20); })
   }
 
-  addCompany() {
-    let company = this.authService.getUID();
-    console.log(company);
-    this.ventas.forEach(venta => {
-      venta.company = company;
-      this._ventaService.updateVenta(venta).subscribe(
-        response => { console.log(); },
-        error => { console.log(<any>error); }
-      );
-    });
-  }
-
-  getSales() {
-    this._ventaService.getVentas().subscribe(response => { this.ventas = response.ventas; this.addCompany(); })
-  }
-
   getAllSales() {
-    let company = this.authService.getUID();
     this.loadMore = "cargando";
-    this._ventaService.getVentasCompany(company)
-      .subscribe(response => { this.ventas = response.ventasFiltrados; })
+    this._ventaService.getVentas()
+      .subscribe(response => {
+        this.ventas = response.ventasFiltrados;
+        this.dataSource = new MatTableDataSource(response.ventasFiltrados);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+        error => { console.log(<any>error); }
+      )
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  delete(id) {
+    let message = confirm("Desea eliminar este producto?");
+    if (message) {
+      this._ventaService.deleteVenta(id).subscribe(
+        response => { this.ngAfterViewInit(); },
+        error => { console.log(<any>error); }
+      )
+    } else { console.log('Producto no eliminado'); }
+  }
+
+
+  setEntrega(venta) {
+    console.log('hola')
+    let message = confirm("Ha entregado el producto?");
+    if (message) {
+      if (!venta.entregado) {
+        venta.entregado = true;
+        venta.saldo = 0;
+        console.log(true)
+      } else {
+        venta.entregado = false;
+        venta.saldo = venta.monto;
+      }
+      this._ventaService.updateVenta(venta).subscribe(
+        response => { this.save_venta = venta; }
+      )
+      this.ngAfterViewInit();
+    }
+  }
+
+
+  edit(id) {
+    const dialogRef = this.dialog.open(EditsaleComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
+  }
+
+  view(id) {
+    const dialogRef = this.dialog.open(DetailventaComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngAfterViewInit(); });
+  }
+
 
   openDialog() {
     const dialogRef = this.dialog.open(AddVentaComponent);

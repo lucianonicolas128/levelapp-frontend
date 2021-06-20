@@ -27,3 +27,22 @@
 .red:hover {
     background-color: rgb(214, 4, 4);
 }
+
+.price {
+    min-width: 30px;
+    max-width: 35px;
+    line-height: normal;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td, th {
+    width: 25%;
+}

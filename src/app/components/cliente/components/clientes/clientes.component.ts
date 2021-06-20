@@ -1,33 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddclienteComponent } from '../addcliente/addcliente.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { EditclienteComponent } from '../editcliente/editcliente.component';
+import { DetailclienteComponent } from '../detailcliente/detailcliente.component';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.css'],
-  providers: [ClienteService, AuthService]
 })
 export class ClientesComponent implements OnInit {
+  displayedColumns: string[] = ['nombre', 'telefono', 'direccion'];
+  dataSource: MatTableDataSource<Cliente>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   public clientes: Cliente[] = [];
-  public clientesFiltered: Cliente[];
-  public url: string;
+  public clientesFiltered: any;
   public confirm: boolean;
   public cliente: Cliente;
 
   constructor(
     private _clienteService: ClienteService,
-    private authService: AuthService,
     private _router: Router,
-    private _route: ActivatedRoute,
     public dialog: MatDialog
   ) { this.confirm = false; }
 
-  ngOnInit(): void { this.getClientesCompany(); }
+  ngOnInit(): void { this.getClientes(); }
 
   getCliente(id) {
     this._clienteService.getCliente(id).subscribe(
@@ -35,43 +41,32 @@ export class ClientesComponent implements OnInit {
     )
   }
 
-  addCompany() {
-    let company = this.authService.getUID();
-    this.getClientesCompany();
-    console.log(this.clientes);
-    this.clientes.forEach(cliente => {
-      cliente.company = company;
-      this._clienteService.updateCliente(cliente).subscribe(
-        response => { },
-        error => { console.log(<any>error); }
-      );
-    });
-  }
-
-  getClientesCompany() {
-    let company = this.authService.getUID();
-    this._clienteService.getClientesCompany(company).subscribe(
+  getClientes() {
+    this._clienteService.getClientes().subscribe(
       response => {
-        if (response.clientesFiltrados) { this.clientes = response.clientesFiltrados; }
+        if (response.clientesFiltrados) {
+          this.clientes = response.clientesFiltrados
+          this.dataSource = new MatTableDataSource(response.clientesFiltrados);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        };
       }
     )
   }
 
-  addClient() {
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  add() {
     const dialogRef = this.dialog.open(AddclienteComponent);
     dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
   }
 
-  searchClient(param) {
-    this.clientesFiltered = this.clientes.filter(cliente => cliente.nombre.toUpperCase().normalize().includes(param.toUpperCase().normalize()));
-  }
-
-  cleanSearcher() {
-    this.clientesFiltered = null;
-    (<HTMLInputElement>document.getElementById('searcher')).value = '';
-  }
-
-  deleteClient(id) {
+  delete(id) {
     let message = confirm("Desea eliminar este Cliente?");
     if (message) {
       this._clienteService.deleteCliente(id).subscribe(
@@ -81,9 +76,16 @@ export class ClientesComponent implements OnInit {
     } else { console.log('Cliente no eliminado'); }
   }
 
-  reloadComponent() {
-    this._router.navigateByUrl('/add-cliente', { skipLocationChange: true }).then(() => {
-      this._router.navigate(['/']);
+  edit(id) {
+    const dialogRef = this.dialog.open(EditclienteComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
+  }
+
+  view(id) {
+    const dialogRef = this.dialog.open(DetailclienteComponent, { data: { _id: id } });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
     });
   }
 

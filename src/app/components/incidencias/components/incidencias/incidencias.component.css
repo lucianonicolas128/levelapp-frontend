@@ -1,26 +1,27 @@
-.tabla{
+.tabla {
     border-radius: .2rem;
     /* padding: 3rem; */
-
 }
 
-
-.incidencias{
+.incidencias {
     padding: 0px;
 }
 
-.productos{
+.productos {
     padding: 0px;
     padding-top: 1rem
 }
 
-@media screen and (min-width: 576px){
-
-    .incidencias{
+@media screen and (min-width: 576px) {
+    .incidencias {
         padding: 1rem;
     }
-
-    .productos{
+    .productos {
         padding: 1rem;
     }
+}
+
+.green {
+    background-color: rgb(0, 184, 104);
+    color: white !important;
 }

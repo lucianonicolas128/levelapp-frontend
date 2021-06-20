@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Venta } from '../../../../models/venta';
 import { VentaService } from '../../../../services/venta.service';
-import { UploadService } from '../../../../services/upload.service';
 import { Cliente } from '../../../../models/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SalesService } from 'src/app/services/sales/sales.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-sale',
   templateUrl: './add-sale.component.html',
   styleUrls: ['./add-sale.component.css'],
-  providers: [VentaService, ClienteService, UploadService]
 })
 export class AddSaleComponent implements OnInit {
   form!: FormGroup;
@@ -24,6 +21,7 @@ export class AddSaleComponent implements OnInit {
   saleType: string[] = ['Venta particular', 'Productos de la lista'];
   optionSale: string;
   pedido;
+  public arrClientes: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,28 +29,8 @@ export class AddSaleComponent implements OnInit {
     private _clienteService: ClienteService,
     private authService: AuthService,
   ) {
-    this.venta = new Venta('', '', '', null, '', 0, 0, false,'');
+    this.venta = new Venta('', '', '', null, '', 0, 0, false, '');
     this.buildForm();
-  }
-
-  get clienteField() {
-    return this.form.get('cliente');
-  }
-
-  get montoField() {
-    return this.form.get('monto');
-  }
-
-  get dateField() {
-    return this.form.get('fecha');
-  }
-
-  get precioField(){
-    return this.form.get('precio');
-  }
-
-  get cantidadField() {
-    return this.form.get('cantidad');
   }
 
   ngOnInit(): void {
@@ -68,11 +46,16 @@ export class AddSaleComponent implements OnInit {
   }
 
   getClientes() {
-    let company = this.authService.getUID();
-    this._clienteService.getClientesCompany(company).subscribe(
+    this._clienteService.getClientes().subscribe(
       response => {
         if (response.clientesFiltrados) {
           this.clientes = response.clientesFiltrados;
+          // response.clientesFiltrados.forEach(cliente => {
+          this.clientes.forEach(cliente => {
+            // console.log(cliente.nombre)
+            this.arrClientes.push(cliente.nombre);
+          })
+          console.log(this.arrClientes);
         }
       },
       error => {
@@ -128,7 +111,7 @@ export class AddSaleComponent implements OnInit {
   }
 
   addNewProductRow() {
-    const pedidos = (this.form.get('pedido')as FormArray);
+    const pedidos = (this.form.get('pedido') as FormArray);
     pedidos.push(this.formBuilder.group({
       producto: ['', Validators.required],
       precio: [, Validators.required],
@@ -146,8 +129,28 @@ export class AddSaleComponent implements OnInit {
     console.log(this.optionSale);
   }
 
-  getControls(){
+  getControls() {
     return (this.form.get('pedido') as FormArray).controls;
+  }
+
+  get clienteField() {
+    return this.form.get('cliente');
+  }
+
+  get montoField() {
+    return this.form.get('monto');
+  }
+
+  get dateField() {
+    return this.form.get('fecha');
+  }
+
+  get precioField() {
+    return this.form.get('precio');
+  }
+
+  get cantidadField() {
+    return this.form.get('cantidad');
   }
 
 }

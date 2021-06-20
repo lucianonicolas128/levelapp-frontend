@@ -14,7 +14,6 @@ export interface DialogData { _id: string; }
   selector: 'app-detailcliente',
   templateUrl: './detailcliente.component.html',
   styleUrls: ['./detailcliente.component.css'],
-  providers: [VentaService, ClienteService]
 })
 export class DetailclienteComponent implements OnInit {
   public cliente: Cliente;
@@ -63,7 +62,7 @@ export class DetailclienteComponent implements OnInit {
 
   getVentas() {
     let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         if (response.ventasFiltrados) {
           this.ventas = response.ventasFiltrados;

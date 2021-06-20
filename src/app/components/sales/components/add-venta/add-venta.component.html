@@ -23,14 +23,28 @@
                     </mat-form-field>
                 </div>
                 <div class="col-md-6 col-xs-10">
-                    <mat-form-field class="w-100" appearance="fill">
+                    <!-- <mat-form-field class="w-100" appearance="fill">
                         <mat-label>Cliente</mat-label>
                         <mat-select formControlName="cliente">
                             <mat-option [value]=''></mat-option>
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.nombre">{{cliente.nombre}}
                             </mat-option>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <mat-form-field class="w-100" >
+                        <mat-label>Cliente</mat-label>
+                        <input type="text"
+                               placeholder="Ingrese un cliente"
+                               aria-label="Number"
+                               matInput
+                               [formControl]="form.get('cliente')"
+                               [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let item of arrClientes | async" [value]="item">
+                            {{item}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
                 </div>
                 <div class="col-md-1 col-xs-2">
                     <a mat-icon-button color="accent" (click)="getClientes()"><mat-icon>loop</mat-icon></a>

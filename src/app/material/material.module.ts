@@ -19,9 +19,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -45,6 +46,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatNativeDateModule,
     MatGridListModule,
     MatAutocompleteModule,
+    MatChipsModule,
+    MatMenuModule,
 
   ],
   exports: [
@@ -67,6 +70,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatNativeDateModule,
     MatGridListModule,
     MatAutocompleteModule,
+    MatChipsModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

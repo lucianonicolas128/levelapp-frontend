@@ -30,7 +30,7 @@ export class ClienteComponent implements OnInit {
 
   getClientes() {
     let company = this.authService.getUID();
-    this._clienteService.getClientesCompany(company)
+    this._clienteService.getClientes()
       .subscribe(response => { this.clientes = response.clientesFiltrados; })
   }
 

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddegressComponent } from 'src/app/components/egress/components/addegress/addegress.component';
+import { AddSaleComponent } from 'src/app/components/sales/components/add-sale/add-sale.component';
+import { AddVentaComponent } from 'src/app/components/sales/components/add-venta/add-venta.component';
 import { Venta } from 'src/app/models/venta';
 import { VentaService } from '../../../../services/venta.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-incidencias',
@@ -21,12 +23,14 @@ export class IncidenciasComponent implements OnInit {
   public ultimaSemana: number;
   public ultimoMes: number;
 
+  public isActive!: string;
+
   constructor(
     private _ventaService: VentaService,
-    private _router: Router,
-    private _route: ActivatedRoute,
-    private authService: AuthService
-  ) { }
+    public dialog: MatDialog,
+  ) {
+    this.isActive = 'ventas';
+  }
 
   ngOnInit(): void {
     this.getVentas();
@@ -38,8 +42,7 @@ export class IncidenciasComponent implements OnInit {
   }
 
   getVentas() {
-    let company = this.authService.getUID();
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         if (response.ventasFiltrados) {
           this.ventas = response.ventasFiltrados;
@@ -60,14 +63,14 @@ export class IncidenciasComponent implements OnInit {
   }
 
   ingresoSemanal() {
-    let company = this.authService.getUID();
     let semanaActual = new Date().getWeekNumber;
-    this._ventaService.getVentasCompany(company).subscribe(
+    this._ventaService.getVentas().subscribe(
       response => {
         let sumaSemana;
         if (response.ventasFiltrados) {
           let ventasFiltradasPorSemana = response.ventasFiltrados
-          .filter(venta => (new Date(venta.fecha).getWeekNumber()) === new Date().getWeekNumber());
+            .filter(venta => (new Date(venta.fecha).getWeekNumber()) === new Date().getWeekNumber());
+          ventasFiltradasPorSemana = ventasFiltradasPorSemana.filter(venta => (new Date(venta.fecha).getFullYear()) === new Date().getFullYear());
           sumaSemana = ventasFiltradasPorSemana.reduce((acc, obj) => acc + obj.monto, 0);
           this.ultimaSemana = sumaSemana;
 
@@ -76,5 +79,23 @@ export class IncidenciasComponent implements OnInit {
     )
   }
 
+  // addSale() {
+  //   const dialogRef = this.dialog.open(AddSaleComponent);
+  //   dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
+  // }
+
+  addSale() {
+    const dialogRef = this.dialog.open(AddVentaComponent);
+    dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
+  }
+
+  addEgress() {
+    const dialogRef = this.dialog.open(AddegressComponent);
+    dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
+  }
+
+  active(valor){
+    this.isActive = valor;
+  }
 
 }
